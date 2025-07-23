@@ -1,0 +1,100 @@
+<!-- Toggle menu (solo mobile) -->
+<button
+  class="btn btn-outline-secondary d-md-none mb-2 sidebar-toggle"
+  (click)="toggleSidebar()"
+  [style.display]="sidebarOpen ? 'none' : 'block'"
+  aria-label="Apri menu"
+>
+  <i class="bi bi-list"></i>
+</button>
+
+<!-- Sidebar -->
+<nav class="sidebar" [class.open]="sidebarOpen || isDesktop">
+  <!-- Pulsante chiusura menu mobile -->
+  <button
+    *ngIf="sidebarOpen && !isDesktop"
+    class="btn btn-link text-white position-absolute top-0 end-0 m-1 d-md-none"
+    (click)="toggleSidebar()"
+    aria-label="Chiudi menu"
+  >
+    <i class="bi bi-x-lg fs-6"></i>
+  </button>
+
+  <div class="mb-4 text-center">
+    <h1 class="h4">WATTWISE</h1>
+  </div>
+
+  <ul class="nav flex-column sidebar-nav">
+    <li class="nav-item">
+      <a
+        class="nav-link d-flex align-items-center gap-2"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="toggleSidebar()"
+      >
+        <i class="bi bi-house-door-fill"></i> <span>Home</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link d-flex align-items-center gap-2"
+        routerLink="/energy"
+        routerLinkActive="active"
+        (click)="toggleSidebar()"
+      >
+        <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link d-flex align-items-center gap-2"
+        routerLink="/recommended"
+        routerLinkActive="active"
+        (click)="toggleSidebar()"
+      >
+        <i class="bi bi-lightning-charge-fill"></i> <span>Actions</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link d-flex align-items-center gap-2"
+        routerLink="/renewable"
+        routerLinkActive="active"
+        (click)="toggleSidebar()"
+      >
+        <i class="bi bi-sun-fill"></i> <span>Renewable</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link d-flex align-items-center gap-2"
+        routerLink="/checklist"
+        routerLinkActive="active"
+        (click)="toggleSidebar()"
+      >
+        <i class="bi bi-check2-square"></i> <span>Checklist</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link d-flex align-items-center gap-2"
+        routerLink="/prediction"
+        routerLinkActive="active"
+        (click)="toggleSidebar()"
+      >
+        <i class="bi bi-graph-up-arrow"></i> <span>Prediction</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link d-flex align-items-center gap-2"
+        routerLink="/glossary"
+        routerLinkActive="active"
+        (click)="toggleSidebar()"
+      >
+        <i class="bi bi-book"></i> <span>Glossary</span>
+      </a>
+    </li>
+  </ul>
+</nav>

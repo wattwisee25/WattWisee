@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { AccessComponent } from './access';
+
+describe('Access', () => {
+  let component: AccessComponent;
+  let fixture: ComponentFixture<AccessComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AccessComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(AccessComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

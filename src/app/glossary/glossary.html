@@ -1,0 +1,23 @@
+  <header>
+    <app-menu></app-menu>
+</header>
+  <div class="glossary-container">
+<div class="content"> <!-- flex container che centra -->
+
+
+    <h1 class="title">Glossary</h1>
+    <h2 class="subtitle"></h2>
+    <div class="glossary">
+      <ul>
+        <li *ngFor="let item of glossary">
+          <div class="term" (click)="toggleDefinition(item)">
+            {{ item.term }}
+          </div>
+          <div class="definition" *ngIf="item.expanded">
+            {{ item.definition }}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,145 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #c1dbe3;
+}
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Logo */
+.logo-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo{
+    width:200px;
+    display: block;
+    margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Card */
+.login-card {
+  background-color: #2b4b4d;
+  padding: 30px;
+  padding-bottom: 25px;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  color: white;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Form */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #1e3b3e;
+  padding: 10px 12px;
+  border-radius: 4px;
+}
+
+.form-group i {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.form-group input::placeholder {
+  color: #ccc;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.toggle-eye {
+  position: absolute;
+  top: 50%;
+  right: 0px; /* distanza dal bordo destro dell’input */
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+
+/* Checkbox */
+.checkbox {
+  display: flex;
+  align-items: center;
+  background: none;
+  padding: 0;
+  padding-left: 15px;
+}
+
+.checkbox input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.form-group.checkbox label {
+  margin-left: 8px;
+}
+
+/* Button */
+.submit-btn {
+  width: 100%;
+  background-color: #f6ffa2;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #2b4b4d;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #dce961;
+}
+
+a{
+    font-size: 12px;
+        color: white;
+        text-decoration: underline;
+}
+
+.forgot {
+  background: none;
+  padding: 0;
+  display: flex; 
+  justify-content: flex-end;
+  margin: 15px 0px 0px 0px;
+}
