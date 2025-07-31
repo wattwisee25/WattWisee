@@ -1,0 +1,111 @@
+<div class="create-account-container">
+    <div class="splash">
+        <div class="flex">
+            <img class="logo" src="assets/img/logo.png" alt="WattWisee" />
+
+            <div class="card">
+                <div class="text-center">
+                    <div class="create-account-card">
+                        <h2>Create Account</h2>
+
+                        <form (ngSubmit)="onSubmit()" #createAccountForm="ngForm">
+                            <div class="form-columns">
+                                <!-- Colonna Sinistra -->
+                                <div class="column">
+                                    <div class="form-group">
+                                        <i class="bi bi-person-fill"></i>
+                                        <input type="text" placeholder="Contact name" [(ngModel)]="user.contact_name"
+                                            name="contact_name" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <i class="bi bi-building-fill"></i>
+                                        <input type="text" placeholder="Company name" [(ngModel)]="user.company_name"
+                                            name="company_name" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <i class="bi bi-briefcase-fill"></i>
+                                        <select [(ngModel)]="user.register_as" name="register_as" required>
+                                            <option value="" disabled selected>Register as</option>
+                                            <option value="Energy Auditor">Energy Auditor</option>
+                                            <option value="Energy Manager">Energy Manager</option>
+                                            <option value="ESG Professional">ESG Professional</option>
+                                            <option value="Finance">Finance</option>
+                                            <option value="Energy Upgrade Contractor">Energy Upgrade Contractor</option>
+                                            <option value="Maintenance Operations">Maintenance/Operations</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <i class="bi bi-hash"></i>
+                                        <input type="text" placeholder="SEAI number" [(ngModel)]="user.SEAI_number"
+                                            name="SEAI_number" required />
+                                    </div>
+                                </div>
+
+                                <!-- Colonna Destra -->
+                                <div class="column">
+                                    <div class="form-group">
+                                        <i class="bi bi-telephone-fill"></i>
+                                        <input type="text" placeholder="Phone number" [(ngModel)]="user.phone"
+                                            name="phone" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <i class="bi bi-envelope-fill"></i>
+                                        <input type="email" placeholder="Contact email" [(ngModel)]="user.email"
+                                            name="email" required />
+                                    </div>
+
+                                    <div class="form-group password-group">
+                                        <i class="bi bi-lock-fill"></i>
+                                        <div class="input-wrapper">
+                                            <input [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+                                                [(ngModel)]="user.password" name="password" required />
+                                            <i class="bi toggle-eye"
+                                                [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                                                (click)="togglePasswordVisibility()"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group password-group">
+                                        <i class="bi bi-lock-fill"></i>
+                                        <div class="input-wrapper">
+                                            <input [type]="showPassword ? 'text' : 'password'"
+                                                placeholder="Repeat Password" [(ngModel)]="repeat_password"
+                                                name="repeat_password" required />
+                                            <i class="bi toggle-eye"
+                                                [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                                                (click)="togglePasswordVisibility()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <div *ngIf="passwordError" class="error-message">
+                                    {{ passwordError }}
+                                </div>
+                            <div class="form-group radio-inline">
+                                <span class="radio-label">Permission to contact?</span>
+                                <label>
+                                    <input type="radio" value="yes" [(ngModel)]="user.permission_contact"
+                                        name="permission_contact" required />
+                                    Yes
+                                </label>
+                                <label>
+                                    <input type="radio" value="no" [(ngModel)]="user.permission_contact"
+                                        name="permission_contact" required />
+                                    No
+                                </label>
+                            </div>
+
+                            <button type="submit" class="submit-btn" [disabled]="createAccountForm.invalid">
+                                Continue
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

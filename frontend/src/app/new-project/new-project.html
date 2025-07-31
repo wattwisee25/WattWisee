@@ -1,0 +1,38 @@
+<div class="new-project-container">
+  <div class="logo-container">
+    <img class="logo" src="/assets/img/logo.png" alt="WattWisee">
+  </div>
+<div class="card">
+  <h1>Create a new project:</h1>
+
+  <label>Project name</label>
+  <input type="text" [(ngModel)]="projectName" placeholder="Name" />
+
+  <label>Add building</label>
+  <input type="text" [(ngModel)]="buildingName" placeholder="Building name" />
+  <div class="building-row">
+    <input type="file" (change)="onFileSelected($event)" />
+    <button class="add-btn" (click)="addBuilding()">+</button>
+  </div>
+
+  <button class="confirm-btn">Confirm</button>
+
+  <h2>Your buildings</h2>
+  <div class="building-gallery">
+    <ng-container *ngIf="buildings.length > 0; else empty">
+      <div class="building" *ngFor="let b of buildings">
+        <img [src]="b.image" alt="building image" />
+        <p>{{ b.name }}</p>
+      </div>
+    </ng-container>
+
+    <ng-template #empty>
+      <div class="building empty">
+        <div class="placeholder"></div>
+        <p>Name</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="pagination-bar"></div>
+</div>

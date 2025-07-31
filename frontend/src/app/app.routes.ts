@@ -1,28 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GlossaryComponent } from './glossary/glossary';
-import { HomeComponent } from './home/home';
 import { ChecklistComponent } from './checklist/checklist';
-import { EnergyComponent } from './energy/energy';
-import { ForecastComponent } from './forecast/forecast';
-import { RecommendedComponent } from './recommended/recommended';
-import { RenewableComponent } from './renewable/renewable';
 import { LoginComponent } from './login/login';
-import { SignInComponent } from './sign-in/sign-in';
+import { CreateAccountComponent } from './create-account/create-account';
 import { AccessComponent } from './access/access';
+import { NewProjectComponent } from './new-project/new-project';
 
 
 export const routes: Routes = [
     { path: '', component: AccessComponent },          
-    { path: 'login', component: LoginComponent },          // pagina di login
-    { path: 'sign-in', component: SignInComponent},
-    { path: 'home', component: HomeComponent },          // pagina Home
+    { path: 'login', component: LoginComponent },
+    { path: 'create-account', component: CreateAccountComponent},
+    { path: 'create-new-project', component: NewProjectComponent }, 
     { path: 'glossary', component: GlossaryComponent },
     { path: 'checklist', component: ChecklistComponent },
-    { path: 'energy', component: EnergyComponent },
-    { path: 'forecast', component: ForecastComponent },
-    { path: 'recommended', component: RecommendedComponent },
-    { path: 'Renewable', component: RenewableComponent }
 ];
 
 @NgModule({

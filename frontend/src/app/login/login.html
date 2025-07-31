@@ -1,44 +1,50 @@
 <div class="login-container">
-    <div class="splash">
-        <div class="flex">
-            <img class="logo" src="/assets/img/logo.png" alt="WattWisee">
-            <div class="card">
-                <div class="text-center">
+  <div class="splash">
+    <div class="login-wrapper">
+      <img class="logo" src="assets/img/logo.png" alt="WattWisee" />
 
-                    <div class="login-card">
-                        <h2>Login</h2>
-                        <form>
-                            <div class="form-group">
-                                <i class="bi bi-person-fill"></i>
-                                <input type="text" placeholder="Username" required>
-                            </div>
+      <div class="login-card">
+        <h2>Login</h2>
 
-                            <div class="form-group password-group">
-                                <i class="bi bi-lock-fill"></i>
-                                <div class="input-wrapper">
-                                    <input id="password" [type]="showPassword ? 'text' : 'password'"
-                                        placeholder="Password" required />
-                                    <i class="bi toggle-eye"
-                                        [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
-                                        (click)="togglePasswordVisibility()"></i>
-                                </div>
-                            </div>
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+          <!-- Email -->
+          <div class="form-group">
+            <i class="bi bi-person-fill"></i>
+            <input type="text" name="email" [(ngModel)]="email" placeholder="Email" required #usernameInput="ngModel" />
+          </div>
 
-
-                            <div class="form-group checkbox">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">Remember me</label>
-                            </div>
-
-                            <button type="submit" class="submit-btn">Continue</button>
-
-                            <div class="form-group forgot">
-                                <a href="">Forgot your password?</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+          <!-- Password -->
+          <div class="form-group">
+            <i class="bi bi-lock-fill"></i>
+            <div class="input-wrapper">
+              <input id="password" name="password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password"
+                placeholder="Password" required #passwordInput="ngModel" />
+              <i class="bi toggle-eye" [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                (click)="togglePasswordVisibility()"></i>
             </div>
+          </div>
+
+          <!-- Remember me -->
+          <div class="checkbox-group">
+            <input type="checkbox" id="remember" name="remember" [(ngModel)]="remember" />
+            <label for="remember">Remember me</label>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">
+            Continue
+          </button>
+
+          <!-- Forgot password -->
+          <div class="forgot">
+            <a href="#">Forgot your password?</a>
+          </div>
+        </form>
+        <!-- Messaggio errore login -->
+        <div *ngIf="loginError" class="login-error">
+          {{ loginError }}
         </div>
+      </div>
     </div>
+  </div>
 </div>

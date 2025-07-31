@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.css'
 })
 export class App {
-  protected title = 'WattWise';
+  protected title = 'WattWisee';
   users: any[] = [];
 
   constructor(private http: HttpClient) {}

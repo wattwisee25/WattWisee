@@ -1,3 +1,4 @@
+/* Contenitore principale: centrato verticalmente e orizzontalmente */
 .access-container {
   display: flex;
   flex-direction: column;
@@ -8,28 +9,14 @@
   background-color: #c1dbe3;
 }
 
-.logo{
-    width:200px;
-    display: block;
-    margin-bottom: 50px;
-  margin-left: auto;
-  margin-right: auto;
+/* Logo centrato e dimensionato */
+.logo {
+  width: 200px;
+  margin: 0 auto 50px;
+  display: block;
 }
 
-.logo .dark {
-  color: #2d5558;
-}
-
-.logo .light {
-  color: #f4ff84;
-}
-
-.logo p {
-  margin: 0;
-  font-size: 24px;
-  letter-spacing: 1px;
-}
-
+/* Contenitore azioni (login, create-account) */
 .actions {
   margin-top: 40px;
   display: flex;
@@ -37,28 +24,33 @@
   gap: 8px;
 }
 
+/* Bottone login */
 .login-btn {
-  background-color: #2d5558;
+  background-color: #31545b;
   color: white;
   border: none;
   padding: 12px 40px;
   border-radius: 6px;
   font-size: 16px;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-  cursor: pointer;
   width: 100%;
+  cursor: pointer;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
 }
 
-.sign-in {
+/* Link create-account */
+.create-account {
   font-size: 14px;
   text-decoration: underline;
   color: #2d5558;
+  cursor: pointer;
 }
 
+/* Sezione accesso rapido */
 .quick-access {
   margin-top: 40px;
 }
 
+/* Linea decorativa con testo */
 .line {
   display: flex;
   align-items: center;
@@ -72,10 +64,11 @@
   flex: 1;
   border: none;
   height: 1px;
-  background-color: #2d5558;
+  background-color: #31545b;
   opacity: 0.3;
 }
 
+/* Icone social */
 .icons {
   display: flex;
   gap: 12px;
@@ -87,7 +80,7 @@
   background-color: white;
   padding: 8px 12px;
   border-radius: 6px;
-  color: #2d5558;
+  color: #31545b;
   font-size: 20px;
   text-decoration: none;
   box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
