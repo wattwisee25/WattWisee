@@ -1,36 +1,34 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-access',
-  imports: [FormsModule],
+  selector: 'app-create-project',
+  standalone: true,   // 👈 standalone component
+  imports: [FormsModule, CommonModule, RouterModule], // 👈 importa FormsModule e CommonModule
   templateUrl: './new-project.html',
-  styleUrl: './new-project.css'
+  styleUrls: ['./new-project.css']
 })
 export class NewProjectComponent {
-projectName: string = '';
-  buildingName: string = '';
-  selectedFile: File | null = null;
-
-  buildings: { name: string, image: string }[] = [];
-
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
-  }
-
-  addBuilding(): void {
-    if (!this.buildingName || !this.selectedFile) {
-      alert('Please enter building name and select a photo.');
-      return;
-    }
-
+  constructor(private http: HttpClient, private router: Router) {}
+selectedImage: File | null = null;
+selectedImagePreview: string | ArrayBuffer | null = null;
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    this.selectedImage = input.files[0];
+    
+    // Creazione preview
     const reader = new FileReader();
-    reader.onload = () => {
-      const imageUrl = reader.result as string;
-      this.buildings.push({ name: this.buildingName, image: imageUrl });
-      this.buildingName = '';
-      this.selectedFile = null;
-    };
-    reader.readAsDataURL(this.selectedFile);
+    reader.onload = () => this.selectedImagePreview = reader.result;
+    reader.readAsDataURL(this.selectedImage);
   }
+}
+
+saveProject() {
+  this.router.navigate(['/upload-bills']);
+}
 }

@@ -1,131 +1,148 @@
-.new-project-container {
-  display: flex;
+/* Sfondo pagina */
+.page {
+    display:grid;
   justify-content: center;
-  align-items: center;
+  justify-items: center;
   min-height: 100dvh;
   background-color: #c1dbe3;
   padding: 2rem 1rem;
   box-sizing: border-box;
 }
 
+/* Logo */
 .logo {
-  width: 80px;
-  margin: 30px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  width: 200px;
+  display: block;
+  margin: 0 auto 50px;
 }
 
 /* Card centrale */
 .card {
-  background-color: #31545b;
-  align-items: center;
-  border-radius: 15px;
-  padding: 40px 30px;
-  width: 360px;
-  color: white;
+  background: #31545b; /* verde scuro */
+  padding: 50px 80px 50px 80px;
+  border-radius: 10px;
   text-align: center;
+  width: 500px;
+  max-width: 90%;
+  color: white;
 }
 
-/* Titolo */
-.card h1 {
-  font-size: 22px;
-  margin-bottom: 30px;
-  font-weight: 600;
+h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
 }
 
-/* Label */
-.card label {
-  display: block;
-  text-align: left;
-  font-size: 14px;
-  margin: 15px 10px 5px;
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-/* Input campi testo */
+/* Input e pulsanti */
 input[type="text"],
 input[type="file"] {
   width: 100%;
-  padding: 8px 10px;
-  background-color: #819496;
-  color: white;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  background: #2c4b51;
+  color: white;
 }
 
-/* Riga input foto + bottone + */
-.building-row {
+input[type="file"] {
+  color: white;
+}
+
+.upload-row {
   display: flex;
-  gap: 10px;
-  margin-top: 5px;
+  gap: 8px;
+  align-items: center;
 }
 
-/* Bottone + */
-.add-btn {
-  padding: 0 12px;
+.plus-btn {
+  width: 38px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background: #2c4b51;
+  text-align: center;
+  color: white;
   font-size: 20px;
-  background-color: #819496;
-  color: white;
-  border: none;
-  border-radius: 6px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
-/* Bottone Confirm */
 .confirm-btn {
-  background-color: #faff89;
-  color: black;
-  font-weight: bold;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 8px;
-  margin-top: 25px;
+  background: #c1dbe3;
+border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  margin-top: 20px;
+  width: 90%;
 }
 
-/* Galleria edifici */
-.building-gallery {
+.finish-btn {
+  background: #ffff99;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 90%
+}
+
+/* Buildings grid */
+.buildings {
   display: flex;
-  gap: 12px;
-  margin-top: 25px;
   justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
 }
 
-/* Singolo edificio */
 .building {
   text-align: center;
 }
 
-/* Immagine edificio o placeholder */
-.building img,
-.building .placeholder {
+.img-placeholder {
   width: 80px;
   height: 80px;
-  border-radius: 10px;
+  background: #cccccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.building img {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
   object-fit: cover;
 }
 
-/* Semitrasparente */
-.building.empty .placeholder {
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 1px dashed rgba(255, 255, 255, 0.4);
+/* Barra scroll immagini */
+.scroll-bar {
+  width: 80%;
+  height: 6px;
+  background: #54696d;
+  border-radius: 3px;
+  margin: 15px auto;
+  position: relative;
 }
 
-/* Nome edificio */
-.building p {
-  margin-top: 5px;
-  font-size: 13px;
+.scroll-thumb {
+  width: 30%;
+  height: 6px;
+  background: #c8e2eb;
+  border-radius: 3px;
 }
 
-/* Barre di paginazione */
-.pagination-bar {
-  margin-top: 10px;
-  width: 40%;
-  height: 4px;
-  background-color: #cfd8dc;
-  border-radius: 2px;
-  margin-left: auto;
-  margin-right: auto;
+.image-preview {
+  display: flex;
+  align-items: center;
+}
+
+.confirm-row,
+.finish-row {
+  display: flex;
+  justify-content: center;
 }

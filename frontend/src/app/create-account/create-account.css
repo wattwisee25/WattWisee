@@ -181,3 +181,15 @@
   margin: 30px;
   font-size: 0.9rem;
 }
+
+
+  .required {
+    color: red;
+    font-weight: bold;
+  }
+
+  .error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 4px;
+  }

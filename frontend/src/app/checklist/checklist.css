@@ -1,24 +1,16 @@
-/* Sfondo verde acqua della tabella */
-.custom-table {
-  background-color: #49a293;
-  color: white;
-  border-collapse: collapse; /* importante per bordi puliti */
-  width: 100%;
-}
-.content{
-    text-align: center;
-    margin: 20px auto;
+.content {
+  text-align: center;
+  margin: 20px auto;
 }
 
 @media screen and (min-width: 720px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 720px */
   .checklist-container {
     margin-left: 250px; /* ad esempio per compensare il menu fisso */
   }
 }
 
-
-/* Bordo bianco sottile e testo bianco */
+/* Celle e intestazioni: bordo bianco sottile */
 .custom-table th,
 .custom-table td {
   border: 1px solid white;
@@ -26,33 +18,33 @@
   padding: 8px 12px;
 }
 
-/* Sfondo bianco per le celle con commenti e testo scuro */
+/* Testo intestazioni centrato */
+.custom-table thead th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Colonna Yes/No/N.A. con larghezza fissa */
+.yes-no-na {
+  width: 50px;
+  text-align: center;
+}
+
+/* Celle della colonna "Observations & Comments" */
 .observations {
-  background-color: white;
-  color: #002f36; /* colore petrolio scuro */
   text-align: left;
   font-weight: normal;
 }
 
-/* Checkbox centrata */
+/* Checkbox centrata e ridotta */
 .checkbox-cell {
   text-align: center;
 }
 
-/* Riduzione dimensione checkbox */
 input[type="checkbox"] {
   width: 16px;
   height: 16px;
   cursor: default;
 }
 
-/* Testo delle intestazioni centrato */
-.custom-table thead th {
-  text-align: center;
-  vertical-align: middle;
-}
 
-/* Testo colonna "Yes, No, N/A" larghezza fissa e centrata */
-.yes-no-na {
-  width: 50px;
-}

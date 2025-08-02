@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 
   } catch (err) {
     console.error('Error during registration:', err);
-    res.status(500).json({ error: 'Server error during registration' });
+    res.status(500).json({ error: 'Email already exist.' });
   }
 });
 

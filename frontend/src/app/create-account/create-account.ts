@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
@@ -12,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./create-account.css']
 })
 export class CreateAccountComponent {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   user = {
     contact_name: '',
@@ -50,7 +51,7 @@ export class CreateAccountComponent {
     this.http.post('http://localhost:3000/api/users', payload).subscribe({
       next: (res: any) => {
         console.log('Successful registration:', res);
-        alert(res.message || 'Registration successful!');
+        this.router.navigate(['/create-new-project']);
       },
       error: (err) => {
         console.error('Recording error:', err);
