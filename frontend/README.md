@@ -64,3 +64,15 @@ For more information on using the Angular CLI, including detailed command refere
 #f6ffa2
 #000000
 #ffffff
+
+
+
+
+To do:
+
+Login and create a new account pages:
+    two-factor auth (2FA)
+    forgot your password
+    confirm email to confirm the new account
+
+

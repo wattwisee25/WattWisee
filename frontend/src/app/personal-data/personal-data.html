@@ -1,1 +1,110 @@
-<p>personal-data works!</p>
+<header>
+  <app-menu></app-menu>
+</header>
+<div class="personal-data-container">
+    <div class="splash">
+        <div class="flex">
+            <img class="logo" src="assets/img/logo.png" alt="WattWisee" />
+
+            <div class="card">
+                <div class="text-center">
+                    <div class="personal-data-card">
+                        <h2>Create Account</h2>
+
+                        <form >
+                            <div class="form-columns">
+                                <!-- Colonna Sinistra -->
+                                <div class="column">
+                                    <div class="form-group">
+                                        <i class="bi bi-person-fill"></i>
+                                        <input type="text" placeholder="Contact name" 
+                                            name="contact_name" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <i class="bi bi-building-fill"></i>
+                                        <input type="text" placeholder="Company name" 
+                                            name="company_name" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <i class="bi bi-briefcase-fill"></i>
+                                        <select  name="register_as" required>
+                                            <option value="" disabled selected>Register as</option>
+                                            <option value="Energy Auditor">Energy Auditor</option>
+                                            <option value="Energy Manager">Energy Manager</option>
+                                            <option value="ESG Professional">ESG Professional</option>
+                                            <option value="Finance">Finance</option>
+                                            <option value="Energy Upgrade Contractor">Energy Upgrade Contractor</option>
+                                            <option value="Maintenance Operations">Maintenance/Operations</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <i class="bi bi-hash"></i>
+                                        <input type="text" placeholder="SEAI number" 
+                                            name="SEAI_number" required />
+                                    </div>
+                                </div>
+
+                                <!-- Colonna Destra -->
+                                <div class="column">
+                                    <div class="form-group">
+                                        <i class="bi bi-telephone-fill"></i>
+                                        <input type="text" placeholder="Phone number"
+                                            name="phone" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <i class="bi bi-envelope-fill"></i>
+                                        <input type="email" placeholder="Contact email"
+                                            name="email" required />
+                                    </div>
+
+                                    <div class="form-group password-group">
+                                        <i class="bi bi-lock-fill"></i>
+                                        <div class="input-wrapper">
+                                            <input name="password" required />
+                                            <i class="bi toggle-eye"
+                                     
+                                                ></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group password-group">
+                                        <i class="bi bi-lock-fill"></i>
+                                        <div class="input-wrapper">
+                                            <input 
+                                                placeholder="Repeat Password" 
+                                                name="repeat_password" required />
+                                            <i class="bi toggle-eye"
+                                                ></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="form-group radio-inline">
+                                <span class="radio-label">Permission to contact?</span>
+                                <label>
+                                    <input type="radio" value="yes" 
+                                        name="permission_contact" required />
+                                    Yes
+                                </label>
+                                <label>
+                                    <input type="radio" value="no" 
+                                        name="permission_contact" required />
+                                    No
+                                </label>
+                            </div>
+
+                            <button type="submit" class="submit-btn">
+                                Continue
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

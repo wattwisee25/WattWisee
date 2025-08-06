@@ -1,0 +1,119 @@
+/* Contenitore principale della pagina */
+.setting-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  background-color: #c1dbe3;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .setting-container {
+    margin-left: 250px; /* ad esempio per compensare il menu fisso */
+  }
+
+}
+/* Splash layout */
+.splash {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Logo */
+.logo {
+  width: 200px;
+  display: block;
+  margin: 0 auto 50px;
+}
+
+/* Card generica */
+.card {
+  width: 100%;
+  max-width: 900px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenitore principale del form */
+.setting-card {
+  background-color: #31545b;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 700px;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.setting-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Bottone submit */
+.setting-btn {
+  width: 150px;
+  background-color: #f6ffa2;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #31545b;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.setting-btn:hover {
+  background-color: #dce961;
+}
+
+
+.title-container {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-content: center;
+}
+
+
+.title-container  svg{
+    width: 100px;
+    height: 100px;
+    color:#31545b;
+}
+
+h1{
+    text-align: center;
+    color: #31545b;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+li{
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+p{
+    font-size: 12px;
+    opacity: 50%;
+}
