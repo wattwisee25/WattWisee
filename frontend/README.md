@@ -65,7 +65,11 @@ For more information on using the Angular CLI, including detailed command refere
 #000000
 #ffffff
 
+cd backend
+node server.js
 
+cd frontend
+ng serve
 
 
 To do:
