@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,10 @@ export class LoginComponent implements OnInit {
   remember = false;
   loginError = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     // Se c'è un valore salvato, precompila l'email
@@ -28,6 +31,13 @@ export class LoginComponent implements OnInit {
       this.email = savedEmail;
       this.remember = true;
     }
+
+    // Check if already logged in
+    this.authService.checkAuthStatus().subscribe(isLoggedIn => {
+      if (isLoggedIn) {
+        this.router.navigate(['/glossary']);
+      }
+    });
   }
 
   togglePasswordVisibility(): void {
@@ -37,25 +47,19 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loginError = '';
 
-    const payload = {
-      email: this.email,
-      password: this.password
-    };
-
-    this.http.post('http://localhost:3000/api/users/login', payload)
-      .subscribe({
-        next: () => {
-          if (this.remember) {
-            localStorage.setItem('rememberedEmail', this.email);
-          } else {
-            localStorage.removeItem('rememberedEmail');
-          }
-          this.router.navigate(['/glossary']);
-        },
-        error: (err) => {
-          this.loginError = 'Incorrect email or password';
-          console.error(err);
+    this.authService.login(this.email, this.password).subscribe({
+      next: () => {
+        if (this.remember) {
+          localStorage.setItem('rememberedEmail', this.email);
+        } else {
+          localStorage.removeItem('rememberedEmail');
         }
-      });
+        this.router.navigate(['/glossary']);
+      },
+      error: (err) => {
+        this.loginError = 'Incorrect email or password';
+        console.error(err);
+      }
+    });
   }
 }
