@@ -1,80 +1,67 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
-
-interface AuthResponse {
-  authenticated: boolean;
-  user?: { email: string };
-}
+import { Router, RouterModule } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api';
-  private currentUserSubject = new BehaviorSubject<any>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
-    this.checkAuthStatus();
-  }
+  private apiUrl = 'http://localhost:3000/api/users';
+  
+  constructor(private http: HttpClient, private router: Router) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }, { withCredentials: true })
-      .pipe(
-        map(response => {
-          this.currentUserSubject.next(response.user);
-          return response;
-        })
-      );
-  }
-
-  logout(): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login/logout`, {}, { withCredentials: true })
-      .pipe(
-        map(() => {
-          this.currentUserSubject.next(null);
-          this.router.navigate(['/login']);
-          return { success: true };
-        }),
-        catchError((error) => {
-          console.error('Logout error:', error);
-          this.currentUserSubject.next(null);
-          this.router.navigate(['/login']);
-          return of({ success: false, error: error.message });
-        })
-      );
+  login(email: string, password: string, remember: boolean): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password, remember }, { withCredentials: true });
   }
 
   checkAuthStatus(): Observable<boolean> {
-    return this.http.get<AuthResponse>(`${this.apiUrl}/login/me`, { withCredentials: true })
-      .pipe(
-        map(response => {
-          if (response.authenticated && response.user) {
-            this.currentUserSubject.next(response.user);
-            return true;
-          }
-          return false;
-        }),
-        catchError(() => {
-          this.currentUserSubject.next(null);
-          return of(false);
-        })
-      );
-  }
-
-  isLoggedIn(): Observable<boolean> {
-    return this.currentUser$.pipe(
-      map(user => !!user)
+    return this.http.get<any>(`${this.apiUrl}/me`, { withCredentials: true }).pipe(
+      map(user => !!user),
+      catchError(() => of(false))
     );
   }
 
   getCurrentUser(): Observable<any> {
-    return this.currentUser$;
+    return this.http.get<any>(`${this.apiUrl}/me`, { withCredentials: true });
   }
+
+  updateUser(data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/me`, data, { withCredentials: true });
+  }
+
+logout(): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/logout`, {}, { withCredentials: true });
 }
+
+  deleteAccount(): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/me`, { withCredentials: true });
+  }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email }, { withCredentials: true });
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, { token, password });
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

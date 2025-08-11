@@ -23,11 +23,11 @@ export class CreateAccountComponent {
     phone: '',
     email: '',
     password: '',
-    permission_contact: ''
+    permission_contact: false
   };
 
-  repeat_password = ''; // 🔹 variabile separata SOLO per il controllo
-  passwordError = ''; // 🔹 per mostrare errori di password
+  repeat_password = ''; //variabile separata SOLO per il controllo
+  passwordError = ''; //per mostrare errori di password
 
   showPassword = false;
 
@@ -45,7 +45,7 @@ export class CreateAccountComponent {
     this.passwordError = '';
   }
 
-    // 🔹 Costruisco l'oggetto da inviare senza repeat_password
+    //Costruisco l'oggetto da inviare senza repeat_password
     const payload = { ...this.user };
 
     this.http.post('http://localhost:3000/api/users', payload).subscribe({

@@ -23,13 +23,26 @@
                             <li>Legal Notice</li>
                             <li>Export Data</li>
                             <p>(Export dashboards as PDF for the selected projects)</p>
-                            <li>Delete Account</li>
+                            <li><a (click)="openDeleteModal()">Delete Account</a></li>
                         </ul>
                         
                         <button type="submit" class="setting-btn" (click)="logout()">Log Out</button>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div *ngIf="showDeleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Confirm Account Deletion</h2>
+            <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" (click)="deleteAccount()">Delete</button>
+                <button class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+            </div>
+            <p class="error-message" *ngIf="deleteError">{{ deleteError }}</p>
         </div>
     </div>
 </div>

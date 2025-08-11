@@ -1,61 +1,56 @@
 <header>
-  <app-menu></app-menu>
+    <app-menu></app-menu>
 </header>
+
 <div class="personal-data-container">
     <div class="splash">
         <div class="flex">
             <div class="title-container">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-id">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" />
-          <path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-          <path d="M15 8l2 0" />
-          <path d="M15 12l2 0" />
-          <path d="M7 16l10 0" />
-        </svg>
+                <!-- SVG e titolo -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-id">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" />
+                    <path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                    <path d="M15 8l2 0" />
+                    <path d="M15 12l2 0" />
+                    <path d="M7 16l10 0" />
+                </svg>
                 <h1>Personal Data</h1>
             </div>
 
             <div class="card">
                 <div class="text-center">
                     <div class="personal-data-card">
-                        <img src="assets/images/user.png" alt="User Image" class="user-image">
 
-                        <form >
+                        <form *ngIf="!loading" (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
+
                             <div class="form-columns">
                                 <!-- Colonna Sinistra -->
                                 <div class="column">
                                     <div class="form-group">
                                         <i class="bi bi-person-fill"></i>
-                                        <input type="text" placeholder="Contact name" 
-                                            name="contact_name" required />
+                                        <input type="text" placeholder="Contact name" name="contact_name"
+                                            [(ngModel)]="personalData.contact_name" required #contactName="ngModel" disabled/>
                                     </div>
 
                                     <div class="form-group">
                                         <i class="bi bi-building-fill"></i>
-                                        <input type="text" placeholder="Company name" 
-                                            name="company_name" required />
+                                        <input type="text" placeholder="Company name" name="company_name"
+                                            [(ngModel)]="personalData.company_name" required #companyName="ngModel" disabled/>
                                     </div>
 
                                     <div class="form-group">
                                         <i class="bi bi-briefcase-fill"></i>
-                                        <select  name="register_as" required>
-                                            <option value="" disabled selected>Register as</option>
-                                            <option value="Energy Auditor">Energy Auditor</option>
-                                            <option value="Energy Manager">Energy Manager</option>
-                                            <option value="ESG Professional">ESG Professional</option>
-                                            <option value="Finance">Finance</option>
-                                            <option value="Energy Upgrade Contractor">Energy Upgrade Contractor</option>
-                                            <option value="Maintenance Operations">Maintenance/Operations</option>
-                                        </select>
+                                        <input type="text" placeholder="Registered as" name="register_as"
+                                            [(ngModel)]="personalData.register_as" required #registerAs="ngModel" disabled/>
                                     </div>
 
                                     <div class="form-group">
                                         <i class="bi bi-hash"></i>
-                                        <input type="text" placeholder="SEAI number" 
-                                            name="SEAI_number" required />
+                                        <input type="text" placeholder="SEAI number" name="SEAI_number"
+                                            [(ngModel)]="personalData.SEAI_number" required #seaiNumber="ngModel" disabled/>
                                     </div>
                                 </div>
 
@@ -63,57 +58,73 @@
                                 <div class="column">
                                     <div class="form-group">
                                         <i class="bi bi-telephone-fill"></i>
-                                        <input type="text" placeholder="Phone number"
-                                            name="phone" required />
+                                        <input type="text" placeholder="Phone number" name="phone"
+                                            [(ngModel)]="personalData.phone" required #phone="ngModel" disabled/>
                                     </div>
 
                                     <div class="form-group">
                                         <i class="bi bi-envelope-fill"></i>
-                                        <input type="email" placeholder="Contact email"
-                                            name="email" required />
-                                    </div>
-
-                                    <div class="form-group password-group">
-                                        <i class="bi bi-lock-fill"></i>
-                                        <div class="input-wrapper">
-                                            <input name="password" required />
-                                            <i class="bi toggle-eye"
-                                     
-                                                ></i>
+                                        <input type="email" placeholder="Contact email" name="email"
+                                            [(ngModel)]="personalData.email" required email #email="ngModel" />
+                                        <div *ngIf="email.invalid && email.touched" class="error">
+                                            Enter a valid email.
                                         </div>
                                     </div>
 
                                     <div class="form-group password-group">
                                         <i class="bi bi-lock-fill"></i>
                                         <div class="input-wrapper">
-                                            <input 
-                                                placeholder="Repeat Password" 
-                                                name="repeat_password" required />
-                                            <i class="bi toggle-eye"
-                                                ></i>
+                                            <input type="password" name="password" placeholder="Password"
+                                                [(ngModel)]="personalData.password" required #password="ngModel" />
+                                            <i class="bi toggle-eye"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group password-group">
+                                        <i class="bi bi-lock-fill"></i>
+                                        <div class="input-wrapper">
+                                            <input type="password" name="repeat_password" placeholder="Repeat Password"
+                                                [(ngModel)]="personalData.repeat_password" required
+                                                #repeatPassword="ngModel" />
+                                            <i class="bi toggle-eye"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                
+
                             <div class="form-group radio-inline">
                                 <span class="radio-label">Permission to contact?</span>
                                 <label>
-                                    <input type="radio" value="yes" 
-                                        name="permission_contact" required />
+                                    <input type="radio" name="permission_contact" [value]="true"
+                                        [(ngModel)]="personalData.permission_contact" required
+                                        #permissionContact="ngModel" />
                                     Yes
                                 </label>
                                 <label>
-                                    <input type="radio" value="no" 
-                                        name="permission_contact" required />
+                                    <input type="radio" name="permission_contact" [value]="false"
+                                        [(ngModel)]="personalData.permission_contact" required
+                                        #permissionContactNo="ngModel" />
                                     No
                                 </label>
+                                <div *ngIf="permissionContact.invalid && permissionContact.touched" class="error">
+                                    Please select permission to contact.
+                                </div>
                             </div>
 
-                            <button type="submit" class="submit-btn">
-                                Continue
+                            <button type="submit" class="submit-btn" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                    <path d="M16 5l3 3" />
+                                </svg>
+                                Edit
                             </button>
                         </form>
+
                     </div>
                 </div>
             </div>

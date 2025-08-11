@@ -1,0 +1,50 @@
+<div class="page">
+  <img class="logo" src="assets/img/logo.png" alt="WattWisee" />
+
+  <!-- Card principale -->
+  <div class="card">
+    <h2>Create a new project:</h2>
+
+<!-- Project name -->
+<h3>Project name</h3>
+<input type="text" placeholder="Name" [(ngModel)]="projectName">
+
+<!-- Add building -->
+<h3>Add building</h3>
+<input type="text" placeholder="Building name" [(ngModel)]="buildingName">
+
+<div class="upload-row">
+  <input type="text" 
+         placeholder="Select photo" 
+         [value]="selectedImage ? selectedImage.name : ''" 
+         readonly
+         class="file-display-input">
+  
+  <input #fileInput 
+         type="file" 
+         (change)="onFileSelected($event)"
+         style="display: none">
+  
+  <button class="plus-btn" (click)="fileInput.click()">+</button>
+</div>
+
+<!-- Confirm -->
+<div class="confirm-row">
+  <button class="confirm-btn" (click)="addBuilding()">Confirm</button>
+</div>
+
+<!-- List buildings -->
+<h3>Your buildings</h3>
+<div class="buildings-list">
+  <div class="building-card" *ngFor="let b of buildings">
+    <img [src]="b.imageUrl" alt="Building">
+    <p>{{ b.name }}</p>
+  </div>
+</div>
+
+      <!-- Finish -->
+       <div class="finish-row">
+      <button class="finish-btn" (click)="saveProject()">Finish</button>
+       </div>
+    </div>
+  </div>

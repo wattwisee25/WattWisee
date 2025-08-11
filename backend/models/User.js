@@ -8,7 +8,9 @@ const UserSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   email: { type: String, required: true, unique: true }, // evita doppie registrazioni
   password: { type: String, required: true }, // sarà hashata prima del salvataggio
-  permission_contact: { type: Boolean, required: true }
+  permission_contact: { type: Boolean, required: true },
+    resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 module.exports = mongoose.model('User', UserSchema);

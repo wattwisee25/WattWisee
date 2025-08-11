@@ -30,6 +30,7 @@ export class MenuComponent {
     this.authService.logout().subscribe({
       next: () => {
         this.sidebarOpen = false;
+        this.router.navigate(['/']);
       },
       error: (error) => {
         console.error('Logout error:', error);

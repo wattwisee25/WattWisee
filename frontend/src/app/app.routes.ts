@@ -5,15 +5,19 @@ import { ChecklistComponent } from './checklist/checklist';
 import { LoginComponent } from './login/login';
 import { CreateAccountComponent } from './create-account/create-account';
 import { AccessComponent } from './access/access';
-import { NewProjectComponent } from './new-project/new-project';
+import { NewProjectComponent } from './first-new-project/first-new-project';
 import { UploadBillComponent } from './upload-bill/upload-bill';
 import { ProfileComponent } from './profile/profile';
 import { PersonalDataComponent } from './personal-data/personal-data';
 import { SettingComponent} from './setting/setting';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password';
+import { ResetPasswordComponent } from './reset-password/reset-password';
 
 
 export const routes: Routes = [
-    { path: '', component: AccessComponent },          
+    { path: '', component: AccessComponent },   
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'reset-password/:token', component: ResetPasswordComponent },       
     { path: 'login', component: LoginComponent },
     { path: 'create-account', component: CreateAccountComponent},
     { path: 'create-new-project', component: NewProjectComponent }, 

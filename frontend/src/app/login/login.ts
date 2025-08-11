@@ -25,14 +25,12 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Se c'è un valore salvato, precompila l'email
     const savedEmail = localStorage.getItem('rememberedEmail');
     if (savedEmail) {
       this.email = savedEmail;
       this.remember = true;
     }
 
-    // Check if already logged in
     this.authService.checkAuthStatus().subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.router.navigate(['/glossary']);
@@ -47,14 +45,14 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loginError = '';
 
-    this.authService.login(this.email, this.password).subscribe({
+    this.authService.login(this.email, this.password, this.remember).subscribe({
       next: () => {
         if (this.remember) {
           localStorage.setItem('rememberedEmail', this.email);
         } else {
           localStorage.removeItem('rememberedEmail');
         }
-        this.router.navigate(['/glossary']);
+        this.router.navigate(['/profile']);
       },
       error: (err) => {
         this.loginError = 'Incorrect email or password';

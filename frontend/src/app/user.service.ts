@@ -30,4 +30,8 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
+
+    deleteAccount(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/me`, { withCredentials: true });
+  }
 }

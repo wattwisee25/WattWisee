@@ -89,3 +89,7 @@
 .sidebar-nav a.active i {
   color: #31545b !important;
 }
+
+.logout{
+  margin-top: 280px;
+}

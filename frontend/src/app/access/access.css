@@ -67,21 +67,3 @@
   background-color: #31545b;
   opacity: 0.3;
 }
-
-/* Icone social */
-.icons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-.icons a {
-  display: inline-block;
-  background-color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  color: #31545b;
-  font-size: 20px;
-  text-decoration: none;
-  box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-}
