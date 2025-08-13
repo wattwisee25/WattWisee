@@ -5,6 +5,10 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
+
+
 app.use(cors({
   origin: 'http://localhost:4200',
   credentials: true
@@ -16,6 +20,13 @@ app.use(cookieParser());
 // Import routes
 const usersRouter = require('./routes/users');
 app.use('/api/users', usersRouter);
+
+const projectsRouter = require('./routes/projects');
+app.use('/api/projects', projectsRouter);
+
+const buildingsRouter = require('./routes/buildings');
+app.use('/api/buildings', buildingsRouter);
+
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/wattWisee')
