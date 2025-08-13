@@ -1,5 +1,7 @@
+// forgot-password.component.ts
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -10,31 +12,22 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./forgot-password.css']
 })
 export class ForgotPasswordComponent {
-  email: string = '';
-  message: string = '';
+  email = '';
+  message = '';
+  error = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    if (!this.email) {
-      this.message = 'Email is required';
-      return;
-    }
-
-    this.http.post<{ message: string }>(
-  'http://localhost:3000/api/users/forgot-password',
-  { email: this.email },
-  { withCredentials: true } // se usi cookie, altrimenti puoi togliere
-)
-.subscribe({
-  next: (res) => {
-    this.message = res.message;
-  },
-  error: (err) => {
-    this.message = err.error?.message || 'An error occurred';
-  }
-});
-
+    this.authService.forgotPassword(this.email).subscribe(
+      () => {
+        this.message = 'Email di reset inviata. Controlla la tua casella di posta.';
+        this.error = '';
+      },
+      (err) => {
+        this.error = err.error.message || 'Si è verificato un errore';
+        this.message = '';
+      }
+    );
   }
 }
-

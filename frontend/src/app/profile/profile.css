@@ -3,7 +3,7 @@
   justify-content: center;
   justify-items: center;
   min-height: 100dvh;
-  background-color: #c1dbe3;
+  background-color: #ffffff;
   padding: 2rem 1rem;
   box-sizing: border-box;
 }
@@ -16,7 +16,7 @@
 }
 
 /* Media query per schermi più piccoli di 650px */
-@media (max-width: 650px) {
+@media (max-width: 770px) {
   .button-container {
     flex-direction: column; /* Dispone i pulsanti in colonna */
   }

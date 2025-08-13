@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { MenuComponent } from "../menu/menu";
 
 @Component({
   selector: 'app-renewable',
-  imports: [],
+  imports: [MenuComponent],
   templateUrl: './renewable.html',
   styleUrl: './renewable.css'
 })
