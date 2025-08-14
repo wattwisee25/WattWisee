@@ -21,11 +21,11 @@ export class ForgotPasswordComponent {
   onSubmit() {
     this.authService.forgotPassword(this.email).subscribe(
       () => {
-        this.message = 'Email di reset inviata. Controlla la tua casella di posta.';
+        this.message = 'Reset email sent. Check you mailbox.';
         this.error = '';
       },
       (err) => {
-        this.error = err.error.message || 'Si è verificato un errore';
+        this.error = err.error.message || 'An error occured.';
         this.message = '';
       }
     );

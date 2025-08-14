@@ -154,43 +154,57 @@ router.post('/logout', (req, res) => {
 
 // POST /forgot-password
 router.post('/forgot-password', async (req, res) => {
-  console.log('1');
+  console.log('[FORGOT-PASSWORD] Request received:', req.body);
   const { email } = req.body;
   if (!email) return res.status(400).json({ message: 'Email is required' });
-  console.log('2');
+  
   try {
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('[FORGOT-PASSWORD] User not found for email:', email);
       return res.json({ message: 'If this email exists, you will receive reset instructions.' });
     }
-    console.log('3');
+    
+    console.log('[FORGOT-PASSWORD] User found:', user.email);
+    
     const token = crypto.randomBytes(32).toString('hex');
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; 
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
-    const resetLink = `http://localhost:3000/reset-password/${token}`;
-    console.log('4');
+    
+    const resetLink = `http://localhost:4200/reset-password/${token}`;
+    console.log('[FORGOT-PASSWORD] Generated reset link:', resetLink);
+    
     const mailOptions = {
       from: '"WattWisee Support" <no-reply@wattwisee.com>',
       to: email,
-      subject: 'Password Reset Request',
+      subject: 'Password Reset Request - WattWisee',
       text: `You requested a password reset. Click here to reset: ${resetLink}`,
-      html: `<p>You requested a password reset.</p><p>Click <a href="${resetLink}">here</a> to reset your password.</p>`
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2>Password Reset Request</h2>
+          <p>You requested a password reset for your WattWisee account.</p>
+          <p>Click the link below to reset your password:</p>
+          <p><a href="${resetLink}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reset Password</a></p>
+          <p>If you didn't request this, please ignore this email.</p>
+          <p>This link will expire in 1 hour.</p>
+        </div>
+      `
     };
-    console.log('5');
+    
     try {
       const info = await transporter.sendMail(mailOptions);
-      console.log('Message sent: %s', info.messageId);
-      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+      console.log('[FORGOT-PASSWORD] Email sent:', info.messageId);
+      console.log('[FORGOT-PASSWORD] Preview URL:', nodemailer.getTestMessageUrl(info));
     } catch (mailErr) {
-      console.error('Errore invio mail:', mailErr);
-      return res.status(500).json({ message: 'Error sending email' });
+      console.error('[FORGOT-PASSWORD] Email error:', mailErr);
+      return res.status(500).json({ message: 'Error sending email. Please try again later.' });
     }
-    console.log('6');
+    
     res.json({ message: 'If this email exists, you will receive reset instructions.' });
   } catch (err) {
-    console.error('Forgot password error:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error('[FORGOT-PASSWORD] Server error:', err);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 });
 
