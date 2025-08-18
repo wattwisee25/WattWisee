@@ -14,6 +14,7 @@ let transporter;
 (async () => {
   try {
     // Crea account Ethereal di test
+    //Ethereal is a fake SMTP service, mostly aimed at Nodemailer
     const testAccount = await nodemailer.createTestAccount();
 
     // Configura il trasporto SMTP con credenziali Ethereal generate
@@ -54,9 +55,9 @@ router.post('/', async (req, res) => {
     const mailOptions = {
       from: '"WattWisee Support" <no-reply@wattwisee.com>',
       to: newUser.email,
-      subject: 'Conferma registrazione WattWisee',
-      text: `Ciao ${newUser.contact_name || ''}, grazie per esserti registrato su WattWisee!`,
-      html: `<p>Ciao ${newUser.contact_name || ''},</p><p>Grazie per esserti registrato su <b>WattWisee</b>!</p>`
+      subject: 'Confirmation Email - WattWisee',
+      text: `Hi ${newUser.contact_name || ''}, thank you for your registration!`,
+      html: `<p>Hi ${newUser.contact_name || ''},</p><p>thank you for your registration on <b>WattWisee</b>!</p>`
     };
 
     // Invia email
@@ -65,10 +66,10 @@ router.post('/', async (req, res) => {
       console.log('Mail di conferma inviata: %s', info.messageId);
       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     } catch (mailError) {
-      console.error('Errore invio mail conferma:', mailError);
+      console.error('Error sending confirmation email:', mailError);
     }
 
-    res.status(201).json({ message: 'Registration successful! Controlla la mail di conferma.' });
+    res.status(201).json({ message: 'Registration successful! Check your mailbox.' });
 
   } catch (err) {
     console.error('Error during registration:', err);
