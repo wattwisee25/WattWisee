@@ -1,6 +1,9 @@
 <header>
     <app-menu></app-menu>
 </header>
-
-
-<p>project-list works!</p>
+<h2>Lista Progetti</h2>
+<ul>
+  <li *ngFor="let project of projects">
+    {{ project.name }} - {{ project.description }}
+  </li>
+</ul>

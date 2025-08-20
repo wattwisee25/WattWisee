@@ -7,130 +7,123 @@ const authMiddleware = require('../middlewares/auth.middleware');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersegreto';
+const JWT_SECRET = process.env.JWT_SECRET || 'supersegreto'; // chiave di test
 
 let transporter;
 
+// Inizializza Nodemailer con account Ethereal
 (async () => {
   try {
-    // Crea account Ethereal di test
-    //Ethereal is a fake SMTP service, mostly aimed at Nodemailer
     const testAccount = await nodemailer.createTestAccount();
-
-    // Configura il trasporto SMTP con credenziali Ethereal generate
     transporter = nodemailer.createTransport({
       host: 'smtp.ethereal.email',
       port: 587,
       auth: {
         user: testAccount.user,
-        pass: testAccount.pass
-      }
+        pass: testAccount.pass,
+      },
     });
-
-    console.log('Nodemailer transporter configurato con account Ethereal');
+    console.log('Nodemailer pronto con account Ethereal');
     console.log('User:', testAccount.user);
     console.log('Pass:', testAccount.pass);
-  } catch (error) {
-    console.error('Errore creazione account Ethereal:', error);
+  } catch (err) {
+    console.error('Errore creazione account Ethereal:', err);
   }
 })();
 
-// Registrazione utente
+// ==================== REGISTRAZIONE ====================
 router.post('/', async (req, res) => {
   try {
     const { password, ...rest } = req.body;
 
-    // Cripta la password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Crea nuovo utente
-    const newUser = new User({
-      ...rest,
-      password: hashedPassword
-    });
-
+    const newUser = new User({ ...rest, password: hashedPassword });
     await newUser.save();
 
-    // Prepara email di conferma
+    // Email di conferma
     const mailOptions = {
       from: '"WattWisee Support" <no-reply@wattwisee.com>',
       to: newUser.email,
       subject: 'Confirmation Email - WattWisee',
       text: `Hi ${newUser.contact_name || ''}, thank you for your registration!`,
-      html: `<p>Hi ${newUser.contact_name || ''},</p><p>thank you for your registration on <b>WattWisee</b>!</p>`
+      html: `<p>Hi ${newUser.contact_name || ''},</p><p>Thank you for registering on <b>WattWisee</b>!</p>`,
     };
 
-    // Invia email
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Mail di conferma inviata: %s', info.messageId);
-      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-    } catch (mailError) {
-      console.error('Error sending confirmation email:', mailError);
-    }
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Mail inviata: %s', info.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-    res.status(201).json({ message: 'Registration successful! Check your mailbox.' });
-
+    res.status(201).json({ message: 'Registration successful! Check console for Ethereal preview URL.' });
   } catch (err) {
-    console.error('Error during registration:', err);
-    res.status(500).json({ error: 'Email already exists.' });
+    console.error('Errore registrazione:', err);
+    res.status(500).json({ error: 'Registration failed.' });
   }
 });
 
-
-// Login utente
+// ==================== LOGIN ====================
 router.post('/login', async (req, res) => {
-  const { email, password, rememberMe } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
-  }
-
   try {
+    const { email, password } = req.body;
     const user = await User.findOne({ email });
-    if (!user) return res.status(401).json({ message: 'Invalid email or password' });
+    if (!user) return res.status(400).json({ message: 'User not found' });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: 'Invalid email or password' });
+    if (!isMatch) return res.status(400).json({ message: 'Incorrect password' });
 
-    const token = jwt.sign(
-      { userId: user._id },
-      JWT_SECRET,
-      { expiresIn: rememberMe ? '7d' : '2h' }
-    );
+    // Genera OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpires = new Date(Date.now() + 5 * 60 * 1000);
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: rememberMe ? 7 * 24 * 60 * 60 * 1000 : 2 * 60 * 60 * 1000
+    user.otp = otp;
+    user.otpExpires = otpExpires;
+    await user.save();
+
+    const info = await transporter.sendMail({
+      from: '"WattWisee Support" <no-reply@wattwisee.com>',
+      to: user.email,
+      subject: 'Your OTP Code',
+      text: `Your OTP code is: ${otp}, if you did not request this, please ignore this email.`,
+      html: `<p>Your OTP code is: <b>${otp}</b></p></br> <p>If you did not request this, please ignore this email.</p>`,
     });
 
-    res.json({
-      message: 'Login successful!',
-      user: { email: user.email, name: user.contact_name }
-    });
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-// GET /me
-router.get('/me', authMiddleware, async (req, res) => {
-  try {
-    const user = await User.findById(req.userId).select('-password');
-    if (!user) return res.status(404).json({ message: 'User not found' });
-    res.json(user);
+    console.log('Preview OTP URL: %s', nodemailer.getTestMessageUrl(info));
+    res.json({ message: 'OTP sent. Check console for Ethereal preview URL.' });
   } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// PUT /me aggiorna dati
+// ==================== VERIFICA OTP ====================
+router.post('/verify-otp', async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'User not found' });
+
+    if (user.otp !== otp || user.otpExpires < new Date()) {
+      return res.status(400).json({ message: 'Invalid or expired OTP' });
+    }
+
+    // Reset OTP
+    user.otp = null;
+    user.otpExpires = null;
+    await user.save();
+
+    // Genera JWT
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('OTP verification error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// ==================== UPDATE PROFILO ====================
 router.put('/me', authMiddleware, async (req, res) => {
   try {
     const updates = req.body;
-    delete updates.password; 
+    delete updates.password;
     delete updates.email;
     delete updates.registered_as;
 
@@ -143,121 +136,82 @@ router.put('/me', authMiddleware, async (req, res) => {
   }
 });
 
-// Logout
+// ==================== LOGOUT ====================
 router.post('/logout', (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict'
+    sameSite: 'strict',
   });
   res.json({ message: 'Logout successful' });
 });
 
-// POST /forgot-password
+// ==================== FORGOT PASSWORD ====================
 router.post('/forgot-password', async (req, res) => {
-  console.log('[FORGOT-PASSWORD] Request received:', req.body);
-  const { email } = req.body;
-  if (!email) return res.status(400).json({ message: 'Email is required' });
-  
   try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: 'Email is required' });
+
     const user = await User.findOne({ email });
-    if (!user) {
-      console.log('[FORGOT-PASSWORD] User not found for email:', email);
-      return res.json({ message: 'If this email exists, you will receive reset instructions.' });
-    }
-    
-    console.log('[FORGOT-PASSWORD] User found:', user.email);
-    
+    if (!user) return res.json({ message: 'If this email exists, you will receive reset instructions.' });
+
     const token = crypto.randomBytes(32).toString('hex');
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
-    
+
     const resetLink = `http://localhost:4200/reset-password/${token}`;
-    console.log('[FORGOT-PASSWORD] Generated reset link:', resetLink);
-    
+
     const mailOptions = {
       from: '"WattWisee Support" <no-reply@wattwisee.com>',
       to: email,
       subject: 'Password Reset Request - WattWisee',
-      text: `You requested a password reset. Click here to reset: ${resetLink}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>Password Reset Request</h2>
-          <p>You requested a password reset for your WattWisee account.</p>
-          <p>Click the link below to reset your password:</p>
-          <p><a href="${resetLink}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reset Password</a></p>
-          <p>If you didn't request this, please ignore this email.</p>
-          <p>This link will expire in 1 hour.</p>
-        </div>
-      `
+      text: `Reset your password: ${resetLink}`,
+      html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
     };
-    
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log('[FORGOT-PASSWORD] Email sent:', info.messageId);
-      console.log('[FORGOT-PASSWORD] Preview URL:', nodemailer.getTestMessageUrl(info));
-    } catch (mailErr) {
-      console.error('[FORGOT-PASSWORD] Email error:', mailErr);
-      return res.status(500).json({ message: 'Error sending email. Please try again later.' });
-    }
-    
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Preview reset password URL: %s', nodemailer.getTestMessageUrl(info));
+
     res.json({ message: 'If this email exists, you will receive reset instructions.' });
   } catch (err) {
-    console.error('[FORGOT-PASSWORD] Server error:', err);
-    res.status(500).json({ message: 'Server error. Please try again later.' });
-  }
-});
-
-
-
-// POST /reset-password
-router.post('/reset-password', async (req, res) => {
-  const { token, password } = req.body;
-  if (!token || !password) return res.status(400).json({ message: 'Token and password are required' });
-
-  try {
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }
-    });
-
-    if (!user) {
-      return res.status(400).json({ message: 'Reset token is invalid or has expired' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword;
-
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-
-    await user.save();
-
-    res.json({ message: 'Password has been reset successfully' });
-  } catch (err) {
-    console.error('Reset password error:', err);
+    console.error('Errore forgot-password:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// DELETE /api/users/me
+// ==================== RESET PASSWORD ====================
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { token, password } = req.body;
+    if (!token || !password) return res.status(400).json({ message: 'Token and password required' });
+
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+    if (!user) return res.status(400).json({ message: 'Reset token invalid or expired' });
+
+    user.password = await bcrypt.hash(password, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.json({ message: 'Password reset successful' });
+  } catch (err) {
+    console.error('Errore reset-password:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// ==================== DELETE ACCOUNT ====================
 router.delete('/me', authMiddleware, async (req, res) => {
   try {
-    const userId = req.userId;
-
-    // Verifica se l'utente esiste
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Elimina l'utente
-    await User.findByIdAndDelete(userId);
-
+    const user = await User.findByIdAndDelete(req.userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
     res.json({ message: 'User deleted successfully' });
   } catch (err) {
-    console.error('Error deleting user:', err);
+    console.error('Errore delete user:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });

@@ -48,6 +48,10 @@ logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/reset-password`, { token, password });
   }
 
+   verifyOtp(email: string, otp: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/verify-otp`, { email, otp });
+  }
+
 }
 
 

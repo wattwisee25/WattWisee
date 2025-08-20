@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AccessComponent } from './access/access';
 import { LoginComponent } from './login/login';
+import { OtpComponent } from './otp/otp';
 import { CreateAccountComponent } from './create-account/create-account';
 import { HomeComponent } from './home/home';
 import { NewProjectComponent } from './first-new-project/first-new-project';
@@ -29,6 +30,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password';
 export const routes: Routes = [
     { path: '', component: AccessComponent },   
     { path: 'login', component: LoginComponent },
+    { path: 'otp', component: OtpComponent },
     { path: 'create-account', component: CreateAccountComponent},
     { path: 'home', component: HomeComponent },
     { path: 'create-new-project', component: NewProjectComponent }, 

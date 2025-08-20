@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         } else {
           localStorage.removeItem('rememberedEmail');
         }
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/otp'], { queryParams: { email: this.email } });
       },
       error: (err) => {
         this.loginError = 'Incorrect email or password';

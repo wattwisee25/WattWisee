@@ -1,0 +1,75 @@
+.otp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #c1dbe3;
+}
+
+.logo{
+  width: 200px;
+  margin: 0 auto 30px;
+  display: block;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #31545b;
+}
+
+.otp-content input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1.5px solid #bbb;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.otp-content input:focus {
+  border-color: #31545b;
+  outline: none;
+  box-shadow: 0 0 6px #31545b;
+}
+
+.otp-btn{
+  background-color: #31545b;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 70%;
+  cursor: pointer;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.otp-content button:disabled {
+  background-color: #a8c1f7;
+  cursor: not-allowed;
+}
+
+.otp-content button:hover:not(:disabled) {
+  background-color: #f6ffa2;
+  color: #000000;
+  transition: 0.3s ease;
+}
+
+.info{
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}

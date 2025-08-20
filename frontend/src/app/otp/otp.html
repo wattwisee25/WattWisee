@@ -1,0 +1,31 @@
+<!-- otp.component.html -->
+<div class="otp-container">
+  <img class="logo" src="assets/img/logo.png" alt="WattWisee" />
+<div class="otp-content">
+  <h2>OTP verification</h2>
+  <p>We have sent an email to <strong>{{ email }}</strong>, please check your mailbox.</p>
+  
+  <form (ngSubmit)="verifyOtp()">
+    <label for="otp">OTP code:</label>
+    <input
+      type="text"
+      id="otp"
+      name="otp"
+      [(ngModel)]="otp"
+      maxlength="6"
+      required
+      pattern="[0-9]{6}"
+      placeholder="123456"
+    />
+
+    <button class="otp-btn" type="submit">Verify</button>
+  </form>
+
+  <!-- Messaggio errore o info -->
+  <p class="info">Your code expires in 5 minutes.</p>
+  
+  <!-- Countdown opzionale -->
+  <!-- <p *ngIf="timeLeft > 0">Tempo rimanente: {{ timeLeft }} secondi</p> -->
+</div>
+
+

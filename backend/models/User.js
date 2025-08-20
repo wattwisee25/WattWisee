@@ -10,7 +10,9 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true }, // sarà hashata prima del salvataggio
   permission_contact: { type: Boolean, required: true },
     resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+    otp: { type: String },
+  otpExpires: { type: Date }
 });
 
 module.exports = mongoose.model('User', UserSchema);
