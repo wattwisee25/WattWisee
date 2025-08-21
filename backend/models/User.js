@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   contact_name: { type: String, required: true },
@@ -9,10 +9,12 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true }, // evita doppie registrazioni
   password: { type: String, required: true }, // sarà hashata prima del salvataggio
   permission_contact: { type: Boolean, required: true },
-    resetPasswordToken: String,
+  resetPasswordToken: String,
   resetPasswordExpires: Date,
-    otp: { type: String },
+  otp: { type: String },
   otpExpires: { type: Date }
 });
 
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
+
+export default User;

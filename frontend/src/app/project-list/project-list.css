@@ -1,0 +1,23 @@
+.project-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  background-color: #ffffff;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .project-container {
+    margin-left: 250px; /* ad esempio per compensare il menu fisso */
+  }
+
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}

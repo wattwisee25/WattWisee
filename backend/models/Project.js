@@ -1,5 +1,5 @@
 // backend/models/Project.js
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const buildingSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -8,7 +8,10 @@ const buildingSchema = new mongoose.Schema({
 
 const projectSchema = new mongoose.Schema({
   projectName: { type: String, required: true },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   buildings: [buildingSchema] // array di buildings
 }, { timestamps: true });
 
-module.exports = mongoose.model('Project', projectSchema);
+const Project = mongoose.model("Project", projectSchema);
+
+export default Project;

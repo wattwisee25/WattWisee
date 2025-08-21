@@ -1,33 +1,32 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const router = express.Router();
-const User = require('../models/User');
-const authMiddleware = require('../middlewares/auth.middleware');
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersegreto'; // chiave di test
+import User from '../models/User.js';
+import authMiddleware from '../middlewares/auth.middleware.js';
+
+const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET || 'supersegreto'; // fallback
 
 let transporter;
 
-// Inizializza Nodemailer con account Ethereal
+// ==================== INIZIALIZZA NODEMAILER ====================
 (async () => {
   try {
-    const testAccount = await nodemailer.createTestAccount();
     transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
+      service: "gmail",
       auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
     });
-    console.log('Nodemailer pronto con account Ethereal');
-    console.log('User:', testAccount.user);
-    console.log('Pass:', testAccount.pass);
+    console.log("Nodemailer ready with Gmail:", process.env.EMAIL_USER);
   } catch (err) {
-    console.error('Errore creazione account Ethereal:', err);
+    console.error("Error creating transporter:", err);
   }
 })();
 
@@ -36,29 +35,44 @@ router.post('/', async (req, res) => {
   try {
     const { password, ...rest } = req.body;
 
+    // Hash della password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Creo il nuovo utente
     const newUser = new User({ ...rest, password: hashedPassword });
-    await newUser.save();
+    await newUser.save(); // Utente salvato nel DB
 
-    // Email di conferma
-    const mailOptions = {
-      from: '"WattWisee Support" <no-reply@wattwisee.com>',
-      to: newUser.email,
-      subject: 'Confirmation Email - WattWisee',
-      text: `Hi ${newUser.contact_name || ''}, thank you for your registration!`,
-      html: `<p>Hi ${newUser.contact_name || ''},</p><p>Thank you for registering on <b>WattWisee</b>!</p>`,
-    };
+    // Provo a inviare email ma non blocco la registrazione se fallisce
+    if (transporter) {
+      const mailOptions = {
+        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+        to: newUser.email,
+        subject: 'Confirmation Email - WattWisee',
+        text: `Hi ${newUser.contact_name || ''}, thank you for your registration!`,
+        html: `<p>Hi ${newUser.contact_name || ''},</p><p>Thank you for registering on <b>WattWisee</b>!</p>`,
+      };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Mail inviata: %s', info.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+      transporter.sendMail(mailOptions)
+        .then(() => console.log('Confirmation email sent'))
+        .catch((err) => console.error('Email sending failed:', err));
+    }
 
-    res.status(201).json({ message: 'Registration successful! Check console for Ethereal preview URL.' });
+    // Rispondo subito ad Angular
+    res.status(201).json({ message: 'User registered successfully. Confirmation email sent.' });
+
   } catch (err) {
-    console.error('Errore registrazione:', err);
-    res.status(500).json({ error: 'Registration failed.' });
+    console.error('Registration error:', err);
+
+    // Controllo specifico per email già registrata
+    if (err.code === 11000 && err.keyValue?.email) {
+      return res.status(400).json({ message: 'Email already registered' });
+    }
+
+    // Qualsiasi altro errore
+    res.status(500).json({ message: 'Registration failed' });
   }
 });
+
 
 // ==================== LOGIN ====================
 router.post('/login', async (req, res) => {
@@ -70,7 +84,6 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Incorrect password' });
 
-    // Genera OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpires = new Date(Date.now() + 5 * 60 * 1000);
 
@@ -78,23 +91,24 @@ router.post('/login', async (req, res) => {
     user.otpExpires = otpExpires;
     await user.save();
 
-    const info = await transporter.sendMail({
-      from: '"WattWisee Support" <no-reply@wattwisee.com>',
-      to: user.email,
-      subject: 'Your OTP Code',
-      text: `Your OTP code is: ${otp}, if you did not request this, please ignore this email.`,
-      html: `<p>Your OTP code is: <b>${otp}</b></p></br> <p>If you did not request this, please ignore this email.</p>`,
-    });
+    if (transporter) {
+      await transporter.sendMail({
+        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+        to: user.email,
+        subject: 'Your OTP Code',
+        text: `Your OTP code is: ${otp}. If you did not request this, please ignore this email.`,
+        html: `<p>Your OTP code is: <b>${otp}</b></p><p>If you did not request this, please ignore this email.</p>`,
+      });
+    }
 
-    console.log('Preview OTP URL: %s', nodemailer.getTestMessageUrl(info));
-    res.json({ message: 'OTP sent. Check console for Ethereal preview URL.' });
+    res.json({ message: 'OTP sent via email.' });
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// ==================== VERIFICA OTP ====================
+// ==================== VERIFY OTP ====================
 router.post('/verify-otp', async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -105,12 +119,10 @@ router.post('/verify-otp', async (req, res) => {
       return res.status(400).json({ message: 'Invalid or expired OTP' });
     }
 
-    // Reset OTP
     user.otp = null;
     user.otpExpires = null;
     await user.save();
 
-    // Genera JWT
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
   } catch (err) {
@@ -119,7 +131,19 @@ router.post('/verify-otp', async (req, res) => {
   }
 });
 
-// ==================== UPDATE PROFILO ====================
+// ==================== GET PROFILE ====================
+router.get('/me', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    console.error('GET /me error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// ==================== UPDATE PROFILE ====================
 router.put('/me', authMiddleware, async (req, res) => {
   try {
     const updates = req.body;
@@ -131,7 +155,7 @@ router.put('/me', authMiddleware, async (req, res) => {
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json(user);
   } catch (err) {
-    console.error(err);
+    console.error('PUT /me error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -161,21 +185,19 @@ router.post('/forgot-password', async (req, res) => {
     await user.save();
 
     const resetLink = `http://localhost:4200/reset-password/${token}`;
-
-    const mailOptions = {
-      from: '"WattWisee Support" <no-reply@wattwisee.com>',
-      to: email,
-      subject: 'Password Reset Request - WattWisee',
-      text: `Reset your password: ${resetLink}`,
-      html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Preview reset password URL: %s', nodemailer.getTestMessageUrl(info));
+    if (transporter) {
+      await transporter.sendMail({
+        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+        to: email,
+        subject: 'Password Reset Request - WattWisee',
+        text: `Reset your password: ${resetLink}`,
+        html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
+      });
+    }
 
     res.json({ message: 'If this email exists, you will receive reset instructions.' });
   } catch (err) {
-    console.error('Errore forgot-password:', err);
+    console.error('Forgot-password error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -199,7 +221,7 @@ router.post('/reset-password', async (req, res) => {
 
     res.json({ message: 'Password reset successful' });
   } catch (err) {
-    console.error('Errore reset-password:', err);
+    console.error('Reset-password error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -209,11 +231,26 @@ router.delete('/me', authMiddleware, async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
+
+    if (transporter) {
+      try {
+        await transporter.sendMail({
+          from: '"WattWisee Support" <no-reply@wattwisee.com>',
+          to: user.email,
+          subject: 'Account Deletion Confirmation - WattWisee',
+          text: `Hi ${user.contact_name || ''}, your account has been successfully deleted from WattWisee.`,
+          html: `<p>Hi ${user.contact_name || ''},</p><p>Your account has been <b>successfully deleted</b> from <b>WattWisee</b>.</p>`,
+        });
+      } catch (mailErr) {
+        console.error("Error sending account deletion email:", mailErr);
+      }
+    }
+
     res.json({ message: 'User deleted successfully' });
   } catch (err) {
-    console.error('Errore delete user:', err);
+    console.error('Delete user error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-module.exports = router;
+export default router;

@@ -2,8 +2,27 @@
     <app-menu></app-menu>
 </header>
 <h2>Lista Progetti</h2>
+<div class="project-container">
 <ul>
-  <li *ngFor="let project of projects">
-    {{ project.name }} - {{ project.description }}
-  </li>
+  @for (project of projects; track project._id) {
+    <li>
+      <h3>{{ project.projectName }}</h3>
+      <img 
+        [src]="project.buildings[0]?.imageUrl" 
+        alt="Immagine edificio"
+        width="200"
+      >
+    </li>
+  }
 </ul>
+
+
+@if (projects.length === 0) {
+  <p>Nessun progetto trovato.</p>
+}
+
+</div>
+<!-- Caso nessun progetto -->
+@if (projects.length === 0) {
+  <p>Nessun progetto trovato.</p>
+}

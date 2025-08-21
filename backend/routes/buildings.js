@@ -1,10 +1,10 @@
-const express = require('express');
+import express from "express";
+import Building from "../models/Building.js"; // attenzione al .js
+
 const router = express.Router();
-const Building = require('../models/Building');
-// modello mongoose dei buildings
 
 // GET - restituisce tutti i buildings
-router.get('/buildings', async (req, res) => {
+router.get("/buildings", async (req, res) => {
   try {
     const buildings = await Building.find();
     res.json(buildings);
@@ -13,4 +13,4 @@ router.get('/buildings', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
