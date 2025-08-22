@@ -53,15 +53,15 @@ export class SettingComponent {
   }
 
 deleteAccount() {
-    if (confirm('Sei sicura di voler eliminare il tuo account? Questa azione è irreversibile.')) {
+    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       this.userService.deleteAccount().subscribe({
         next: () => {
-          alert('Account eliminato con successo');
+          alert('Account deleted successfully.');
           // qui pulisci eventuali dati di sessione/localStorage
           this.router.navigate(['/login']);
         },
         error: (err) => {
-          this.errorMessage = 'Errore durante l\'eliminazione dell\'account: ' + (err.error?.message || err.message);
+          this.errorMessage = 'Error deleting account: ' + (err.error?.message || err.message);
         }
       });
     }

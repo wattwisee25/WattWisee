@@ -13,22 +13,29 @@
           maxlength="6"
           placeholder="Enter 6-digit code"
           class="form-control">
-        <div *ngIf="verifyForm.get('code')?.invalid && verifyForm.get('code')?.touched" class="error">
+          @if(verifyForm.get('code')?.touched && verifyForm.get('code')?.valid){
+        <div class="error">
           Please enter a valid 6-digit code
         </div>
+      }
       </div>
-
-      <div *ngIf="error" class="alert alert-danger">
+      @if(error){
+      <div class="alert alert-danger">
         {{ error }}
       </div>
-
-      <div *ngIf="success" class="alert alert-success">
+    }
+     @if(success){
+            <div class="alert alert-success">
         {{ success }}
       </div>
+    }
+
 
       <button type="submit" [disabled]="loading || verifyForm.invalid" class="btn btn-primary">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        @if(loading){
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ loading ? 'Verifying...' : 'Verify Email' }}
+        }
       </button>
     </form>
 

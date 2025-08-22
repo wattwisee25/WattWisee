@@ -118,6 +118,17 @@ p{
     opacity: 50%;
 }
 
+.modal-overlay {
+    position: fixed;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+
 .modal-buttons {
   display: flex;
   justify-content: space-evenly;
