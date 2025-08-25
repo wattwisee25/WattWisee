@@ -4,6 +4,7 @@ import { MenuComponent } from './menu/menu';
 import { HttpClient } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { DeepseekService } from './services/deepseek.service';
 
 
 @Component({
@@ -16,12 +17,21 @@ import { CommonModule } from '@angular/common';
 export class App {
   protected title = 'WattWisee';
   users: any[] = [];
+  query: string = '';
+  results: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private deepseekService: DeepseekService) {}
 
   loadUsers() {
     this.http.get<any[]>('http://localhost:3000/users').subscribe(data => {
       this.users = data;
+    });
+  }
+
+   onSearch() {
+    this.deepseekService.search(this.query).subscribe({
+      next: (data) => this.results = data,
+      error: (err) => console.error(err)
     });
   }
 }

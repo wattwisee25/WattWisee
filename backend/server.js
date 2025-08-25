@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import usersRouter from "./routes/users.js";
 import projectsRouter from "./routes/projects.js";
 import buildingsRouter from "./routes/buildings.js";
+import deepseekRoutes from './routes/deepseek.js';
 
 dotenv.config();
 console.log('EMAIL_USER:', process.env.EMAIL_USER);
@@ -21,12 +22,12 @@ const app = express();
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
-app.use(
-  cors({
-    origin: "http://localhost:4200",
-    credentials: true,
-  })
-);
+
+app.use(cors({
+  origin: 'http://localhost:4200', // il tuo frontend Angular
+  credentials: true,               // ⚠️ necessario per cookie
+}));
+
 
 app.use(cookieParser());
 
@@ -34,6 +35,7 @@ app.use(cookieParser());
 app.use("/api/users", usersRouter);
 app.use("/api/projects", projectsRouter);
 app.use("/api/buildings", buildingsRouter);
+app.use('/api/deepseek', deepseekRoutes);
 
 // MongoDB connection
 mongoose

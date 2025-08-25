@@ -6,7 +6,11 @@
     <h2>Upload your bills</h2>
 
     <!-- Project name -->
-    <h3>Select the building you want to upload bills for:</h3>
+<h3>Select the building you want to upload bills for:</h3>
+<select [(ngModel)]="selectedBuildingId">
+  <option [value]="null">-- Select a building --</option>
+  <option *ngFor="let b of buildings" [value]="b._id">{{ b.name }}</option>
+</select>
 
       <!-- Barra scorrimento immagini -->
       <div class="scroll-bar">

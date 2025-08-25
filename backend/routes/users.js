@@ -44,13 +44,42 @@ router.post('/', async (req, res) => {
 
     // Provo a inviare email ma non blocco la registrazione se fallisce
     if (transporter) {
-      const mailOptions = {
-        from: '"WattWisee Support" <no-reply@wattwisee.com>',
-        to: newUser.email,
-        subject: 'Confirmation Email - WattWisee',
-        text: `Hi ${newUser.contact_name || ''}, thank you for your registration!`,
-        html: `<p>Hi ${newUser.contact_name || ''},</p><p>Thank you for registering on <b>WattWisee</b>!</p>`,
-      };
+const mailOptions = {
+  from: '"WattWisee Support" <no-reply@wattwisee.com>',
+  to: newUser.email,
+  subject: 'Welcome to WattWisee!',
+  text: `Hi ${newUser.contact_name || ''}, thank you for registering!`,
+  html: `
+    <div style="font-family: "Space grotesk", sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      <div style="background-color: #c1dbe3; padding: 20px; text-align: center; color: white;">
+      <img src="cid:logo" alt="WattWisee Logo" style="height: 60px; margin-bottom: 20px;" />
+        <h2 style="color: #31545b">Welcome to WattWisee!</h2>
+      </div>
+      <div style="padding: 20px; color: #333;">
+        <p>Hi <strong>${newUser.contact_name || 'there'}</strong>,</p>
+        <p>Thank you for registering on <b>WattWisee</b>! We're excited to have you on board.</p>
+        <p>To get started, log in to your account and explore our features.</p>
+        <p style="text-align: center; margin-top: 30px;">
+          <a href="http://localhost:4200/login" 
+             style="background-color: #c1dbe3; color: #31545b; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+             Login to Your Account
+          </a>
+        </p>
+      </div>
+      <div style="background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888;">
+        © 2025 WattWisee. All rights reserved.
+      </div>
+    </div>
+  `,
+    attachments: [
+    {
+      filename: 'logo.png',
+      path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png', // percorso relativo al backend
+      cid: 'logo' // deve corrispondere al src
+    }
+  ]
+};
+
 
       transporter.sendMail(mailOptions)
         .then(() => console.log('Confirmation email sent'))
@@ -92,13 +121,41 @@ router.post('/login', async (req, res) => {
     await user.save();
 
     if (transporter) {
-      await transporter.sendMail({
-        from: '"WattWisee Support" <no-reply@wattwisee.com>',
-        to: user.email,
-        subject: 'Your OTP Code',
-        text: `Your OTP code is: ${otp}. If you did not request this, please ignore this email.`,
-        html: `<p>Your OTP code is: <b>${otp}</b></p><p>If you did not request this, please ignore this email.</p>`,
-      });
+     await transporter.sendMail({
+  from: '"WattWisee Support" <no-reply@wattwisee.com>',
+  to: user.email,
+  subject: 'Your OTP Code - WattWisee',
+  text: `Your OTP code is: ${otp}. If you did not request this, please ignore this email.`,
+  html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+      <div style="text-align: center;">
+        <img src="cid:logo" alt="WattWisee Logo" style="height: 60px; margin-bottom: 20px;" />
+      </div>
+      <h2 style="color: #333;">Your One-Time Password (OTP)</h2>
+      <p style="font-size: 16px; color: #555;">Hi ${user.contact_name || ''},</p>
+      <p style="font-size: 16px; color: #555;">
+        Your OTP code for WattWisee is:
+      </p>
+      <p style="font-size: 24px; font-weight: bold; color: #31545b; text-align: center; margin: 20px 0;">
+        ${otp}
+      </p>
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="http://localhost:4200/login" style="background-color: #31545b; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Go to WattWisee</a>
+      </div>
+      <p style="font-size: 14px; color: #888; text-align: center;">
+        If you did not request this code, please ignore this email.
+      </p>
+    </div>
+  `,
+  attachments: [
+    {
+      filename: 'logo.png',
+      path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png', // percorso relativo al backend
+      cid: 'logo' // deve corrispondere al src
+    }
+  ]
+});
+
     }
 
     res.json({ message: 'OTP sent via email.' });
