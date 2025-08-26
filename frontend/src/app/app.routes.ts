@@ -26,6 +26,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password';
 import { ResetPasswordComponent } from './reset-password/reset-password';
 
 
+import { BillExample } from './bill-example/bill-example';
+
 
 export const routes: Routes = [
     { path: '', component: AccessComponent },   
@@ -50,7 +52,10 @@ export const routes: Routes = [
     { path: 'settings', component: SettingComponent },
 
     { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'reset-password/:token', component: ResetPasswordComponent },       
+    { path: 'reset-password/:token', component: ResetPasswordComponent },   
+    
+    
+    { path: 'bill-example', component: BillExample },
 ];
 
 @NgModule({

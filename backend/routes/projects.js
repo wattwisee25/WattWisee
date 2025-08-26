@@ -1,28 +1,34 @@
 import express from "express";
 import Project from "../models/Project.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
+
+ // importa il middleware di autenticazione
 
 const router = express.Router();
 
-// Salvataggio progetto
-router.post("/", async (req, res) => {
+// POST: crea un nuovo progetto
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const { projectName, buildings } = req.body;
 
-    if (!projectName) {
-      return res
-        .status(400)
-        .json({ message: "Il nome del progetto è obbligatorio" });
-    }
+    console.log("Project received", projectName, buildings);
 
-    const newProject = new Project({ projectName, buildings });
+    // Creazione del progetto collegato all'utente loggato
+    const newProject = new Project({
+      projectName,
+      buildings,
+      owner: req.user._id   // 🔑 qui usiamo l'id dell'utente autenticato
+    });
+
     await newProject.save();
 
-    res
-      .status(201)
-      .json({ message: "Progetto creato con successo", project: newProject });
+    res.status(201).json({
+      message: "Project created successfully",
+      project: newProject
+    });
   } catch (err) {
-    console.error("Errore salvataggio progetto:", err);
-    res.status(500).json({ message: "Errore del server" });
+    console.error("Error while saving:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

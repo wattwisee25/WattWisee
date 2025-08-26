@@ -6,19 +6,16 @@ import { processFile } from '../utils/deepseek.js';
 
 const router = express.Router();
 
-// cartella temporanea per gli upload
+// Cartella temporanea per gli upload
 const uploadDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
-// Config Multer
+// Configurazione Multer
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
+  destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
-    // salva file con timestamp per evitare conflitti
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, `${uniqueSuffix}-${file.originalname}`);
   }
@@ -26,8 +23,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Rotta per upload e analisi con DeepSeek
-router.post('/upload', upload.single('file'), async (req, res) => {
+// Rotta POST per processare il file
+router.post('/', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'Nessun file caricato' });
@@ -35,17 +32,17 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
     console.log('File ricevuto:', req.file.path);
 
-    // chiamata alla funzione che manda il file a DeepSeek
+    // Chiamata alla funzione che manda il file a DeepSeek
     const result = await processFile(req.file.path);
 
-    // qui potrai estrarre i dati e salvarli nel DB
-    res.json({
+    // Risposta al frontend
+    res.status(200).json({
       message: 'File processato con successo',
       deepseekData: result
     });
 
   } catch (error) {
-    console.error('Errore durante l’upload/analisi:', error.message);
+    console.error('Errore durante l’upload/analisi:', error);
     res.status(500).json({ error: 'Errore interno durante l’analisi del file' });
   }
 });
