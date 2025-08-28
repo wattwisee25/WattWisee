@@ -61,32 +61,29 @@ export class PersonalDataComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    console.log('Submit chiamato', form.value); // DEBUG
-
-    if (form.invalid) {
-      this.errorMessage = 'Please fill out all required fields correctly.';
-      return;
-    }
-
-    if (this.personalData.password !== this.personalData.repeat_password) {
-      this.errorMessage = 'Passwords do not match';
-      return;
-    }
-
-    const { repeat_password, ...dataToSend } = this.personalData;
-
-    this.authService.updateUser(dataToSend).subscribe({
-      next: (updatedUser) => {
-        alert('Data updated successfully');
-        this.personalData = { ...updatedUser, password: '', repeat_password: '' };
-        this.backupData = { ...this.personalData };
-        this.editing = false;
-        this.errorMessage = '';
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Error updating data');
-      }
-    });
+  console.log('Submit chiamato', form.value);
+  if (form.invalid) {
+    this.errorMessage = 'Please fill out all required fields correctly.';
+    return;
   }
+
+  if (this.personalData.password !== this.personalData.repeat_password) {
+    this.errorMessage = 'Passwords do not match';
+    return;
+  }
+
+  const { repeat_password, ...dataToSend } = this.personalData;
+  console.log('Dati da inviare:', dataToSend);
+
+  this.authService.updateUser(dataToSend).subscribe({
+    next: (updatedUser) => {
+      console.log('UpdateUser success', updatedUser);
+      this.editing = false;  //
+    },
+    error: (err) => {
+      console.error('UpdateUser error', err);
+    }
+  });
+}
+
 }
