@@ -1,16 +1,20 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "supersegreto";
+
 
 function authMiddleware(req, res, next) {
+  const JWT_SECRET = process.env.JWT_SECRET;
   try {
     const token = req.cookies.token;  // leggi il cookie 'token'
+    console.log('JWT_SECRET:', JWT_SECRET);
+
+    console.log("Token from cookie:", token);
     if (!token) {
       return res.status(401).json({ message: "No token, authorization denied" });
     }
 
     const decoded = jwt.verify(token, JWT_SECRET); // verifica token
-    req.userId = decoded.userId; // salva userId nella request per usarlo nelle route protette
+    req.userId = decoded.id; // <--- usa 'id' come nel token
     next();
   } catch (err) {
     console.error("Auth middleware error:", err);

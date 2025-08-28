@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { MenuComponent } from "../menu/menu";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-personal-data',
   templateUrl: './personal-data.html',
   styleUrls: ['./personal-data.css'],
   standalone: true,
-  imports: [FormsModule, MenuComponent, CommonModule]  // IMPORTANTE FormsModule qui!
+  imports: [FormsModule, MenuComponent, CommonModule]
 })
 export class PersonalDataComponent implements OnInit {
-   personalData: any = {
+  personalData = {
     contact_name: '',
     company_name: '',
     register_as: '',
@@ -25,55 +24,69 @@ export class PersonalDataComponent implements OnInit {
     repeat_password: '',
     permission_contact: false
   };
-  loading: boolean = true;
-  errorMessage: string = '';
-   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
+  backupData: any = {};
+  loading = true;
+  editing = false;
+  errorMessage = '';
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.loadUserData();
+  }
+
+  loadUserData() {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
-        this.personalData = {
-          contact_name: user.contact_name || '',
-          company_name: user.company_name || '',
-          register_as: user.register_as || '',
-          SEAI_number: user.SEAI_number || '',
-          phone: user.phone || '',
-          email: user.email || '',
-          password: '',
-          repeat_password: '',
-          permission_contact: user.permission_contact || false
-        };
+        this.personalData = { ...user, password: '', repeat_password: '' };
         this.loading = false;
       },
       error: () => {
-        this.errorMessage = 'Errore nel caricamento dati';
+        this.errorMessage = 'Error loading user data';
         this.loading = false;
       }
     });
   }
 
+  enableEdit() {
+    this.editing = true;
+    this.backupData = { ...this.personalData };
+  }
+
+  cancelEdit() {
+    this.editing = false;
+    this.personalData = { ...this.backupData };
+    this.errorMessage = '';
+  }
+
   onSubmit(form: any) {
-     console.log('Submit chiamato', form);
+    console.log('Submit chiamato', form.value); // DEBUG
+
     if (form.invalid) {
-      this.errorMessage = 'Per favore, compila tutti i campi richiesti correttamente.';
+      this.errorMessage = 'Please fill out all required fields correctly.';
       return;
     }
 
     if (this.personalData.password !== this.personalData.repeat_password) {
-      this.errorMessage = 'Le password non corrispondono';
+      this.errorMessage = 'Passwords do not match';
       return;
     }
 
     const { repeat_password, ...dataToSend } = this.personalData;
 
     this.authService.updateUser(dataToSend).subscribe({
-      next: () => {
-        alert('Dati aggiornati con successo!');
+      next: (updatedUser) => {
+        alert('Data updated successfully');
+        this.personalData = { ...updatedUser, password: '', repeat_password: '' };
+        this.backupData = { ...this.personalData };
+        this.editing = false;
         this.errorMessage = '';
-        this.personalData.password = '';
-        this.personalData.repeat_password = '';
       },
-      error: () => alert('Errore durante l\'aggiornamento')
+      error: (err) => {
+        console.error(err);
+        alert('Error updating data');
+      }
     });
   }
 }

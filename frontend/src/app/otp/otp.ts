@@ -23,7 +23,13 @@ export class OtpComponent {
   verifyOtp() {
     this.auth.verifyOtp(this.email, this.otp).subscribe({
       next: (res) => {
-        localStorage.setItem('token', res.token);
+// Dopo aver ricevuto il token dal backend
+const token = res.token; // oppure res['token']
+
+// Salvo il token in cookie
+document.cookie = `token=${token}; path=/; samesite=strict;`;
+// secure va messo solo se sei in HTTPS
+
         this.router.navigate(['/profile']);
       },
       error: (err) => alert(err.error.message)

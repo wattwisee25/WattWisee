@@ -3,14 +3,13 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import User from '../models/User.js';
+import authMiddleware from '../middlewares/auth.middleware.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import User from '../models/User.js';
-import authMiddleware from '../middlewares/auth.middleware.js';
-
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'supersegreto'; // fallback
+const JWT_SECRET = process.env.JWT_SECRET; // fallback
 
 let transporter;
 
@@ -31,6 +30,7 @@ let transporter;
 })();
 
 // ==================== REGISTRAZIONE ====================
+// ==================== REGISTRAZIONE ====================
 router.post('/', async (req, res) => {
   try {
     const { password, ...rest } = req.body;
@@ -42,48 +42,49 @@ router.post('/', async (req, res) => {
     const newUser = new User({ ...rest, password: hashedPassword });
     await newUser.save(); // Utente salvato nel DB
 
-    // Provo a inviare email ma non blocco la registrazione se fallisce
+    // Provo a inviare email
     if (transporter) {
-const mailOptions = {
-  from: '"WattWisee Support" <no-reply@wattwisee.com>',
-  to: newUser.email,
-  subject: 'Welcome to WattWisee!',
-  text: `Hi ${newUser.contact_name || ''}, thank you for registering!`,
-  html: `
-    <div style="font-family: "Space grotesk", sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-      <div style="background-color: #c1dbe3; padding: 20px; text-align: center; color: white;">
-      <img src="cid:logo" alt="WattWisee Logo" style="height: 60px; margin-bottom: 20px;" />
-        <h2 style="color: #31545b">Welcome to WattWisee!</h2>
-      </div>
-      <div style="padding: 20px; color: #333;">
-        <p>Hi <strong>${newUser.contact_name || 'there'}</strong>,</p>
-        <p>Thank you for registering on <b>WattWisee</b>! We're excited to have you on board.</p>
-        <p>To get started, log in to your account and explore our features.</p>
-        <p style="text-align: center; margin-top: 30px;">
-          <a href="http://localhost:4200/login" 
-             style="background-color: #c1dbe3; color: #31545b; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-             Login to Your Account
-          </a>
-        </p>
-      </div>
-      <div style="background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888;">
-        © 2025 WattWisee. All rights reserved.
-      </div>
-    </div>
-  `,
-    attachments: [
-    {
-      filename: 'logo.png',
-      path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png', // percorso relativo al backend
-      cid: 'logo' // deve corrispondere al src
-    }
-  ]
-};
+      const mailOptions = {
+        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+        to: newUser.email,
+        subject: 'Welcome to WattWisee!',
+        text: `Hi ${newUser.contact_name || ''}, thank you for registering!`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <div style="background-color: #c1dbe3; padding: 20px; text-align: center; color: white;">
+              <img src="cid:logo" alt="WattWisee Logo" style="height: 60px; margin-bottom: 20px;" />
+              <h2 style="color: #31545b">Welcome to WattWisee!</h2>
+            </div>
+            <div style="padding: 20px; color: #333;">
+              <p>Hi <strong>${newUser.contact_name || 'there'}</strong>,</p>
+              <p>Thank you for registering on <b>WattWisee</b>! We're excited to have you on board.</p>
+              <p style="text-align: center; margin-top: 30px;">
+                <a href="http://localhost:4200/login" 
+                   style="background-color: #c1dbe3; color: #31545b; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                   Login to Your Account
+                </a>
+              </p>
+            </div>
+            <div style="background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888;">
+              © 2025 WattWisee. All rights reserved.
+            </div>
+          </div>
+        `,
+        attachments: [
+          {
+            filename: 'logo.png',
+            path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png', // percorso accessibile al backend
+            cid: 'logo' // corrisponde al src
+          }
+        ]
+      };
 
-
-      transporter.sendMail(mailOptions)
-        .then(() => console.log('Confirmation email sent'))
-        .catch((err) => console.error('Email sending failed:', err));
+      try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Confirmation email sent:', info.response);
+      } catch (emailErr) {
+        console.error('Email sending failed:', emailErr);
+      }
     }
 
     // Rispondo subito ad Angular
@@ -201,21 +202,53 @@ router.get('/me', authMiddleware, async (req, res) => {
 });
 
 // ==================== UPDATE PROFILE ====================
-router.put('/me', authMiddleware, async (req, res) => {
+router.put("/me", authMiddleware, async (req, res) => {
   try {
-    const updates = req.body;
-    delete updates.password;
-    delete updates.email;
-    delete updates.registered_as;
+    console.log("===== DEBUG UPDATE USER =====");
+    console.log("req.userId:", req.userId);
+    console.log("req.body:", req.body);
 
-    const user = await User.findByIdAndUpdate(req.userId, updates, { new: true }).select('-password');
-    if (!user) return res.status(404).json({ message: 'User not found' });
-    res.json(user);
+    if (!req.userId) {
+      console.log("Errore: req.userId non definito. Auth fallita?");
+      return res.status(401).json({ message: "Utente non autenticato" });
+    }
+
+    const user = await User.findById(req.userId);
+    if (!user) {
+      console.log("Errore: utente non trovato nel DB");
+      return res.status(404).json({ message: "Utente non trovato" });
+    }
+
+    const { password, ...updateData } = req.body;
+
+    // Aggiorna i campi
+    user.contact_name = updateData.contact_name ?? user.contact_name;
+    user.company_name = updateData.company_name ?? user.company_name;
+    user.register_as = updateData.register_as ?? user.register_as;
+    user.SEAI_number = updateData.SEAI_number ?? user.SEAI_number;
+    user.phone = updateData.phone ?? user.phone;
+    user.email = updateData.email ?? user.email;
+    user.permission_contact = updateData.permission_contact ?? user.permission_contact;
+
+    // Aggiorna la password se presente
+    if (password && password.trim() !== "") {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+
+    const savedUser = await user.save();
+    console.log("Utente salvato:", savedUser);
+
+    const { password: _, ...userWithoutPassword } = savedUser.toObject();
+    res.json(userWithoutPassword);
+
   } catch (err) {
-    console.error('PUT /me error:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error("Errore aggiornamento utente:", err);
+    res.status(500).json({ message: "Errore server" });
   }
 });
+
+
 
 // ==================== LOGOUT ====================
 router.post('/logout', (req, res) => {
@@ -242,15 +275,50 @@ router.post('/forgot-password', async (req, res) => {
     await user.save();
 
     const resetLink = `http://localhost:4200/reset-password/${token}`;
-    if (transporter) {
-      await transporter.sendMail({
-        from: '"WattWisee Support" <no-reply@wattwisee.com>',
-        to: email,
-        subject: 'Password Reset Request - WattWisee',
-        text: `Reset your password: ${resetLink}`,
-        html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
-      });
-    }
+
+if (transporter) {
+  try {
+    await transporter.sendMail({
+      from: '"WattWisee Support" <no-reply@wattwisee.com>',
+      to: email,
+      subject: 'Reset Your WattWisee Password',
+      text: `Hi ${user.contact_name || ''}, reset your password here: ${resetLink}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <div style="background-color: #c1dbe3; padding: 20px; text-align: center; color: white;">
+            <img src="cid:logo" alt="WattWisee Logo" style="height: 60px; margin-bottom: 20px;" />
+            <h2 style="color: #31545b">Password Reset Requested</h2>
+          </div>
+          <div style="padding: 20px; color: #333;">
+            <p>Hi <strong>${user.contact_name || 'there'}</strong>,</p>
+            <p>We received a request to reset your password for your <b>WattWisee</b> account.</p>
+            <p style="text-align: center; margin: 20px 0;">
+              <a href="${resetLink}" 
+                 style="background-color: #31545b; color: white; text-decoration: none; padding: 12px 25px; border-radius: 5px; font-weight: bold;">
+                 Reset Your Password
+              </a>
+            </p>
+            <p>If you did not request this, you can safely ignore this email. Your password will remain unchanged.</p>
+          </div>
+          <div style="background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888;">
+            © 2025 WattWisee. All rights reserved.
+          </div>
+        </div>
+      `,
+      attachments: [
+        {
+          filename: 'logo.png',
+          path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png',
+          cid: 'logo'
+        }
+      ]
+    });
+    console.log('Password reset email sent');
+  } catch (err) {
+    console.error('Password reset email failed:', err);
+  }
+}
+
 
     res.json({ message: 'If this email exists, you will receive reset instructions.' });
   } catch (err) {

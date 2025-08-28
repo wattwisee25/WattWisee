@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.checkAuthStatus().subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        this.router.navigate(['/glossary']);
+        this.router.navigate(['/profile']);
       }
     });
   }

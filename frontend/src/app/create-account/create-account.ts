@@ -51,7 +51,7 @@ export class CreateAccountComponent {
     this.http.post('http://localhost:3000/api/users', payload).subscribe({
       next: (res: any) => {
         console.log('Successful registration:', res);
-        this.router.navigate(['/create-new-project']);
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('Recording error:', err);

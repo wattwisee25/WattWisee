@@ -1,88 +1,56 @@
-/* Contenitore principale della pagina */
+/* Contenitore principale */
 .personal-data-container {
-    display: flex;
-  justify-content: center;
-  justify-items: center;
+  display: flex;
+  padding: 2rem 1rem;
   min-height: 100dvh;
   background-color: #ffffff;
-  padding: 2rem 1rem;
+  color: #31545b;
   box-sizing: border-box;
-  color:#31545b;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (min-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
   .personal-data-container {
-    margin-left: 250px; /* ad esempio per compensare il menu fisso */
+    margin-left: 250px; /* spazio per menu laterale */
   }
 }
 
+/* Titolo */
 .title-container {
-    display: flex;
-    margin-bottom: 20px;
-    justify-content: center;
-    align-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-
-.title-container  svg{
-    width: 100px;
-    height: 100px;
-    color:#31545b;
+.title-container svg {
+  width: 80px;
+  height: 80px;
+  color: #31545b;
+  margin-right: 15px;
 }
 
-.title-container h1{
-    text-align: center;
-    color: #31545b;
-    margin-top: 30px;
-    font-weight: bold;
+.title-container h1 {
+  color: #31545b;
+  font-weight: bold;
+  margin: 0;
 }
 
-
-/* Splash layout */
-.splash {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    box-sizing: border-box;
-    flex-direction: column;
-}
-
-/* Logo */
-.logo {
-  width: 200px;
-  display: block;
-  margin: 0 auto 50px;
-}
-
-/* Card generica */
-.card {
-  width: 100%;
-  max-width: 900px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Contenitore principale del form */
-.personal-data-card {
+/* Card form */
+form {
   background-color: #31545b;
   padding: 30px;
-  border-radius: 8px;
+  border-radius: 10px;
+  height: fit-content;
+  max-width: 800px;
   width: 100%;
-  max-width: 700px;
-  color: white;
+  color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.personal-data-card h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-}
-
-/* Layout a colonne */
+/* Layout colonne */
 .form-columns {
   display: flex;
   gap: 2rem;
@@ -97,13 +65,13 @@
   min-width: 250px;
 }
 
-/* Gruppi di input */
+/* Gruppi input */
 .form-group {
   display: flex;
   align-items: center;
   background-color: #2c4b51;
   padding: 10px 12px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .form-group i {
@@ -112,30 +80,26 @@
   margin-right: 10px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="password"],
-.form-group input[type="email"],
-.form-group select {
-  background: #2c4b51;
+.form-group input {
+  flex: 1;
+  background: transparent;
   border: none;
   outline: none;
   color: white;
   font-size: 1rem;
-  flex: 1;
-    margin-right: 7px;
-}
-
-.form-group option{
-  background-color: #2c4b51;
-  color: white;
 }
 
 .form-group input::placeholder {
   color: #ccc;
 }
 
+/* Stato disabled */
+input[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
-/* Wrapper per password con icona toggle */
+/* Password wrapper */
 .input-wrapper {
   position: relative;
   width: 100%;
@@ -143,39 +107,34 @@
 
 .input-wrapper input {
   width: 100%;
-  box-sizing: border-box;
 }
 
 .toggle-eye {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: 8px;
   transform: translateY(-50%);
   cursor: pointer;
   opacity: 0.5;
 }
 
-/* Radio button orizzontali */
+/* Radio inline */
 .radio-inline {
   display: flex;
   justify-content: center;
-  align-items: center;
+  background-color: transparent;
   gap: 20px;
-  margin-top: 10px;
+  margin-top: 20px;
   color: white;
-  width: 100%;
-  background: none;
 }
 
 .radio-label {
-  font-size: 0.95rem;
   font-weight: 500;
 }
 
 .radio-inline label {
   display: flex;
   align-items: center;
-  font-size: 0.9rem;
   gap: 6px;
 }
 
@@ -183,49 +142,72 @@
   accent-color: #f6ffa2;
 }
 
-/* Bottone submit */
-.submit-btn {
-  width: 150px;
-  background-color: #f6ffa2;
-  border: none;
-  padding: 12px;
-  border-radius: 6px;
-  font-weight: bold;
-  color: #31545b;
+/* Bottoni */
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* spazio tra i bottoni */
   margin-top: 30px;
+  flex-wrap: wrap; /* così su mobile vanno sotto */
+}
+
+.submit-btn,
+.cancel-btn {
+  display: flex;                
+  align-items: center;          
+  justify-content: center; 
+  gap: 8px;                     
+  padding: 12px 20px;           
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;            
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  width: auto;          /* niente 100% */
+  min-width: 120px;     /* per uniformità */
+}
+
+.submit-btn {
+  background-color: #f6ffa2;
+  color: #31545b;
 }
 
 .submit-btn:hover {
   background-color: #dce961;
 }
 
-/* Responsive: colonne verticali sotto i 768px */
+.cancel-btn {
+  background-color: #ffffff;
+  color: #31545b;
+  border: 1px solid #31545b;
+}
+
+.cancel-btn:hover {
+  background-color: #eee;
+}
+
+/* Errori */
+.error-message,
+.error {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .form-columns {
     flex-direction: column;
   }
+
+  .buttons {
+    flex-direction: column; /* bottoni uno sopra l'altro su mobile */
+    gap: 10px;
+  }
+
+  .submit-btn,
+  .cancel-btn {
+    width: 100%; /* su mobile occupano tutta la larghezza */
+  }
 }
-
-.error-message {
-  color: rgb(230, 0, 0);
-  margin: 30px;
-  font-size: 0.9rem;
-}
-
-
-  .required {
-    color: red;
-    font-weight: bold;
-  }
-
-  .error {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 4px;
-  }
-
-  img{
-    margin-bottom: 20px;
-  }

@@ -1,27 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuComponent } from '../menu/menu';
-import { ProjectService } from '../services/project.service';
+import { ProjectService, Project } from '../project.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
+import { MenuComponent } from '../menu/menu';
 
 @Component({
   selector: 'app-project-list',
-  imports: [MenuComponent, CommonModule, FormsModule],
   standalone: true,
+  imports: [CommonModule, MenuComponent],
   templateUrl: './project-list.html',
-  styleUrl: './project-list.css'
+  styleUrls: ['./project-list.css']
 })
 export class ProjectListComponent implements OnInit {
-  projects: any[] = [];
+  projects: Project[] = [];
 
   constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
+    this.loadProjects();
+  }
+
+  loadProjects() {
     this.projectService.getProjects().subscribe({
       next: (data) => {
         this.projects = data;
-        console.log('Progetti ricevuti:', data); // controlla in console
+        console.log('Progetti ricevuti:', data);
       },
       error: (err) => {
         console.error('Errore nel caricamento progetti', err);

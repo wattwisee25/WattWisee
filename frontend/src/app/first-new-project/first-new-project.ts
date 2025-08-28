@@ -1,68 +1,78 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+
+interface Building {
+  name: string;
+  imageUrl: string | ArrayBuffer | null;
+}
 
 @Component({
   selector: 'app-create-project',
-  standalone: true,   // standalone component
-  imports: [FormsModule, CommonModule, RouterModule], // importa FormsModule e CommonModule
+  standalone: true,
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './first-new-project.html',
   styleUrls: ['./first-new-project.css']
 })
 export class NewProjectComponent {
-  constructor(private http: HttpClient, private router: Router) {}
-
+  projectName: string = '';
+  buildingName: string = '';
   selectedImage: File | null = null;
   selectedImagePreview: string | ArrayBuffer | null = null;
-  buildingName: string = '';
-  projectName: string = ''; 
+  buildings: Building[] = [];
 
-  buildings: { name: string, imageUrl: string | ArrayBuffer | null }[] = [];
+  private apiUrl = 'http://localhost:3000/api/projects';
+
+  constructor(private http: HttpClient, private router: Router) {}
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.selectedImage = input.files[0];
+    if (!input.files?.length) return;
 
-      const reader = new FileReader();
-      reader.onload = () => this.selectedImagePreview = reader.result;
-      reader.readAsDataURL(this.selectedImage);
-    }
+    this.selectedImage = input.files[0];
+    const reader = new FileReader();
+    reader.onload = () => this.selectedImagePreview = reader.result;
+    reader.readAsDataURL(this.selectedImage);
   }
 
   addBuilding() {
-    if (this.buildingName && this.selectedImagePreview) {
-      this.buildings.push({
-        name: this.buildingName,
-        imageUrl: this.selectedImagePreview
-      });
+    if (!this.buildingName || !this.selectedImagePreview) return;
 
-      // Reset campi
-      this.buildingName = '';
-      this.selectedImage = null;
-      this.selectedImagePreview = null;
-    }
+    this.buildings.push({
+      name: this.buildingName,
+      imageUrl: this.selectedImagePreview
+    });
+
+    // Reset campi
+    this.buildingName = '';
+    this.selectedImage = null;
+    this.selectedImagePreview = null;
   }
 
   saveProject() {
-  const projectData = {
-    projectName: this.projectName,   // da aggiungere in ngModel nell'input "Project name"
-    buildings: this.buildings        // tutti i buildings aggiunti
-  };
+    if (!this.projectName || this.buildings.length === 0) {
+      alert('Inserisci il nome del progetto e almeno un edificio.');
+      return;
+    }
 
-  this.http.post('http://localhost:3000/api/projects', projectData)
-    .subscribe({
-      next: (res) => {
-        console.log('Progetto salvato:', res);
-        this.router.navigate(['/upload-bills']);
-      },
-      error: (err) => {
-        console.error('Errore nel salvataggio:', err);
-      }
-    });
-}
+    const projectData = {
+      projectName: this.projectName,
+      buildings: this.buildings
+    };
 
+    // Invia la richiesta con i cookie (contiene il token)
+    this.http.post(this.apiUrl, projectData, { withCredentials: true })
+      .subscribe({
+        next: (res) => {
+          console.log('Progetto salvato con successo:', res);
+          this.router.navigate(['/upload-bills']); // redirect dopo salvataggio
+        },
+        error: (err) => {
+          console.error('Errore nel salvataggio del progetto:', err);
+          alert(err.error?.message || 'Errore durante il salvataggio del progetto.');
+        }
+      });
   }
+}

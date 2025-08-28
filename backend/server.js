@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-
+dotenv.config();
 
 import express from "express";
 import mongoose from "mongoose";
@@ -12,7 +12,7 @@ import projectsRouter from "./routes/projects.js";
 import buildingsRouter from "./routes/buildings.js";
 import deepseekRoutes from './routes/deepseek.js';
 
-dotenv.config();
+
 console.log('EMAIL_USER:', process.env.EMAIL_USER);
 console.log('EMAIL_PASS:', process.env.EMAIL_PASS);
 console.log('JWT_SECRET:', process.env.JWT_SECRET);
