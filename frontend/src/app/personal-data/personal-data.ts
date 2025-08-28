@@ -78,7 +78,7 @@ export class PersonalDataComponent implements OnInit {
   this.authService.updateUser(dataToSend).subscribe({
     next: (updatedUser) => {
       console.log('UpdateUser success', updatedUser);
-      this.editing = false;  //
+      this.editing = false;  //s
     },
     error: (err) => {
       console.error('UpdateUser error', err);

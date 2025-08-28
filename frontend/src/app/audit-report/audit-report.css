@@ -1,0 +1,16 @@
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .audit-container {
+    margin-left: 250px; /* ad esempio per compensare il menu fisso */
+  }
+}
+
+/* Righe alternate azzurre e bianche */
+.checklist-table tbody tr:nth-child(odd) td {
+    background-color: #c1dbe3 !important; /* azzurro chiaro */
+}
+
+.checklist-table tbody tr:nth-child(even) td {
+    background-color: #ffffff !important; /* bianco */
+}
+
