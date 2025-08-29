@@ -23,3 +23,10 @@
     background-color: #ffffff !important; /* bianco */
 }
 
+table {
+  border-collapse: collapse; /* elimina gli spazi tra le celle */
+}
+
+td, th {
+  border: none; /* rimuove i bordi delle celle */
+}

@@ -75,6 +75,7 @@ ul{
     display: flex;
     flex-wrap: wrap; 
     gap: 20px;
+    justify-content: center;
 }
 
 a{
@@ -90,6 +91,15 @@ li{
 
 p{
   text-align: center;
+}
+
+img{
+    width: 300px;
+    height: 300px;
+    object-fit: cover; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.2s; 
 }
 
 .search-bar {

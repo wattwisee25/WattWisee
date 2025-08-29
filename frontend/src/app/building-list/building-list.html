@@ -35,23 +35,19 @@
   </div>
 
   <!-- Lista buildings -->
-  <div class="building-list" *ngIf="!isLoading && project">
-    <ul>
-      @for (building of project.buildings; track building.name) {
+<div class="building-list" *ngIf="!isLoading && project">
+  <ul>
+    @for (building of filteredBuildings; track building.name) {  <!-- <- qui -->
       <li>
         <img [src]="building.imageUrl" alt="Building image" width="200"
              style="border-radius: 4px; margin-bottom: 10px;">
         <p>{{ building.name }}</p>
       </li>
-      }
-    </ul>
-
-    @if (project.buildings.length === 0) {
-      <p style="text-align: center; margin-top: 30px;">No building found.</p>
     }
-  </div>
+  </ul>
 
-  <!-- Loading -->
-  <p *ngIf="isLoading" style="text-align:center; margin-top:30px;">Loading...</p>
+  @if (filteredBuildings.length === 0) {  <!-- <- qui -->
+    <p style="text-align: center; margin-top: 30px;">No building found.</p>
+  }
 
 </div>
