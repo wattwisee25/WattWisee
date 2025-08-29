@@ -23,7 +23,14 @@ display: flex;
 @media screen and (min-width: 770px) {
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
   .project-container {
-    margin-left: 250px; /* ad esempio per compensare il menu fisso */
+    margin-left: 250px; 
+  }
+}
+
+  @media screen and (max-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .project-container {
+    margin-top: 50px; 
   }
 
 }

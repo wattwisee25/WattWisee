@@ -18,8 +18,13 @@
 /* Media query per schermi più piccoli di 650px */
 @media (max-width: 770px) {
   .button-container {
-    flex-direction: column; /* Dispone i pulsanti in colonna */
+    flex-direction: column; 
+  }/* Dispone i pulsanti in colonna */
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .pro-container {
+    margin-top: 50px; 
   }
+  
 }
 
 .button-container {

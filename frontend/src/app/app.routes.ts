@@ -42,7 +42,7 @@ export const routes: Routes = [
     { path: 'project-list', component: ProjectListComponent, canActivate: [AuthGuard] },
     { path: 'project/:id', component: ProjectComponent, canActivate: [AuthGuard] },
     { path: 'upload-bills', component: UploadBillComponent, canActivate: [AuthGuard] },
-    { path: 'building-list', component: BuildingListComponent, canActivate: [AuthGuard] },
+    { path: 'building-list/:id', component: BuildingListComponent, canActivate: [AuthGuard] },
     { path: 'building-info/:id', component: BuildingInfoComponent, canActivate: [AuthGuard] },
     { path: 'building-bills/:id', component: BuildingBillsComponent , canActivate: [AuthGuard]},
     { path: 'bill-info/:id', component: BillInfoComponent, canActivate: [AuthGuard] },

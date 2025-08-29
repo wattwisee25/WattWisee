@@ -28,4 +28,8 @@ export class ProjectService {
   createProject(project: Project): Observable<any> {
     return this.http.post(this.apiUrl, project, { withCredentials: true });
   }
+
+  getProjectById(id: string): Observable<Project> {
+  return this.http.get<Project>(`${this.apiUrl}/${id}`, { withCredentials: true });
+}
 }

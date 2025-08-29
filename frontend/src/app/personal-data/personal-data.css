@@ -17,6 +17,14 @@
   }
 }
 
+  @media screen and (max-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .personal-data-container {
+    margin-top: 50px; 
+  }
+
+}
+
 /* Titolo */
 .title-container {
   display: flex;
@@ -25,18 +33,19 @@
   margin-bottom: 20px;
 }
 
-.title-container svg {
-  width: 80px;
-  height: 80px;
-  color: #31545b;
-  margin-right: 15px;
+.title-container  svg{
+    width: 100px;
+    height: 100px;
+    color:#31545b;
 }
 
-.title-container h1 {
-  color: #31545b;
-  font-weight: bold;
-  margin: 0;
+h1{
+    text-align: center;
+    color: #31545b;
+    margin-top: 30px;
+    font-weight: bold;
 }
+
 
 /* Card form */
 form {
