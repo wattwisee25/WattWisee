@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../menu/menu';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-building',
   standalone: true,
-  imports: [CommonModule, MenuComponent, FormsModule],
+  imports: [CommonModule, MenuComponent, FormsModule, RouterModule],
   templateUrl: './building-list.html',
   styleUrls: ['./building-list.css'] // ⚠️ corretto
 })

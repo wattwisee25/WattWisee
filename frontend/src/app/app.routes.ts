@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home';
 import { NewProjectComponent } from './first-new-project/first-new-project';
 import { ProjectListComponent } from './project-list/project-list';
 import { ProjectComponent } from './project/project';
+import { AddBuildingComponent } from './add-building/add-building';
 import { UploadBillComponent } from './upload-bill/upload-bill';
 import { BuildingListComponent } from './building-list/building-list';
 import { BuildingInfoComponent } from './building-info/building-info';
@@ -41,6 +42,7 @@ export const routes: Routes = [
     { path: 'create-new-project', component: NewProjectComponent, canActivate: [AuthGuard] }, 
     { path: 'project-list', component: ProjectListComponent, canActivate: [AuthGuard] },
     { path: 'project/:id', component: ProjectComponent, canActivate: [AuthGuard] },
+    { path: 'add-building/:id', component: AddBuildingComponent, canActivate: [AuthGuard] },
     { path: 'upload-bills', component: UploadBillComponent, canActivate: [AuthGuard] },
     { path: 'building-list/:id', component: BuildingListComponent, canActivate: [AuthGuard] },
     { path: 'building-info/:id', component: BuildingInfoComponent, canActivate: [AuthGuard] },

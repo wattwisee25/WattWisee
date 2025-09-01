@@ -1,0 +1,208 @@
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .add-building-container {
+    margin-left: 250px; 
+  }
+}
+
+  @media screen and (max-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .add-building-container {
+    margin-top: 50px; 
+  }
+
+}
+
+.add-building-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Logo */
+.logo {
+  width: 200px;
+  display: block;
+  margin: 0 auto 50px;
+}
+
+/* Card centrale */
+.card {
+  background: #31545b; /* verde scuro */
+  padding: 50px 80px 50px 80px;
+  border-radius: 10px;
+  text-align: center;
+  width: 500px;
+  max-width: 90%;
+  color: white;
+}
+
+h2 {
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+h3 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+/* Input e pulsanti */
+input[type="text"],
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+  background: #2c4b51;
+  color: white;
+}
+
+input[type="file"] {
+  color: white;
+}
+
+.upload-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.plus-btn {
+  width: 38px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background: #2c4b51;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.confirm-btn {
+  background: #c1dbe3;
+border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 90%;
+}
+
+.finish-btn {
+  background: #ffff99;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 90%
+}
+
+/* Buildings grid */
+.buildings {
+      display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Contenitore lista orizzontale */
+.buildings-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+}
+
+/* Personalizza barra di scorrimento */
+.buildings-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.buildings-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.buildings-list::-webkit-scrollbar-thumb {
+  background: #c1dbe3;
+  border-radius: 4px;
+}
+
+.buildings-list::-webkit-scrollbar-thumb:hover {
+  background: #c8e2eb;
+}
+
+/* Card singolo building */
+.building-card {
+  flex: 0 0 auto; /* Impedisce che si ridimensioni */
+  text-align: center;
+}
+
+.building-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.building-card p {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+
+.img-placeholder {
+  width: 80px;
+  height: 80px;
+  background: #cccccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.building img {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+/* Barra scroll immagini */
+.scroll-bar {
+  width: 80%;
+  height: 6px;
+  background: #54696d;
+  border-radius: 3px;
+  margin: 15px auto;
+  position: relative;
+}
+
+.scroll-thumb {
+  width: 30%;
+  height: 6px;
+  background: #c8e2eb;
+  border-radius: 3px;
+}
+
+.image-preview {
+  display: flex;
+  align-items: center;
+}
+
+.confirm-row,
+.finish-row {
+  display: flex;
+  justify-content: center;
+}
