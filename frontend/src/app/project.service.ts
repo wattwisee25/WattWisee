@@ -21,28 +21,31 @@ export class ProjectService {
 
   constructor(private http: HttpClient) {}
 
+  // Recupera tutti i progetti dell'utente
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.apiUrl, { withCredentials: true });
   }
 
+  // Crea un nuovo progetto
   createProject(project: Project): Observable<any> {
     return this.http.post(this.apiUrl, project, { withCredentials: true });
   }
 
+  // Recupera un progetto per ID
   getProjectById(id: string): Observable<Project> {
     return this.http.get<Project>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-  // 👉 nuovo metodo per aggiungere edifici a un progetto già esistente
+  // Aggiunge edifici a un progetto esistente (usa PUT come nel backend)
   addBuildingsToProject(id: string, buildings: Building[]): Observable<any> {
-    return this.http.post(
+    return this.http.put(
       `${this.apiUrl}/${id}/buildings`,
       { buildings },
       { withCredentials: true }
     );
   }
 
-  // (opzionale) metodo alternativo: sovrascrivere tutti gli edifici di un progetto
+  // (Opzionale) Sovrascrive tutti gli edifici di un progetto
   updateBuildingsInProject(id: string, buildings: Building[]): Observable<any> {
     return this.http.put(
       `${this.apiUrl}/${id}/buildings`,
@@ -51,3 +54,4 @@ export class ProjectService {
     );
   }
 }
+

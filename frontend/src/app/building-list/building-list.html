@@ -12,7 +12,7 @@
   <!-- Pulsante nuovo building -->
   <div class="add-building">
     <p>Buildings</p>
-    <button class="newbuilding">
+    <button class="newbuilding" [routerLink]="['/add-building', project._id]">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -39,7 +39,7 @@
   <ul>
     @for (building of filteredBuildings; track building.name) {  <!-- <- qui -->
       <li>
-        <a [routerLink]="['/add-building', project._id]" style="text-decoration: none; color: inherit;">
+        <a [routerLink]="['/', project._id]" style="text-decoration: none; color: inherit;">
         <img [src]="building.imageUrl" alt="Building image" width="200"
              style="border-radius: 4px; margin-bottom: 10px;">
         <p>{{ building.name }}</p>
