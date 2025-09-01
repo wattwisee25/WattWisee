@@ -44,14 +44,5 @@ export class ProjectService {
       { withCredentials: true }
     );
   }
-
-  // (Opzionale) Sovrascrive tutti gli edifici di un progetto
-  updateBuildingsInProject(id: string, buildings: Building[]): Observable<any> {
-    return this.http.put(
-      `${this.apiUrl}/${id}/buildings`,
-      { buildings },
-      { withCredentials: true }
-    );
-  }
 }
 
