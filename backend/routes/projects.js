@@ -106,6 +106,33 @@ router.get('/:id/buildings', async (req, res) => {
   }
 });
 
+// ==================== GET SINGLE BUILDING BY ID ====================
+router.get('/buildings/:buildingId', verifyToken, async (req, res) => {
+  try {
+    const { buildingId } = req.params;
+
+    // trova il progetto che contiene questo building
+    const project = await Project.findOne({ 'buildings._id': buildingId });
+    if (!project) return res.status(404).json({ message: 'Building not found' });
+
+    // verifica che l'utente sia il proprietario
+    if (project.owner.toString() !== req.userId) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    // trova l'edificio
+    const building = project.buildings.id(buildingId);
+    if (!building) {
+      return res.status(404).json({ message: 'Building not found' });
+    }
+
+    // restituisci l'edificio
+    res.status(200).json(building);
+  } catch (err) {
+    console.error('Errore nel recupero edificio:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 export default router;

@@ -17,6 +17,8 @@ interface Building {
   templateUrl: './add-building.html',
   styleUrl: './add-building.css'
 })
+
+
 export class AddBuildingComponent {
   buildingName: string = '';
   selectedImage: File | null = null;

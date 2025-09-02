@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Building {
+  _id?: string;
   name: string;
   imageUrl: string | ArrayBuffer | null;
 }
@@ -35,6 +36,12 @@ export class ProjectService {
   getProjectById(id: string): Observable<Project> {
     return this.http.get<Project>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
+
+getBuildingById(buildingId: string) {
+  return this.http.get<Building>(`${this.apiUrl}/buildings/${buildingId}`);
+}
+
+
 
   // Aggiunge edifici a un progetto esistente (usa PUT come nel backend)
   addBuildingsToProject(id: string, buildings: Building[]): Observable<any> {

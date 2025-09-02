@@ -1,30 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { BuildingService, Building } from '../services/building.service';
-import { FormsModule } from '@angular/forms';
+import { ProjectService, Project, Building } from '../project.service';
 import { CommonModule } from '@angular/common';
+import { MenuComponent } from '../menu/menu';
+import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload-bill',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, MenuComponent, FormsModule, RouterModule],
   templateUrl: './upload-bill.html',
-  styleUrls: ['./upload-bill.css'],
+  styleUrls: ['./upload-bill.css']
 })
 export class UploadBillComponent implements OnInit {
-  selectedFile: File | null = null;
-  selectedBuildingId: string | null = null;
+  project!: Project;
+  isLoading = true;
 
-  buildings: Building[] = [];
+  searchTerm = '';
+  filteredBuildings: Building[] = [];
+
+  selectedFile: File | null = null;            // file selezionato
+  selectedBuildingId: string | null = null;    // building selezionato
 
   constructor(
-    private http: HttpClient,
-    private buildingService: BuildingService
+    private route: ActivatedRoute,
+    private projectService: ProjectService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    this.buildingService.getBuildings().subscribe({
-      next: (data) => this.buildings = data,
-      error: (err) => console.error('Errore caricamento buildings:', err)
+    // legge l'id dalla URL ad ogni cambio di rotta
+    this.route.paramMap.subscribe(params => {
+      const projectId = params.get('id');
+      if (projectId) {
+        this.loadProject(projectId);
+      }
+    });
+  }
+
+  loadProject(projectId: string): void {
+    this.isLoading = true;
+    this.projectService.getProjectById(projectId).subscribe({
+      next: (data: Project) => {
+        this.project = data;
+        this.filteredBuildings = data.buildings ?? [];
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        console.error('Errore nel caricamento progetto', err);
+        this.isLoading = false;
+      }
     });
   }
 
@@ -43,14 +70,14 @@ export class UploadBillComponent implements OnInit {
     formData.append('file', this.selectedFile);
     formData.append('buildingId', this.selectedBuildingId);
 
-    this.http.post('http://localhost:3000/api/deepseek/upload', formData)
+    this.http.post('http://localhost:3000/api/deepseek/upload', formData, { withCredentials: true })
       .subscribe({
         next: (res) => {
           console.log('Dati estratti:', res);
           alert('File caricato ed elaborato!');
         },
         error: (err) => {
-          console.error('Errore:', err);
+          console.error('Errore durante l’elaborazione:', err);
           alert('Errore durante l’elaborazione');
         }
       });

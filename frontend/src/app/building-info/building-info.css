@@ -1,7 +1,59 @@
   @media screen and (max-width: 770px) {
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .personal-data-container {
+  .building-info-container {
     margin-top: 50px; 
   }
 
+}
+
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .building-info-container {
+    margin-left: 250px; 
+  }
+}
+
+.container {
+  padding: 20px;
+}
+
+.building-info {
+  display: flex;
+  margin-top: 20px;
+}
+
+.left {
+  flex: 1;
+}
+
+.left img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.right {
+  flex: 1;
+  padding-left: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  min-height: 200px;
+}
+
+.bills {
+  margin-top: 30px;
+}
+
+.bill-types {
+  display: flex;
+  gap: 15px;
+}
+
+.bill {
+  flex: 1;
+  padding: 20px;
+  background-color: #d6e3ea;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
 }

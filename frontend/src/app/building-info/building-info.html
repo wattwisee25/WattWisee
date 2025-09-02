@@ -1,6 +1,42 @@
 <header>
-    <app-menu></app-menu>
+  <app-menu></app-menu>
 </header>
 
+<div class="building-info-container">
+  <h2>Building info</h2>
 
-<p>building-info works!</p>
+  <!-- Loading -->
+  <div *ngIf="isLoading">
+    <p>Caricamento...</p>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="!isLoading && errorMessage" class="error">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Building info -->
+  <div *ngIf="!isLoading && selectedBuilding" class="building-info">
+    <div class="left">
+      <h3>{{ selectedBuilding.name }}</h3>
+      <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl" alt="{{ selectedBuilding.name }}" />
+    </div>
+    <div class="right">
+      <h4>Info</h4>
+      <p>
+        ID: {{ selectedBuilding._id }} <br>
+        Nome: {{ selectedBuilding.name }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Bills -->
+  <div *ngIf="!isLoading && selectedBuilding" class="bills">
+    <h4>Bills</h4>
+    <div class="bill-types">
+      <div class="bill">Electricity bills</div>
+      <div class="bill">Oil - Fuel Oil bills</div>
+      <div class="bill">LPG bills</div>
+    </div>
+  </div>
+</div>

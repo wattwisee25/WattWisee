@@ -8,14 +8,10 @@
     <!-- Project name -->
 <h3>Select the building you want to upload bills for:</h3>
 <select [(ngModel)]="selectedBuildingId">
-  <option [value]="null">-- Select a building --</option>
-  <option *ngFor="let b of buildings" [value]="b._id">{{ b.name }}</option>
+  <option *ngFor="let building of filteredBuildings" [value]="building._id">
+    {{ building.name }}
+  </option>
 </select>
-
-      <!-- Barra scorrimento immagini -->
-      <div class="scroll-bar">
-        <div class="scroll-thumb"></div>
-      </div>
 
       <!-- List buildings -->
       <h3>Upload the bills to the correct repository:</h3>
