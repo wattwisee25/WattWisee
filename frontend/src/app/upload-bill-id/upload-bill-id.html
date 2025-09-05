@@ -1,0 +1,103 @@
+<header>
+  <app-menu></app-menu>
+</header>
+
+<div class="page">
+  <div class="card">
+    <h2>Upload Your Bills</h2>
+
+    <!-- Building selection -->
+    <h3>Select the building you want to upload bills for:</h3>
+    <div class="buildings-list">
+      <div
+        class="building-card"
+        *ngFor="let building of filteredBuildings"
+        [class.selected]="building._id === selectedBuildingId"
+        (click)="selectBuilding(building._id)"
+      >
+        <img [src]="building.imageUrl" alt="Building" />
+        <p>{{ building.name }}</p>
+      </div>
+    </div>
+
+    <!-- Hidden file inputs for each bill type -->
+    <input
+      #electricityInput
+      type="file"
+      (change)="onFilesSelected($event, 'electricity')"
+      style="display: none"
+      multiple
+    />
+    <input
+      #oilInput
+      type="file"
+      (change)="onFilesSelected($event, 'oil')"
+      style="display: none"
+      multiple
+    />
+    <input
+      #lpgInput
+      type="file"
+      (change)="onFilesSelected($event, 'lpg')"
+      style="display: none"
+      multiple
+    />
+
+    <!-- Bill type selection -->
+    <h3>Upload bills to the correct repository:</h3>
+    <div class="button-container">
+      <button class="add-btn" (click)="electricityInput.click()">
+        + Electricity bills
+      </button>
+      <button class="add-btn" (click)="oilInput.click()">
+        + Oil bills
+      </button>
+      <button class="add-btn" (click)="lpgInput.click()">
+        + LPG bills
+      </button>
+    </div>
+
+    <!-- File list preview grouped by type -->
+    <div class="file-preview" *ngIf="hasSelectedFiles()">
+      <h3>Selected Files:</h3>
+
+      <div *ngIf="selectedFilesByType.electricity.length > 0">
+        <h4>Electricity:</h4>
+        <ul>
+          <li *ngFor="let f of selectedFilesByType.electricity">
+            📄 {{ f.name }} ({{ f.size / 1024 | number:'1.0-2' }} KB)
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedFilesByType.oil.length > 0">
+        <h4>Oil:</h4>
+        <ul>
+          <li *ngFor="let f of selectedFilesByType.oil">
+            📄 {{ f.name }} ({{ f.size / 1024 | number:'1.0-2' }} KB)
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedFilesByType.lpg.length > 0">
+        <h4>LPG:</h4>
+        <ul>
+          <li *ngFor="let f of selectedFilesByType.lpg">
+            📄 {{ f.name }} ({{ f.size / 1024 | number:'1.0-2' }} KB)
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Upload button -->
+    <div class="finish-row">
+      <button
+        class="finish-btn"
+        (click)="onUpload()"
+        [disabled]="!hasSelectedFiles() || !selectedBuildingId"
+      >
+        Finish
+      </button>
+    </div>
+  </div>
+</div>

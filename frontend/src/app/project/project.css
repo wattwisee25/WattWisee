@@ -1,0 +1,110 @@
+.project-container {
+display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    background-color: #ffffff;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: #31545b
+}
+.project-list {
+display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .project-container {
+    margin-left: 250px; 
+  }
+}
+
+  @media screen and (max-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .project-container {
+    margin-top: 50px; 
+  }
+
+}
+
+h2{
+  font-size: 45px;
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+li{
+    margin-right: 20px;   
+    text-align: center; 
+    padding: 10px;
+}
+
+p{
+  text-align: center;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #c1dbe3;   /* sfondo personalizzato */
+  border-radius: 8px;           /* bordi arrotondati */
+  padding: 5px 10px;            /* padding interno del container */
+  width: 100%;
+  max-width: 100%;             /* opzionale */
+}
+
+.search-bar input {
+  flex: 1;                      /* occupa tutto lo spazio disponibile */
+  border: none;                  /* rimuove il bordo di default */
+  background: transparent;       /* usa lo sfondo del container */
+  padding: 10px 15px;            /* padding interno dell'input */
+  font-size: 16px;               /* dimensione del testo */
+  color: #333;                   /* colore del testo */
+  outline: none;                 /* rimuove il bordo al focus */
+  border-radius: 8px;            /* bordi arrotondati */
+  transition: box-shadow 0.2s;   /* effetto al focus */
+}
+
+.search-bar .search-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;              /* spazio tra input e icona */
+  color: #333;
+  flex-shrink: 0;                 /* non ridurre l'icona */
+}
+
+.newProject {
+  width: 25px;          /* larghezza */
+  height: 25px;         /* altezza uguale alla larghezza per formare un cerchio */
+  border-radius: 50%;   /* rende il bottone rotondo */
+  border: 1px solid #31545b;
+  color: #31545b;         /* colore del testo/icone */
+  background-color: white; /* colore di sfondo */
+  display: flex;        /* per centrare l’icona */
+  align-items: center;  /* centra verticalmente */
+  justify-content: center; /* centra orizzontalmente */
+  cursor: pointer;      /* cambia il cursore */
+  transition: background-color 0.2s;
+  font-size: 30px; /* dimensione dell’icona */
+  margin: 10px;
+}

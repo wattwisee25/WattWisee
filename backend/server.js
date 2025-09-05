@@ -9,8 +9,9 @@ import cookieParser from "cookie-parser";
 // Import routes (attenzione: devi scrivere l’estensione .js)
 import usersRouter from "./routes/users.js";
 import projectsRouter from "./routes/projects.js";
-import buildingsRouter from "./routes/buildings.js";
 import deepseekRoutes from './routes/deepseek.js';
+import uploadRoutes from "./routes/upload.js";
+
 
 
 console.log('EMAIL_USER:', process.env.EMAIL_USER);
@@ -34,8 +35,8 @@ app.use(cookieParser());
 // Usa le routes
 app.use("/api/users", usersRouter);
 app.use("/api/projects", projectsRouter);
-app.use("/api/buildings", buildingsRouter);
 app.use('/api/deepseek', deepseekRoutes);
+app.use("/api/upload", uploadRoutes);
 
 // MongoDB connection
 mongoose

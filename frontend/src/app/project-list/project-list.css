@@ -39,22 +39,6 @@ h2{
   font-size: 45px;
 }
 
-.newProject {
-  width: 25px;          /* larghezza */
-  height: 25px;         /* altezza uguale alla larghezza per formare un cerchio */
-  border-radius: 50%;   /* rende il bottone rotondo */
-  border: 1px solid #31545b;
-  color: #31545b;         /* colore del testo/icone */
-  background-color: white; /* colore di sfondo */
-  display: flex;        /* per centrare l’icona */
-  align-items: center;  /* centra verticalmente */
-  justify-content: center; /* centra orizzontalmente */
-  cursor: pointer;      /* cambia il cursore */
-  transition: background-color 0.2s;
-  font-size: 30px; /* dimensione dell’icona */
-  margin: 10px;
-}
-
 ul{
     list-style-type: none;
     padding: 0;

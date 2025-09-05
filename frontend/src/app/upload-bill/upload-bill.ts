@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService, Project, Building } from '../project.service';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from '../menu/menu';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -10,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-upload-bill',
   standalone: true,
-  imports: [CommonModule, MenuComponent, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './upload-bill.html',
   styleUrls: ['./upload-bill.css']
 })

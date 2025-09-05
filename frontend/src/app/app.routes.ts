@@ -11,6 +11,7 @@ import { ProjectListComponent } from './project-list/project-list';
 import { ProjectComponent } from './project/project';
 import { AddBuildingComponent } from './add-building/add-building';
 import { UploadBillComponent } from './upload-bill/upload-bill';
+import { UploadBillIdComponent } from './upload-bill-id/upload-bill-id';
 import { BuildingListComponent } from './building-list/building-list';
 import { BuildingInfoComponent } from './building-info/building-info';
 import { BuildingBillsComponent } from './building-bills/building-bills';
@@ -40,10 +41,11 @@ export const routes: Routes = [
     { path: 'reset-password/:token', component: ResetPasswordComponent }, 
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'create-new-project', component: NewProjectComponent, canActivate: [AuthGuard] }, 
+    { path: 'projects', component: ProjectComponent, canActivate: [AuthGuard] },
     { path: 'project-list', component: ProjectListComponent, canActivate: [AuthGuard] },
-    { path: 'project/:id', component: ProjectComponent, canActivate: [AuthGuard] },
     { path: 'add-building/:id', component: AddBuildingComponent, canActivate: [AuthGuard] },
     { path: 'upload-bills', component: UploadBillComponent, canActivate: [AuthGuard] },
+    { path: 'upload-bills-id/:id', component: UploadBillIdComponent, canActivate: [AuthGuard] },
     { path: 'building-list/:id', component: BuildingListComponent, canActivate: [AuthGuard] },
     { path: 'building-info/:id', component: BuildingInfoComponent, canActivate: [AuthGuard] },
     { path: 'building-bills/:id', component: BuildingBillsComponent , canActivate: [AuthGuard]},

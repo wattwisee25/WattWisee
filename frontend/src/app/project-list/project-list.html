@@ -7,14 +7,6 @@
   <!-- Titolo + pulsante -->
   <div class="title-container">
     <h2>Your projects</h2>
-    <button routerLink="/create-new-project" class="newProject">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M12 5l0 14" />
-        <path d="M5 12l14 0" />
-      </svg>
-    </button>
   </div>
 
   <!-- Barra di ricerca -->
@@ -34,7 +26,7 @@
     <ul>
       @for (project of filteredProjects; track project._id) {
       <li>
-        <a [routerLink]="['/building-list', project._id]" style="text-decoration: none; color: inherit;">
+        <a [routerLink]="['/upload-bills-id', project._id]" style="text-decoration: none; color: inherit;">
           <img [src]="project.buildings[0]?.imageUrl" alt="Building image" width="200"
             style="border-radius: 4px; margin-bottom: 10px;">
           <p>{{ project.projectName }}</p>

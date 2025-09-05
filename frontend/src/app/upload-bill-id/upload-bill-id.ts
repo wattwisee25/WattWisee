@@ -1,0 +1,111 @@
+import { Component, OnInit } from '@angular/core';
+import { ProjectService, Project, Building } from '../project.service';
+import { CommonModule } from '@angular/common';
+import { MenuComponent } from '../menu/menu';
+import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
+type BillType = 'electricity' | 'oil' | 'lpg';
+
+@Component({
+  selector: 'app-upload-bill-id',
+  standalone: true,
+  imports: [CommonModule, MenuComponent, FormsModule, RouterModule],
+  templateUrl: './upload-bill-id.html',
+  styleUrls: ['./upload-bill-id.css']
+})
+export class UploadBillIdComponent implements OnInit {
+  project!: Project;
+  isLoading = true;
+
+  filteredBuildings: Building[] = [];
+  selectedBuildingId: string | null = null;
+
+  // Ora TypeScript sa che le chiavi sono solo 'electricity' | 'oil' | 'lpg'
+  selectedFilesByType: Record<BillType, File[]> = {
+    electricity: [],
+    oil: [],
+    lpg: []
+  };
+
+  constructor(
+    private route: ActivatedRoute,
+    private projectService: ProjectService,
+    private http: HttpClient
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const projectId = params.get('id');
+      if (projectId) this.loadProject(projectId);
+    });
+  }
+
+  loadProject(projectId: string): void {
+    this.isLoading = true;
+    this.projectService.getProjectById(projectId).subscribe({
+      next: (data: Project) => {
+        this.project = data;
+        this.filteredBuildings = data.buildings ?? [];
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        console.error('Error loading project', err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  selectBuilding(id?: string) {
+    if (!id) return;
+    this.selectedBuildingId = id;
+  }
+
+  // Aggiunge file selezionati al tipo corretto
+  onFilesSelected(event: Event, type: BillType) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const newFiles = Array.from(input.files);
+      this.selectedFilesByType[type] = [
+        ...this.selectedFilesByType[type],
+        ...newFiles
+      ];
+    }
+  }
+
+  hasSelectedFiles(): boolean {
+    return Object.values(this.selectedFilesByType).some(files => files.length > 0);
+  }
+
+  onUpload() {
+    if (!this.hasSelectedFiles()) return alert('Please select at least one file!');
+    if (!this.selectedBuildingId) return alert('Please select a building!');
+
+    const formData = new FormData();
+
+    // Aggiunge i file per tipo
+    (Object.entries(this.selectedFilesByType) as [BillType, File[]][]).forEach(([type, files]) => {
+      files.forEach(file => {
+        formData.append('files', file);
+        formData.append('types', type); 
+      });
+    });
+
+    formData.append('buildingId', this.selectedBuildingId);
+
+    this.http.post('http://localhost:3000/api/upload', formData, { withCredentials: true })
+      .subscribe({
+        next: (res) => {
+          console.log('Uploaded files:', res);
+          alert('Files uploaded and processed successfully!');
+          this.selectedFilesByType = { electricity: [], oil: [], lpg: [] };
+        },
+        error: (err) => {
+          console.error('Error during processing:', err);
+          alert('An error occurred during processing.');
+        }
+      });
+  }
+}

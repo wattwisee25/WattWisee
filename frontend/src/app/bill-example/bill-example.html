@@ -1,5 +1,24 @@
-<h1>Upload file</h1>
+<h1>Upload Files</h1>
 <input type="file" (change)="onFileSelected($event)" accept=".pdf,image/*" multiple>
 
-<h2>Data</h2>
-<textarea [value]="extractedText" placeholder="" readonly></textarea>
+<!-- Progress bar -->
+<div *ngIf="processing" class="progress-container">
+  <p>Processing... {{ progress | number:'1.0-0' }}%</p>
+  <progress [value]="progress" max="100"></progress>
+</div>
+
+<!-- Extracted text -->
+<h2>Extracted Text</h2>
+<textarea [value]="extractedText" readonly rows="10" cols="80"></textarea>
+
+<!-- Parsed totals and kWh -->
+<div *ngIf="parsedData">
+  <h3>Total Amount:</h3>
+  <p *ngIf="totalAmount !== null">{{ totalAmount | number:'1.2-2' }} €</p>
+  <p *ngIf="totalAmount === null">Total not found</p>
+
+  <h3>Detected kWh:</h3>
+  <ul>
+    <li *ngFor="let k of totalKwh">{{ k | number:'1.0-0' }} kWh</li>
+  </ul>
+</div>
