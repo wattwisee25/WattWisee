@@ -1,0 +1,14 @@
+  @media screen and (max-width: 1028px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .month-bill-container {
+    margin-top: 70px !important; 
+  }
+
+}
+
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .month-bill-container {
+    margin-left: 250px; 
+  }
+}

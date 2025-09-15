@@ -1,24 +1,58 @@
-<h1>Upload Files</h1>
-<input type="file" (change)="onFileSelected($event)" accept=".pdf,image/*" multiple>
+<!-- bill-example.html -->
+<div class="upload-container">
+  <h2>Carica una bolletta</h2>
 
-<!-- Progress bar -->
-<div *ngIf="processing" class="progress-container">
-  <p>Processing... {{ progress | number:'1.0-0' }}%</p>
-  <progress [value]="progress" max="100"></progress>
+  <!-- Input file -->
+  <input type="file" (change)="onFileSelected($event)" />
+
+  <!-- Bottone Upload -->
+  <button 
+    (click)="uploadFile()" 
+    [disabled]="!selectedFile || isUploading">
+    {{ isUploading ? 'Caricamento...' : 'Upload' }}
+  </button>
+
+  <!-- Messaggio di errore -->
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Visualizzazione del file e risposta Claude -->
+  <div *ngIf="extractedData" class="result">
+    <h3>File caricato con successo!</h3>
+    <p><strong>File ID:</strong> {{ extractedData.fileId }}</p>
+
+    <h4>Risposta Claude MMI:</h4>
+    <pre>{{ extractedData.claudeResponse | json }}</pre>
+  </div>
 </div>
 
-<!-- Extracted text -->
-<h2>Extracted Text</h2>
-<textarea [value]="extractedText" readonly rows="10" cols="80"></textarea>
-
-<!-- Parsed totals and kWh -->
-<div *ngIf="parsedData">
-  <h3>Total Amount:</h3>
-  <p *ngIf="totalAmount !== null">{{ totalAmount | number:'1.2-2' }} €</p>
-  <p *ngIf="totalAmount === null">Total not found</p>
-
-  <h3>Detected kWh:</h3>
-  <ul>
-    <li *ngFor="let k of totalKwh">{{ k | number:'1.0-0' }} kWh</li>
-  </ul>
-</div>
+<!-- Stile base -->
+<style>
+.upload-container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+button {
+  margin-top: 10px;
+  padding: 8px 16px;
+}
+.error {
+  color: red;
+  margin-top: 10px;
+}
+.result {
+  margin-top: 20px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+</style>

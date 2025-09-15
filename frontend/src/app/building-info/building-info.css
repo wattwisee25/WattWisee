@@ -1,7 +1,13 @@
-  @media screen and (max-width: 770px) {
+  @media screen and (max-width: 1028px) {
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
   .building-info-container {
     margin-top: 50px; 
+  }
+
+  .bill-types {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
   }
 
 }
@@ -17,10 +23,23 @@
   padding: 20px;
 }
 
+.building-info-container {
+  margin-top: 20px;
+  display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    background-color: #ffffff;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
 .building-info {
   display: flex;
+  margin-left: 60px;
+  margin-right: 60px;
   margin-top: 20px;
 }
+
 
 .left {
   flex: 1;
@@ -35,25 +54,106 @@
 .right {
   flex: 1;
   padding-left: 20px;
-  background-color: #f5f5f5;
+  padding-top: 40px;
   border-radius: 8px;
   min-height: 200px;
+  margin-right: 50px;
+}
+
+.right p{
+        margin-top: 0;
+    margin-bottom: 1rem;
+    flex-direction: column;
+    max-width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+}
+
+.right a{
+  color: black;
+  cursor: pointer;
+}
+
+.title-right{
+  display: flex;
+  justify-content: space-between
 }
 
 .bills {
   margin-top: 30px;
+  padding: 60px;
 }
 
 .bill-types {
   display: flex;
-  gap: 15px;
+justify-content: space-evenly;
+padding-top: 20px;
 }
 
 .bill {
-  flex: 1;
   padding: 20px;
-  background-color: #d6e3ea;
+  width: 200px;
+  height: 200px;
+  background-color: #c1dbe3;
   text-align: center;
   border-radius: 8px;
   cursor: pointer;
+  border: transparent;
+}
+
+/* Contenitore dell'edit-mode */
+.edit-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* spazio verticale tra le righe */
+  max-width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+}
+
+/* Ogni label diventa un flex container orizzontale */
+.edit-mode label {
+  display: flex;
+  align-items: center;
+}
+
+/* Larghezza fissa per il testo della label */
+.edit-mode label span {
+  display: inline-block;
+  width: 80px; /* qui decidi quanto spazio per le label */
+  font-weight: 500;
+}
+
+/* Input occupa il resto dello spazio */
+.edit-mode input {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-left: 0.5rem; /* piccolo spazio tra label e input */
+}
+
+/* Pulsanti */
+.edit-mode .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.edit-mode button.save {
+  background-color: #f6ffa2;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-mode button.save:hover {
+  background-color: #e6e682;
 }

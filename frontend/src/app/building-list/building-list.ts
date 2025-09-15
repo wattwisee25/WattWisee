@@ -56,4 +56,9 @@ export class BuildingListComponent implements OnInit {
       (b.name ?? '').toLowerCase().includes(term)
     );
   }
+
+  trackByBuilding(index: number, building: Building): string {
+  return building?._id ?? index.toString();
+}
+
 }

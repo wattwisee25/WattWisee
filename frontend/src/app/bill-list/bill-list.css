@@ -1,0 +1,55 @@
+  @media screen and (max-width: 1028px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .bill-list-container {
+    margin-top: 50px; 
+  }
+
+}
+
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .bill-list-container {
+    margin-left: 250px; 
+  }
+}
+
+.title{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #31545b;
+}
+
+.bill-list ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* massimo 3 per riga */
+  gap: 16px; /* spazio tra i pulsanti */
+  list-style: none;
+  padding: 0;
+}
+
+.bill-list li {
+  display: flex;
+  flex-direction: column; /* testo sotto il quadrato */
+  align-items: center;
+}
+
+.bill-list li button.term {
+  width: 150px;   /* dimensione del quadrato */
+  height: 150px;
+  background-color: #c1dbe3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px; /* spazio tra quadrato e testo */
+}
+
+.bill-list li button.term:hover {
+  background-color: #c1dbe3;
+}
+
+/* opzionale: stile testo */
+.bill-list li {
+  font-size: 14px;
+  text-align: center;
+}
+

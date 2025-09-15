@@ -6,9 +6,14 @@ import { MenuComponent } from "../menu/menu";
 import { ProjectService } from '../project.service';
 
 interface Building {
+  floors: number;
+  surface: number;
+  city: string;
+  address: string;
   name: string;
   imageUrl: string | ArrayBuffer | null;
 }
+
 
 @Component({
   selector: 'app-add-building',
@@ -51,10 +56,14 @@ export class AddBuildingComponent {
   addBuilding() {
     if (!this.buildingName || !this.selectedImagePreview) return;
 
-    this.buildings.push({
-      name: this.buildingName,
-      imageUrl: this.selectedImagePreview
-    });
+  this.buildings.push({
+    name: this.buildingName,
+    imageUrl: this.selectedImagePreview,
+    floors: 1,        // inserisci valori di default o campi nel form
+    surface: 0,
+    city: '',
+    address: ''
+  });
 
     // ✅ reset campi
     this.buildingName = '';

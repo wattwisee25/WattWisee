@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Building {
+floors: any;
+surface: any;
+city: any;
+address: any;
   _id?: string;
   name: string;
   imageUrl: string | ArrayBuffer | null;
@@ -20,7 +24,7 @@ export interface Project {
 export class ProjectService {
   private apiUrl = 'http://localhost:3000/api/projects';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Recupera tutti i progetti dell'utente
   getProjects(): Observable<Project[]> {
@@ -37,8 +41,14 @@ export class ProjectService {
     return this.http.get<Project>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-getBuildingById(buildingId: string) {
-  return this.http.get<Building>(`${this.apiUrl}/buildings/${buildingId}`);
+  getBuildingById(buildingId: string): Observable<Building> {
+    return this.http.get<Building>(`${this.apiUrl}/buildings/${buildingId}`, { withCredentials: true });
+  }
+
+updateBuilding(id: string, building: Building): Observable<Building> {
+  return this.http.put<Building>(`${this.apiUrl}/buildings/${id}`, building, {
+    withCredentials: true
+  });
 }
 
 

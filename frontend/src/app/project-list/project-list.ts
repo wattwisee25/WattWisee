@@ -43,4 +43,9 @@ export class ProjectListComponent implements OnInit {
       project.projectName.toLowerCase().includes(term)
     );
   }
+
+  trackByProject(index: number, project: Project): string {
+  return project?._id ?? index.toString();
+}
+
 }

@@ -3,10 +3,8 @@
 </header>
 
 <div class="building-info-container">
-  <h2>Building info</h2>
-
-  <!-- Loading -->
-  <div *ngIf="isLoading">
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loading">
     <p>Caricamento...</p>
   </div>
 
@@ -18,15 +16,76 @@
   <!-- Building info -->
   <div *ngIf="!isLoading && selectedBuilding" class="building-info">
     <div class="left">
-      <h3>{{ selectedBuilding.name }}</h3>
-      <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl" alt="{{ selectedBuilding.name }}" />
+      <h2>{{ selectedBuilding.name }}</h2>
+
+      <!-- Immagine -->
+      <img
+        *ngIf="selectedBuilding.imageUrl"
+        [src]="selectedBuilding.imageUrl"
+        alt="{{ selectedBuilding.name }}"
+      />
     </div>
+
     <div class="right">
+      <div class="title-right">
       <h4>Info</h4>
-      <p>
-        ID: {{ selectedBuilding._id }} <br>
-        Nome: {{ selectedBuilding.name }}
-      </p>
+      <a class="edit-link" (click)="toggleEdit()">
+  <svg xmlns="http://www.w3.org/2000/svg" 
+       width="24" height="24" 
+       viewBox="0 0 24 24" 
+       fill="none"
+       stroke="currentColor" 
+       stroke-width="2" 
+       stroke-linecap="round" 
+       stroke-linejoin="round"
+       class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+    <path d="M16 5l3 3" />
+  </svg>
+  {{ isEditing ? 'Cancel' : 'Edit' }}
+</a>
+</div>
+
+      <!-- Modalità visualizzazione -->
+      <div *ngIf="!isEditing" class="view-mode">
+        <p>
+          <strong>ID:</strong> {{ selectedBuilding._id }} <br />
+          <strong>Name:</strong> {{ selectedBuilding.name }} <br />
+          <strong>Address:</strong> {{ selectedBuilding.address }} <br />
+          <strong>City:</strong> {{ selectedBuilding.city }} <br />
+          <strong>Surface:</strong> {{ selectedBuilding.surface }} <br />
+          <strong>N° floors:</strong> {{ selectedBuilding.floors }} <br />
+        </p>
+      </div>
+
+      <!-- Modalità modifica -->
+      <div *ngIf="isEditing" class="edit-mode">
+        <label>
+          <span>Name:</span>
+          <input type="text" [(ngModel)]="selectedBuilding.name" />
+        </label>
+         <label>
+          <span>Address:</span>
+          <input type="text" [(ngModel)]="selectedBuilding.address" />
+        </label>
+         <label>
+          <span>City:</span>
+          <input type="text" [(ngModel)]="selectedBuilding.city" />
+        </label>
+         <label>
+          <span>Surface:</span>
+          <input type="text" [(ngModel)]="selectedBuilding.surface" />
+        </label>
+         <label>
+          <span>N° floors:</span>
+          <input type="text" [(ngModel)]="selectedBuilding.floors" />
+        </label>
+        <div class="actions">
+          <button (click)="save()"  class="save">Save</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -34,9 +93,26 @@
   <div *ngIf="!isLoading && selectedBuilding" class="bills">
     <h4>Bills</h4>
     <div class="bill-types">
-      <div class="bill">Electricity bills</div>
-      <div class="bill">Oil - Fuel Oil bills</div>
-      <div class="bill">LPG bills</div>
+      <button
+        class="bill"
+        [routerLink]="['/bills']"
+      >
+        Electricity bills
+      </button>
+
+      <button
+        class="bill"
+        [routerLink]="['/bills', selectedBuilding._id, 'oil']"
+      >
+        Oil - Fuel Oil bills
+      </button>
+
+      <button
+        class="bill"
+        [routerLink]="['/bills', selectedBuilding._id, 'lpg']"
+      >
+        LPG bills
+      </button>
     </div>
   </div>
 </div>
