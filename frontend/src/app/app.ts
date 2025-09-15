@@ -1,38 +1,55 @@
-import { Component, importProvidersFrom } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MenuComponent } from './menu/menu';
-import { HttpClient } from '@angular/common/http';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { DeepseekService } from './services/deepseek.service';
-
+import { HttpClient } from '@angular/common/http';
+import { ClaudeService } from './services/claude.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'] // CORRETTO
 })
 export class App {
-  protected title = 'WattWisee';
+  title = 'WattWisee';
   users: any[] = [];
-  query: string = '';
-  results: any;
+  selectedFile: File | null = null;
+  extractedData: any = null;
+  isUploading = false;
+  errorMessage: string | null = null;
 
-  constructor(private http: HttpClient, private deepseekService: DeepseekService) {}
+  constructor(private http: HttpClient, private claudeService: ClaudeService) {}
 
   loadUsers() {
-    this.http.get<any[]>('http://localhost:3000/users').subscribe(data => {
-      this.users = data;
+    this.http.get<any[]>('http://localhost:3000/api/users').subscribe({
+      next: data => this.users = data,
+      error: err => console.error('Error loading users:', err)
     });
   }
 
-   onSearch() {
-    this.deepseekService.search(this.query).subscribe({
-      next: (data) => this.results = data,
-      error: (err) => console.error(err)
-    });
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    this.extractedData = null;
+    this.errorMessage = null;
+  }
+
+  uploadFile(projectId: string, buildingId: string, type: string) {
+    if (!this.selectedFile) return;
+
+    this.isUploading = true;
+    this.claudeService.uploadFile(this.selectedFile, projectId, buildingId, type)
+      .subscribe({
+        next: res => {
+          this.extractedData = res;
+          this.isUploading = false;
+        },
+        error: err => {
+          console.error('Upload error:', err);
+          this.errorMessage = 'Errore durante il caricamento del file';
+          this.isUploading = false;
+        }
+      });
   }
 }
 
