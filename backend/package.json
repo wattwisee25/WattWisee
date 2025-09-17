@@ -17,6 +17,7 @@
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
+    "canvas": "^3.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -27,9 +28,11 @@
     "mongoose": "^8.18.0",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.5",
+    "pdf-lib": "^1.17.1",
     "pdf-parse": "^1.1.1",
     "pdf2pic": "^3.2.0",
-    "tesseract.js": "^6.0.1"
+    "pdfjs-dist": "^3.11.174",
+    "tesseract.js": "^2.1.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
