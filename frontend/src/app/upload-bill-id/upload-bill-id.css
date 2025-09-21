@@ -9,7 +9,7 @@
 }
 
 @media screen and (min-width: 770px) {
-  .page {
+  .page, .back {
     margin-left: 250px;
   }
 }
@@ -154,4 +154,31 @@ h3 {
   height: 80px;
   border-radius: 5px;
   object-fit: cover;
+}
+
+.back{
+  display: flex;
+  justify-content: left;
+  width: 600px;
+  max-width: 90%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-left: 20px;
+}
+
+.link{
+  margin-top: 20px;
+  display: flex;
+  align-items: left;
+  gap: 8px;
+  font-size: 16px;
+  color: #31545b;
+  cursor: pointer;
+}
+
+.link a{
+  text-decoration: none;
+  color: #31545b;
+  font-size: 16px;
+  font-weight: bold;
 }

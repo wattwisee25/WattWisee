@@ -32,7 +32,10 @@
     "pdf-parse": "^1.1.1",
     "pdf2pic": "^3.2.0",
     "pdfjs-dist": "^3.11.174",
-    "tesseract.js": "^2.1.5"
+    "sharp": "^0.34.3",
+    "tesseract.js": "^4.1.4",
+    "tesseract.js-core": "^6.0.0",
+    "tesseract.js-node": "^0.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

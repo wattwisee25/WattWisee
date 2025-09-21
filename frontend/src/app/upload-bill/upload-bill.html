@@ -1,34 +1,42 @@
-<div class="page">
-  <img class="logo" src="assets/img/logo.png" alt="WattWisee" />
+<header>
+  <app-menu></app-menu>
+</header>
+<div class="upload-bill-container">
+  <div class="content"> <!-- flex container che centra -->
 
-  <!-- Card principale -->
-  <div class="card">
-    <h2>Upload your bills</h2>
 
-    <!-- Project name -->
-<h3>Select the building you want to upload bills for:</h3>
-<select [(ngModel)]="selectedBuildingId">
-  <option *ngFor="let building of filteredBuildings" [value]="building._id">
-    {{ building.name }}
-  </option>
-</select>
-
-      <!-- List buildings -->
-      <h3>Upload the bills to the correct repository:</h3>
-            <input #fileInput 
-             type="file" 
-             (change)="onFileSelected($event)"
-             style="display: none">
-      
-             <div class="button-container">
-      <button class="add-btn" (click)="fileInput.click()">+ Electricity bills</button>
-      <button class="add-btn" (click)="fileInput.click()">+ Oil - Fuel oil bills</button>
-      <button class="add-btn" (click)="fileInput.click()">+ LPG bills</button>
-             </div>
-
-      <!-- Finish -->
-       <div class="finish-row">
-      <button class="finish-btn">Finish</button>
-       </div>
+    <h1 class="title">Bills</h1>
+    <h2 class="subtitle"></h2>
+    <div class="upload-bill">
+      <ul>
+        <li *ngFor="let item of month">
+          <button class="term">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" color="#31545b" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+              <path d="M9 12h6" />
+              <path d="M12 9v6" />
+            </svg>
+          </button>
+          {{ item.term }}
+        </li>
+      </ul>
     </div>
   </div>
+</div>
+
+<div class="back">
+  <div class="link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M5 12l14 0" />
+      <path d="M5 12l4 4" />
+      <path d="M5 12l4 -4" />
+    </svg>
+    <a routerLink="/project-list">Select the project</a>
+  </div>
+</div>

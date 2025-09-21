@@ -2,5 +2,19 @@
     <app-menu></app-menu>
 </header>
 
+<div class="action-plan-container">
+        <div class="title-container">
+        <h2>Action plan</h2>
+        </div>
+        <div class="plan">
+         <ul class="menu-list">
+  <li *ngFor="let item of items">
+    <button class="menu-btn">
+      <span class="icon" [innerHTML]="item.icon"></span>
+      <span class="term">{{ item.term }}</span>
+    </button>
+  </li>
+</ul>
 
-<p>action-plan works!</p>
+        </div>
+</div>

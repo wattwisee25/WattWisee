@@ -70,13 +70,3 @@ node server.js
 
 cd frontend
 ng serve
-
-
-To do:
-
-Login and create a new account pages:
-    two-factor auth (2FA)
-    forgot your password
-    confirm email to confirm the new account
-
-
