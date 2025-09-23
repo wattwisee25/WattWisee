@@ -1,0 +1,58 @@
+<!-- Toggle menu (solo mobile) -->
+<button class="btn btn-outline-secondary d-md-none mb-2 sidebar-toggle" (click)="toggleSidebar()"
+  [style.display]="sidebarOpen ? 'none' : 'block'" aria-label="Apri menu">
+  <i class="bi bi-list"></i>
+</button>
+
+<!-- Sidebar -->
+<nav class="sidebar" [class.open]="sidebarOpen || isDesktop">
+  <!-- Pulsante chiusura menu mobile -->
+  <button *ngIf="sidebarOpen && !isDesktop" class="btn btn-link text-white position-absolute top-0 end-0 m-1 d-md-none"
+    (click)="toggleSidebar()" aria-label="Chiudi menu">
+    <i class="bi bi-x-lg fs-6"></i>
+  </button>
+
+  <div class="mb-4 text-center">
+    <h1 class="h4">WATTWISE</h1>
+  </div>
+
+  <ul class="nav flex-column sidebar-nav">
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-2" routerLink="/action-plan-supplier" routerLinkActive="active"
+        (click)="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-map">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" />
+          <path d="M9 4v13" />
+          <path d="M15 7v13" />
+        </svg> <span>Action plan</span>
+      </a>
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-2" routerLink="/supplier-profile" routerLinkActive="active"
+        (click)="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-user">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+        </svg><span>Profile</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-2 logout" (click)="logout()" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-logout">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+          <path d="M7 12h14l-3 -3" />
+          <path d="M14 15l3 -3" />
+        </svg>
+        <span>Logout</span>
+      </a>
+    </li>
+  </ul>
+</nav>

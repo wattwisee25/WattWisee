@@ -1,0 +1,50 @@
+<header>
+        <app-supplier-menu></app-supplier-menu>
+</header>
+
+<div class="setting-container">
+    <div class="splash">
+        <div class="flex">
+            <div class="title-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-settings">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
+                    <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                </svg>
+                <h1>Settings</h1>
+            </div>
+
+            <div class="card">
+                <div class="text-center">
+                    <div class="setting-card">
+                        <ul>
+                            <li><a>Privacy Policy</a></li>
+                            <li>Terms &amp; Conditions</li>
+                            <li>Legal Notice</li>
+                            <li>Export Data</li>
+                            <p>(Export dashboards as PDF for the selected projects)</p>
+                            <li><a (click)="openDeleteModal()">Delete Account</a></li>
+                        </ul>
+                        
+                        <button type="submit" class="setting-btn" (click)="logout()">Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+     @if(showDeleteModal) {
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <h2>Confirm Account Deletion</h2>
+            <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" (click)="deleteAccount()">Delete</button>
+                <button class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+            </div>
+            <p class="error-message" *ngIf="deleteError">{{ deleteError }}</p>
+        </div>
+    </div>
+}
+</div>

@@ -17,6 +17,11 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password, remember }, { withCredentials: true });
   }
 
+    // login supplier
+  supplierLogin(email: string, password: string, remember: boolean): Observable<any> {
+    return this.http.post(`${this.apiUrl}/supplier-login`, { email, password, remember });
+  }
+
   checkAuthStatus(): Observable<boolean> {
     return this.http.get<any>(`${this.apiUrl}/me`, { withCredentials: true }).pipe(
       map(user => !!user),

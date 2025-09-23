@@ -29,7 +29,7 @@ let transporter;
   }
 })();
 
-// ==================== REGISTRAZIONE ====================
+
 // ==================== REGISTRAZIONE ====================
 router.post('/', async (req, res) => {
   try {
@@ -165,6 +165,73 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// ==================== LOGIN SUPPLIER ====================
+router.post('/supplier-login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Trovo l'utente che sia Supplier
+    const supplier = await User.findOne({ email, register_as: "Supplier" });
+    if (!supplier) return res.status(400).json({ message: 'Supplier not found or not authorized' });
+
+    // Verifico password
+    const isMatch = await bcrypt.compare(password, supplier.password);
+    if (!isMatch) return res.status(400).json({ message: 'Incorrect password' });
+
+    // Genero OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpires = new Date(Date.now() + 5 * 60 * 1000);
+
+    supplier.otp = otp;
+    supplier.otpExpires = otpExpires;
+    await supplier.save();
+
+    // Invio email OTP
+    if (transporter) {
+      await transporter.sendMail({
+        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+        to: supplier.email,
+        subject: 'Your OTP Code - WattWisee (Supplier)',
+        text: `Your OTP code is: ${otp}. If you did not request this, please ignore this email.`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+            <div style="text-align: center;">
+              <img src="cid:logo" alt="WattWisee Logo" style="height: 60px; margin-bottom: 20px;" />
+            </div>
+            <h2 style="color: #333;">Your One-Time Password (OTP)</h2>
+            <p style="font-size: 16px; color: #555;">Hi ${supplier.contact_name || ''},</p>
+            <p style="font-size: 16px; color: #555;">
+              Your OTP code for WattWisee (Supplier) is:
+            </p>
+            <p style="font-size: 24px; font-weight: bold; color: #31545b; text-align: center; margin: 20px 0;">
+              ${otp}
+            </p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="http://localhost:4200/supplier-login" style="background-color: #31545b; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Go to WattWisee Supplier Login</a>
+            </div>
+            <p style="font-size: 14px; color: #888; text-align: center;">
+              If you did not request this code, please ignore this email.
+            </p>
+          </div>
+        `,
+        attachments: [
+          {
+            filename: 'logo.png',
+            path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png',
+            cid: 'logo'
+          }
+        ]
+      });
+    }
+
+    res.json({ message: 'OTP sent via email.' });
+  } catch (err) {
+    console.error('Supplier login error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 // ==================== VERIFY OTP ====================
 router.post('/verify-otp', async (req, res) => {

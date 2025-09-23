@@ -1,0 +1,22 @@
+<header>
+  <app-supplier-menu></app-supplier-menu>
+</header>
+
+<div class="action-plan-container">
+  <div class="title-container">
+    <h2>Recommended actions for {{ term }}</h2>
+  </div>
+  <div class="plan">
+  <ul class="menu-list">
+    <li *ngFor="let action of actions">
+      <button class="menu-btn">
+        <span class="icon" [innerHTML]="action.icon"></span>
+        <span class="term">{{ action.title }}</span>
+      </button>
+    </li>
+  </ul>
+    <p *ngIf="actions.length === 0" style="margin-top: 1rem; color: #888;">
+      No recommended actions available for this category.
+    </p>
+  </div>
+</div>

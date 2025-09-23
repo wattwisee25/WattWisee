@@ -17,7 +17,7 @@ export class AccessComponent implements OnInit {
     const rememberedEmail = localStorage.getItem('rememberedEmail');
     if (rememberedEmail) {
       // se esiste un'email ricordata, vai direttamente alla pagina glossary
-      this.router.navigate(['/glossary']);
+      this.router.navigate(['/home']);
     }
   }
 }

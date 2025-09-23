@@ -13,6 +13,9 @@
   }
 
 }
+h2{
+  color: #31545b;
+}
 
 /* Righe alternate azzurre e bianche */
 .checklist-table tbody tr:nth-child(odd) td {
@@ -29,4 +32,48 @@ table {
 
 td, th {
   border: none; /* rimuove i bordi delle celle */
+}
+
+.ber {
+  display: flex;
+  justify-content: center; /* Spazio uniforme tra gli elementi */
+  align-items: center; /* Allinea verticalmente al centro */
+  margin-top: 20px; /* Spazio sopra il contenitore */
+  gap: 40px; /* Spazio tra i due elementi */
+}
+
+.actual, .potential {
+  display: flex;
+  flex-direction: column; /* Dispone gli elementi in colonna */
+  align-items: center; /* Allinea al centro orizzontalmente */
+}
+
+.actual span, .potential span {
+  margin-top: 5px; /* Spazio tra il pulsante e il testo */
+  font-size: 12px; /* Dimensione del testo */
+}
+
+.actual button {
+  background-color: #FFF100;
+
+}
+
+.actual button, .potential button {
+  width: 120px;
+  height: 100px;
+  font-weight: bold;
+  color: #31545b; /* Colore del testo bianco */
+  border: none; /* Rimuove il bordo */
+  padding: 10px 20px; /* Spaziatura interna */
+  text-align: center; /* Allinea il testo al centro */
+  text-decoration: none; /* Rimuove la sottolineatura */
+  display: inline-block; /* Permette di impostare larghezza e altezza */
+  font-size: 50px; /* Dimensione del testo */
+  margin: 4px 2px; /* Spaziatura esterna */
+  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+  border-radius: 4px; /* Angoli arrotondati */
+}
+
+.potential button {
+  background-color: #00A651;
 }
