@@ -1,0 +1,28 @@
+/* Contenitore principale */
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  background-color: #c1dbe3;
+}
+/* Wrapper welcome */
+.welcome-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo */
+.logo {
+  width: 160px;
+  margin-bottom: 2rem;
+}
+
+h2{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 3rem;
+    color: #31545B;
+    font-weight:normal;
+}

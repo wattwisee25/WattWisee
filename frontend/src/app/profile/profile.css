@@ -50,6 +50,7 @@
 
 .data-btn:hover, .settings-btn:hover {
   box-shadow: #31545b 0px 0px 10px;
+  transform: translateY(-3px);
 }
 
 svg{

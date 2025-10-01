@@ -1,0 +1,44 @@
+<div class="page">
+  <div class="card">
+    <h2>Upload Your Bills</h2>
+
+    <!-- Building selection -->
+    <h3>Select the building you want to upload bills for:</h3>
+    <div class="buildings-list">
+      <div
+        class="building-card"
+        *ngFor="let building of filteredBuildings"
+        [class.selected]="building._id === selectedBuildingId"
+        (click)="selectBuilding(building._id)"
+      >
+        <img [src]="building.imageUrl" alt="Building" />
+        <p>{{ building.name }}</p>
+      </div>
+    </div>
+
+    <!-- Bill type selection -->
+    <h3>Go to the correct bill form:</h3>
+    <div class="button-container">
+      <button class="add-btn" (click)="goToBillForm('electricity')">
+        + Electricity bills
+      </button>
+      <button class="add-btn" (click)="goToBillForm('oil')">
+        + Oil bills
+      </button>
+      <button class="add-btn" (click)="goToBillForm('lpg')">
+        + LPG bills
+      </button>
+    </div>
+
+    <!-- Upload button (puoi tenerlo per salvare i file selezionati in futuro) -->
+    <div class="finish-row">
+      <button
+        class="finish-btn"
+        (click)="onUpload()"
+        [disabled]="!hasSelectedFiles() || !selectedBuildingId"
+      >
+        Finish
+      </button>
+    </div>
+  </div>
+</div>

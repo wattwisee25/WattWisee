@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { SupplierMenuComponent } from '../supplier-menu/supplier-menu';
 
@@ -23,7 +24,7 @@ export class SupplierRecommendedComponent implements OnInit {
   allActions: Record<string, Action[]> = {};
   actions: Action[] = [];
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer) {
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {
     // Definisco le actions con icone
     this.allActions = {
       'Building Envelope': [
@@ -117,5 +118,11 @@ export class SupplierRecommendedComponent implements OnInit {
         this.actions = this.allActions[this.term] || [];
       }
     });
+  }
+
+  
+  goToItem(term: string) {
+    const encodedTerm = encodeURIComponent(term);
+    this.router.navigate(['/upload', encodedTerm]);
   }
 }

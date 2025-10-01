@@ -12,7 +12,9 @@ const UserSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   otp: { type: String },
-  otpExpires: { type: Date }
+  otpExpires: { type: Date },
+  isFirstLogin: { type: Boolean, default: true }
+
 });
 
 const User = mongoose.model("User", UserSchema);

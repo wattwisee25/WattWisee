@@ -9,7 +9,7 @@
   <div class="plan">
   <ul class="menu-list">
     <li *ngFor="let action of actions">
-      <button class="menu-btn">
+      <button class="menu-btn" (click)="goToItem(action.title)">
         <span class="icon" [innerHTML]="action.icon"></span>
         <span class="term">{{ action.title }}</span>
       </button>

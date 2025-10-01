@@ -50,7 +50,7 @@
 
 /* Contenitore principale del form */
 .setting-card {
-  background-color: #31545b;
+  background-color: #68376B;
   padding: 30px;
   border-radius: 8px;
   width: 100%;
@@ -73,7 +73,7 @@
   padding: 12px;
   border-radius: 6px;
   font-weight: bold;
-  color: #31545b;
+  color: #68376B;
   margin-top: 30px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -95,12 +95,12 @@
 .title-container  svg{
     width: 100px;
     height: 100px;
-    color:#31545b;
+    color:#68376B;
 }
 
 h1{
     text-align: center;
-    color: #31545b;
+    color: #68376B;
     margin-top: 30px;
     font-weight: bold;
 }

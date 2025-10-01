@@ -13,9 +13,14 @@ export class AuthService {
   
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(email: string, password: string, remember: boolean): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password, remember }, { withCredentials: true });
-  }
+login(email: string, password: string, remember: boolean): Observable<{ token: string, firstLogin: boolean }> {
+  return this.http.post<{ token: string, firstLogin: boolean }>(
+    `${this.apiUrl}/login`,
+    { email, password, remember },
+    { withCredentials: true }
+  );
+}
+
 
     // login supplier
   supplierLogin(email: string, password: string, remember: boolean): Observable<any> {
@@ -55,9 +60,10 @@ logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/reset-password`, { token, password });
   }
 
-   verifyOtp(email: string, otp: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/verify-otp`, { email, otp });
-  }
+verifyOtp(email: string, otp: string): Observable<{ token: string, firstLogin: boolean }> {
+  return this.http.post<{ token: string, firstLogin: boolean }>(`${this.apiUrl}/verify-otp`, { email, otp });
+}
+
 
 }
 

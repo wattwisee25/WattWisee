@@ -9,6 +9,17 @@ interface Building {
   imageUrl: string | ArrayBuffer | null;
 }
 
+interface Project {
+  _id: string;
+  projectName: string;
+  buildings: any[];
+}
+
+interface CreateProjectResponse {
+  message: string;
+  project: Project;
+}
+
 @Component({
   selector: 'app-create-project',
   standalone: true,
@@ -51,28 +62,37 @@ export class NewProjectComponent {
     this.selectedImagePreview = null;
   }
 
-  saveProject() {
-    if (!this.projectName || this.buildings.length === 0) {
-      alert('Inserisci il nome del progetto e almeno un edificio.');
-      return;
-    }
-
-    const projectData = {
-      projectName: this.projectName,
-      buildings: this.buildings
-    };
-
-    // Invia la richiesta con i cookie (contiene il token)
-    this.http.post(this.apiUrl, projectData, { withCredentials: true })
-      .subscribe({
-        next: (res) => {
-          console.log('Progetto salvato con successo:', res);
-          this.router.navigate(['/upload-bills']); // redirect dopo salvataggio
-        },
-        error: (err) => {
-          console.error('Errore nel salvataggio del progetto:', err);
-          alert(err.error?.message || 'Errore durante il salvataggio del progetto.');
-        }
-      });
+saveProject() {
+  if (!this.projectName || this.buildings.length === 0) {
+    alert('Please enter a project name and at least one building.');
+    return;
   }
+
+  const projectData = {
+    projectName: this.projectName,
+    buildings: this.buildings
+  };
+
+  // Send the request with cookies (contains the token)
+  this.http.post<CreateProjectResponse>(this.apiUrl, projectData, { withCredentials: true })
+    .subscribe({
+      next: (res) => {
+        console.log('Project saved successfully:', res);
+
+        const projectId = res.project._id;
+        if (!projectId) {
+          console.error('Project ID is undefined. Cannot navigate!');
+          return;
+        }
+
+        // Navigate to /upload-first-bills using route param
+        this.router.navigate(['/upload-first-bill', projectId]);
+      },
+      error: (err) => {
+        console.error('Error saving the project:', err);
+        alert(err.error?.message || 'An error occurred while saving the project.');
+      }
+    });
+}
+
 }

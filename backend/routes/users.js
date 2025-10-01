@@ -11,6 +11,7 @@ dotenv.config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET; // fallback
 
+
 let transporter;
 
 // ==================== INIZIALIZZA NODEMAILER ====================
@@ -246,15 +247,26 @@ router.post('/verify-otp', async (req, res) => {
 
     user.otp = null;
     user.otpExpires = null;
+
+    // 👇 prendi il valore prima di cambiarlo
+    const firstLogin = user.isFirstLogin;
+
+    // se è il primo login, settiamo a false per le prossime volte
+    if (firstLogin) {
+      user.isFirstLogin = false;
+    }
+
     await user.save();
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
+
+    res.json({ token, firstLogin }); // 👈 ora il frontend riceve anche questo
   } catch (err) {
     console.error('OTP verification error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 // ==================== GET PROFILE ====================
 router.get('/me', authMiddleware, async (req, res) => {

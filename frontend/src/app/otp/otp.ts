@@ -21,18 +21,29 @@ export class OtpComponent {
   }
 
   verifyOtp() {
-    this.auth.verifyOtp(this.email, this.otp).subscribe({
-      next: (res) => {
-// Dopo aver ricevuto il token dal backend
-const token = res.token; // oppure res['token']
+this.auth.verifyOtp(this.email, this.otp).subscribe({
+  next: (res) => {
+    // After receiving the token and the flag from the backend
+    const token = res.token;
+    const firstLogin = res.firstLogin;
 
-// Salvo il token in cookie
-document.cookie = `token=${token}; path=/; samesite=strict;`;
-// secure va messo solo se sei in HTTPS
+    // Save the token in a cookie
+    document.cookie = `token=${token}; path=/; samesite=strict;`;
+    // Add "secure" only if you are using HTTPS in production
+    // document.cookie = `token=${token}; path=/; samesite=strict; secure`;
 
-        this.router.navigate(['/profile']);
-      },
-      error: (err) => alert(err.error.message)
-    });
+    // Redirect depending on whether this is the first login
+    if (firstLogin) {
+      this.router.navigate(['/welcome']);
+    } else {
+      this.router.navigate(['/home']);
+    }
+  },
+  error: (err) => {
+    alert(err.error.message || 'Invalid or expired OTP');
+    console.error('Verify OTP error:', err);
+  }
+});
+
   }
 }

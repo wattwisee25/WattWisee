@@ -4,7 +4,7 @@
   padding: 2rem 1rem;
   min-height: 100dvh;
   background-color: #ffffff;
-  color: #31545b;
+  color: #68376B;
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -36,12 +36,12 @@
 .title-container  svg{
     width: 100px;
     height: 100px;
-    color:#31545b;
+    color:#68376B;
 }
 
 h1{
     text-align: center;
-    color: #31545b;
+    color: #68376B;
     margin-top: 30px;
     font-weight: bold;
 }
@@ -49,7 +49,7 @@ h1{
 
 /* Card form */
 form {
-  background-color: #31545b;
+  background-color: #68376B;
   padding: 30px;
   border-radius: 10px;
   height: fit-content;
@@ -78,7 +78,7 @@ form {
 .form-group {
   display: flex;
   align-items: center;
-  background-color: #2c4b51;
+  background-color: #714777;
   padding: 10px 12px;
   border-radius: 6px;
 }
@@ -185,7 +185,7 @@ input[disabled] {
 
 .submit-btn {
   background-color: #f6ffa2;
-  color: #31545b;
+  color: #68376B;
 }
 
 .submit-btn:hover {
@@ -194,8 +194,8 @@ input[disabled] {
 
 .cancel-btn {
   background-color: #ffffff;
-  color: #31545b;
-  border: 1px solid #31545b;
+  color: #68376B;
+  border: 1px solid #68376B;
 }
 
 .cancel-btn:hover {
