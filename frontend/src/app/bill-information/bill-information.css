@@ -1,8 +1,7 @@
 /* Base layout */
 .bill-information-page {
   min-height: 100vh;
-  background-color: #c1dbe3;
-  /* azzurro */
+  background-color: #c1dbe3; /* azzurro */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,16 +11,13 @@
 .up {
   width: 100%;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
   width: 100px;
   margin: 10px 0;
-  /* solo sopra e sotto, niente centratura orizzontale */
-  align-self: flex-start;
-  /* allinea a sinistra nel flex container */
 }
 
 .finish-btn {
@@ -33,23 +29,18 @@
   color: #f6ffa2;
   font-size: 16px;
   cursor: pointer;
-
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #EBEBEB;
-  /* box grigio */
+  background-color: #EBEBEB; /* box grigio */
   width: 100%;
   max-width: 800px;
   padding: 20px;
   border-radius: 10px;
-  position: static;
-  /* necessario per il posizionamento assoluto dei bottoni dentro */
 }
-
 
 .form-container {
   width: 100%;
@@ -68,7 +59,7 @@ h2 {
   margin-bottom: 10px;
 }
 
-.container>p {
+.container > p {
   margin-bottom: 20px;
   text-align: center;
 }
@@ -78,6 +69,7 @@ h2 {
   width: 100%;
 }
 
+/* Input fields */
 .input-container input {
   width: 100%;
   padding: 12px 10px;
@@ -86,36 +78,38 @@ h2 {
   border-radius: 6px;
   outline: none;
   background: #fff;
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
+/* Labels floating */
 .input-container label {
   position: absolute;
   left: 12px;
-  top: 60%;
-  transform: translateY(-60%);
+  top: 55%;
+  transform: translateY(-50%);
   color: #999;
   font-size: 16px;
   pointer-events: none;
   transition: 0.2s ease all;
-  background-color: transparent;
-  /* same as gray container */
-  padding: 0 4px;
+  padding: 0 2px;
 }
 
-.input-container input:focus+label,
-.input-container input:not(:placeholder-shown)+label {
-  top: 0px;
+/* Quando input ha focus o ha valore */
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+  top: 8px;
   font-size: 12px;
   color: #31545b;
 }
 
+/* Focus input */
 .input-container input:focus {
   border-color: #31545b;
   box-shadow: 0 0 4px rgba(104, 55, 107, 0.3);
 }
 
-/* ====== INFO TEXT ====== */
+/* Info text */
 .info-container {
   grid-column: 1 / span 2;
   color: #555;
@@ -123,8 +117,7 @@ h2 {
   margin-top: 20px;
 }
 
-/* ====== MAIN BUTTON ====== */
-/* Buttons inside the form */
+/* Buttons inside form */
 .btn-container {
   grid-column: 1 / span 2;
   display: flex;
@@ -153,21 +146,16 @@ h2 {
   transform: translateY(0);
 }
 
+/* Navigation buttons */
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
-  /* spazio tra i bottoni */
   align-items: center;
   width: 100%;
-  /* stessa larghezza del container */
   max-width: 800px;
-  /* stessa max-width del container */
   padding: 10px;
   border-radius: 10px;
-  box-sizing: border-box;
-  /* per includere padding nella larghezza */
   margin-top: 10px;
-  /* opzionale, per separarlo dal container sopra */
 }
 
 .navigation-buttons p {

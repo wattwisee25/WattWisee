@@ -1,16 +1,10 @@
 import mongoose from "mongoose";
-
-const billSchema = new mongoose.Schema({
-  type: { type: String, required: true }, // electricity, oil, lpg
-  filename: { type: String, required: true }, // nome file sul server
-  uploadDate: { type: Date, default: Date.now },
-  extractedData: {} // opzionale, risultato Deepseek/Tesseract
-});
+import Bill from './Bill.js';
 
 const buildingSchema = new mongoose.Schema({
   name: { type: String, required: true },
   imageUrl: { type: String, required: true },
-  bills: [billSchema] // array di bollette per edificio
+    bills: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Bill' }]
 });
 
 const projectSchema = new mongoose.Schema({

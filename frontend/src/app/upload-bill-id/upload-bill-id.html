@@ -46,13 +46,13 @@
     <!-- Bill type selection -->
     <h3>Upload bills to the correct repository:</h3>
     <div class="button-container">
-      <button class="add-btn" (click)="electricityInput.click()">
+      <button class="add-btn" (click)="goToBillForm('electricity')">
         + Electricity bills
       </button>
-      <button class="add-btn" (click)="oilInput.click()">
+      <button class="add-btn" (click)="goToBillForm('oil')">
         + Oil bills
       </button>
-      <button class="add-btn" (click)="lpgInput.click()">
+      <button class="add-btn" (click)="goToBillForm('lpg')">
         + LPG bills
       </button>
     </div>

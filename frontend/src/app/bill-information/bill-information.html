@@ -1,170 +1,77 @@
 <div class="bill-information-page">
   <div class="up">
     <img src="assets/img/logo.png" alt="WattWise logo" class="logo" />
-    <button class="finish-btn">Finish</button>
+    <button class="finish-btn" routerLink="/upload-first-bill">Finish</button>
   </div>
+
   <div class="container">
     <h2 *ngIf="billType === 'electricity'">Electricity bill information</h2>
     <h2 *ngIf="billType === 'oil'">Oil bill information</h2>
     <h2 *ngIf="billType === 'lpg'">LPG bill information</h2>
 
-    <p>We require 12 months bills for an accurate energy profile</p>
+    <p style="color: #555">We require 12 months bills for an accurate energy profile</p>
+
     <div class="form-container">
+
       <!-- Electricity form -->
-      <form *ngIf="billType === 'electricity'" class="input">
-        <div class="input-container">
-          <input type="text" id="mprn" placeholder=" " class="form-control mb-3" />
-          <label for="mprn">MPRN number</label>
-        </div>
-        <div class="input-container">
-          <input type="text" id="mic" placeholder=" " />
-          <label for="mic">Maximum import capacity (MIC)</label>
-        </div>
-        <div class="input-container">
-          <input type="date" id="from-date" placeholder=" " />
-          <label for="from-date">From</label>
-        </div>
-        <div class="input-container">
-          <input type="date" id="to-date" placeholder=" " />
-          <label for="to-date">To</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="day-rate" placeholder=" " />
-          <label for="day-rate">Day rate</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="night-rate" placeholder=" " />
-          <label for="night-rate">Night rate</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="kwh-day" placeholder=" " />
-          <label for="kwh-day">kWh (day)</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="kwh-night" placeholder=" " />
-          <label for="kwh-night">kWh (night)</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="gross-cost1" placeholder=" " />
-          <label for="gross-cost1">Gross cost*</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="gross-cost2" placeholder=" " />
-          <label for="gross-cost2">Gross cost*</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="total-cost" placeholder=" " />
-          <label for="total-cost">Total cost</label>
-        </div>
-        <div class="info-container">
-          <p>Please not standing charges do not need to be included as this remain the same regardless of comsumption.
-          </p>
-          <p>*VAT 9%</p>
+      <form *ngIf="billType === 'electricity'" (ngSubmit)="saveBill()">
+        <div class="input-container" *ngFor="let field of electricityFields">
+          <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
+          <label>{{ field.label }}</label>
         </div>
         <div class="btn-container">
-          <button type="button" class="upload-btn">Save</button>
+          <button type="submit" class="upload-btn">Save</button>
         </div>
       </form>
 
       <!-- Oil form -->
-      <form *ngIf="billType === 'oil'" class="input">
-        <div class="input-container">
-          <input type="date" id="delivery-date" placeholder=" " />
-          <label for="delivery-date">Delivery date</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="quantity-liters" placeholder=" " />
-          <label for="quantity-liters">Quantity liters</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="cost-liter" placeholder=" " />
-          <label for="cost-liter">Cost/liter</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="kwh-equivalent" placeholder=" " />
-          <label for="kwh-equivalent">kWh equivalent</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="tonnes-carbon" placeholder=" " />
-          <label for="tonnes-carbon">Tonnes of carbon equivalent</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="gross-cost-oil" placeholder=" " />
-          <label for="gross-cost-oil">Gross cost*</label>
-        </div>
-        <div class="info-container">
-          <p>Please not standing charges do not need to be included as this remain the same regardless of comsumption.
-          </p>
-          <p>*VAT 13.5%</p>
+      <form *ngIf="billType === 'oil'" (ngSubmit)="saveBill()">
+        <div class="input-container" *ngFor="let field of oilFields">
+          <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
+          <label>{{ field.label }}</label>
         </div>
         <div class="btn-container">
-          <button type="button" class="upload-btn">Save</button>
+          <button type="submit" class="upload-btn">Save</button>
         </div>
       </form>
 
       <!-- LPG form -->
-      <form *ngIf="billType === 'lpg'" class="input">
-        <div class="input-container">
-          <input type="text" id="gprn" placeholder=" " />
-          <label for="gprn">GPRN meter number</label>
-        </div>
-        <div class="input-container">
-          <input type="text" id="meter-number" placeholder=" " />
-          <label for="meter-number">Meter number</label>
-        </div>
-        <div class="input-container">
-          <input type="date" id="from-lpg" placeholder=" " />
-          <label for="from-lpg">From</label>
-        </div>
-        <div class="input-container">
-          <input type="date" id="to-lpg" placeholder=" " />
-          <label for="to-lpg">To</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="rate" placeholder=" " />
-          <label for="rate">Rate</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="cubic-meters" placeholder=" " />
-          <label for="cubic-meters">Cubic meters</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="gross-cost-lpg" placeholder=" " />
-          <label for="gross-cost-lpg">Gross cost*</label>
-        </div>
-        <div class="input-container">
-          <input type="number" id="total-cost-lpg" placeholder=" " />
-          <label for="total-cost-lpg">Total cost</label>
-        </div>
-        <div class="info-container">
-          <p>Please not standing charges do not need to be included as this remain the same regardless of comsumption.
-          </p>
-          <p>*VAT 9%</p>
+      <form *ngIf="billType === 'lpg'" (ngSubmit)="saveBill()">
+        <div class="input-container" *ngFor="let field of lpgFields">
+          <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
+          <label>{{ field.label }}</label>
         </div>
         <div class="btn-container">
-          <button type="button" class="upload-btn">Save</button>
+          <button type="submit" class="upload-btn">Save</button>
         </div>
       </form>
-    </div>
 
+    </div>
   </div>
+
   <div class="navigation-buttons">
-    <button class="back-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left">
+    <button (click)="back()" [disabled]="currentIndex === 0" class="back-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M5 12l14 0" />
         <path d="M5 12l4 4" />
         <path d="M5 12l4 -4" />
-      </svg>Back</button>
-    <p> / </p>
-    <button class="skip-btn">Next<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right">
+      </svg>
+      Back
+    </button>
+
+    <p>{{ getIndicator() }}</p>
+
+    <button (click)="next()" class="skip-btn">
+      Next
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M5 12l14 0" />
         <path d="M15 16l4 -4" />
         <path d="M15 8l4 4" />
-      </svg></button>
+      </svg>
+    </button>
   </div>
 </div>

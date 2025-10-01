@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService, Project, Building } from '../project.service';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from '../menu/menu';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MenuComponent } from '../menu/menu';
+
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 
@@ -23,7 +24,6 @@ export class UploadBillIdComponent implements OnInit {
   filteredBuildings: Building[] = [];
   selectedBuildingId: string | null = null;
 
-  // Ora TypeScript sa che le chiavi sono solo 'electricity' | 'oil' | 'lpg'
   selectedFilesByType: Record<BillType, File[]> = {
     electricity: [],
     oil: [],
@@ -33,7 +33,8 @@ export class UploadBillIdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +64,6 @@ export class UploadBillIdComponent implements OnInit {
     this.selectedBuildingId = id;
   }
 
-  // Aggiunge file selezionati al tipo corretto
   onFilesSelected(event: Event, type: BillType) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -85,11 +85,10 @@ export class UploadBillIdComponent implements OnInit {
 
     const formData = new FormData();
 
-    // Aggiunge i file per tipo
     (Object.entries(this.selectedFilesByType) as [BillType, File[]][]).forEach(([type, files]) => {
       files.forEach(file => {
         formData.append('files', file);
-        formData.append('types', type); 
+        formData.append('types', type);
       });
     });
 
@@ -107,5 +106,15 @@ export class UploadBillIdComponent implements OnInit {
           alert('An error occurred during processing.');
         }
       });
+  }
+
+  // 👇 nuovo metodo per reindirizzare alla pagina di compilazione bolletta
+  goToBillForm(type: BillType) {
+    if (!this.selectedBuildingId) {
+      return alert('Please select a building first!');
+    }
+    this.router.navigate(['/bill-information', type], {
+      queryParams: { buildingId: this.selectedBuildingId }
+    });
   }
 }

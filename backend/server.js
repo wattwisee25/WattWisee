@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 // Routes
 import usersRouter from "./routes/users.js";
 import projectsRouter from "./routes/projects.js";
-import fileRouter from "./routes/uploadFile.js";
+import billRouter from "./routes/bill.js";
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 app.use("/api/users", usersRouter);
 app.use("/api/projects", projectsRouter);
-app.use("/api/files", fileRouter); // ✅ corretto
+app.use("/api/bill", billRouter);
 
 mongoose.connect("mongodb://localhost:27017/wattWisee")
   .then(() => {
