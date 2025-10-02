@@ -1,5 +1,0 @@
-- [x] Install @anthropic-ai/sdk in backend
-- [x] Create backend/services/anthropicClaude.js for Claude API calls
-- [x] Modify backend/utils/deepseek.js to use Claude for processing PDFs and images
-- [x] Update backend/routes/deepseek.js to integrate Claude processing
-- [ ] Test the integration
