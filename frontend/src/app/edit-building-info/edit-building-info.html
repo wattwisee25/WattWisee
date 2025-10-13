@@ -1,1 +1,289 @@
-<p>edit-building-info works!</p>
+<header>
+  <app-menu></app-menu>
+</header>
+
+<div class="edit-building-container" *ngIf="!isLoading; else loading">
+
+  <h2>Edit Building Info</h2>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <form *ngIf="building" (ngSubmit)="saveBuilding()" class="form-container">
+
+    <!-- ===== GENERAL INFO ===== -->
+    <fieldset>
+      <legend>General Info</legend>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.name" name="name" />
+          <label>Name</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.mprn" name="mprn" />
+          <label>MPRN</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.address" name="address" />
+          <label>Address</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.city" name="city" />
+          <label>City</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.postcode" name="postcode" />
+          <label>Eir code</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.buildingType" name="buildingType" />
+          <label>Building Type</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.yearBuilt" name="yearBuilt" />
+          <label>Year Built</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== BUILDING ENVELOPE ===== -->
+    <fieldset>
+      <legend>Building Envelope</legend>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.envelope.walls" name="walls" />
+          <label>Walls</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.envelope.constructionType" name="constructionType" />
+          <label>Construction Type</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.envelope.insulationMaterials" name="insulationMaterials" />
+          <label>Insulation Materials</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.envelope.insideMaterials" name="insideMaterials" />
+          <label>Inside Materials</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.envelope.constructionMaterials" name="constructionMaterials" />
+          <label>Construction Materials</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.envelope.surfaceArea" name="surfaceArea" />
+          <label>Surface Area</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.envelope.uValue" name="uValue" />
+          <label>U-value</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.envelope.heatLossMeter" name="heatLossMeter" />
+          <label>Heat Loss Meter</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.envelope.heatLossTotal" name="heatLossTotal" />
+          <label>Heat Loss Total</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== WINDOWS ===== -->
+    <fieldset>
+      <legend>Windows</legend>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.windows.currentWindowType" name="currentWindowType" />
+          <label>Current Window Type</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.windows.totalWindowsArea" name="totalWindowsArea" />
+          <label>Total Windows Area</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.windows.uValue" name="windowUValue" />
+          <label>U-value</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.windows.solarGain" name="solarGain" />
+          <label>Solar Gain</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.windows.orientation" name="orientation" />
+          <label>Orientation</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.windows.heatLoss" name="windowHeatLoss" />
+          <label>Heat Loss</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== DOORS ===== -->
+    <fieldset>
+      <legend>Doors</legend>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.doors.currentDoorType" name="currentDoorType" />
+          <label>Current Door Type</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.doors.totalAreaDoors" name="totalAreaDoors" />
+          <label>Total Area Doors</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.doors.uValue" name="doorUValue" />
+          <label>U-value</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.doors.doorSealingMechanism" name="doorSealingMechanism" />
+          <label>Door Sealing Mechanism</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.doors.doorLeakTest" name="doorLeakTest" />
+          <label>Door Leak Test</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.doors.heatLossTotal" name="doorHeatLossTotal" />
+          <label>Heat Loss Total</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== ROOF ===== -->
+    <fieldset>
+      <legend>Roof</legend>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.roof.currentInsulationType" name="currentInsulationType" />
+          <label>Current Insulation Type</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.roof.totalAreaRoof" name="totalAreaRoof" />
+          <label>Total Area Roof</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.roof.uValue" name="roofUValue" />
+          <label>U-value</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.roof.heatLossTotal" name="roofHeatLossTotal" />
+          <label>Heat Loss Total</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== LIGHTING ===== -->
+    <fieldset>
+      <legend>Lighting</legend>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.lighting.currentLightingType" name="currentLightingType" />
+          <label>Current Lighting Type</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.lighting.numberOfLightUsed" name="numberOfLightUsed" />
+          <label>Number of Lights Used</label>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="building.lighting.lightingControls" name="lightingControls" />
+          <label>Lighting Controls</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.lighting.totalEnergyUsed" name="totalEnergyUsed" />
+          <label>Total Energy Used</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== AUXILIARY USAGE & HEATERS ===== -->
+    <fieldset>
+      <legend>Auxiliary Usage & Heaters</legend>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.auxiliary.currentUsage" name="currentUsage" />
+          <label>Current Usage</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.auxiliary.baselineUsage" name="baselineUsage" />
+          <label>Baseline Usage</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.auxiliary.lightingControls" name="auxLightingControls" />
+          <label>Lighting Controls</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.auxiliary.totalEnergyUsed" name="auxTotalEnergyUsed" />
+          <label>Total Energy Used</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== SIGNIFICANT ENERGY USERS ===== -->
+    <fieldset>
+      <legend>Significant Energy Users</legend>
+
+      <!-- SEU 1 -->
+      <h4>Electric Ovens for Kitchen</h4>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu1.numberOfOvensUsed" name="seu1NumberOfOvensUsed" />
+          <label>Number of Ovens Used</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu1.averageKwUsedPerDay" name="seu1AverageKw" />
+          <label>Average kW Used/Day</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu1.totalEnergyUsedForMonths" name="seu1TotalEnergy" />
+          <label>Total Energy Used (Months)</label>
+        </div>
+      </div>
+
+      <!-- SEU 2 -->
+      <h4>Conveyor Belt for Kitchen</h4>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu2.numberUsed" name="seu2NumberUsed" />
+          <label>Number Used</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu2.averageKwUsedPerDay" name="seu2AverageKw" />
+          <label>Average kW Used/Day</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu2.totalEnergyUsedForMonths" name="seu2TotalEnergy" />
+          <label>Total Energy Used (Months)</label>
+        </div>
+      </div>
+
+      <!-- SEU 3 -->
+      <h4>Heat Pump</h4>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu3.coefficientOfPerformance" name="seu3COP" />
+          <label>Coefficient of Performance</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu3.averageKwUsedPerDay" name="seu3AverageKw" />
+          <label>Average kW Used/Day</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="building.seu3.totalEnergyUsedForMonths" name="seu3TotalEnergy" />
+          <label>Total Energy Used (Months)</label>
+        </div>
+      </div>
+
+    </fieldset>
+
+    <!-- ===== ACTIONS ===== -->
+    <div class="actions">
+      <button type="submit" class="save">Save Building</button>
+    </div>
+
+  </form>
+</div>
+
+<ng-template #loading>
+  <p class="loading">Loading building data...</p>
+</ng-template>

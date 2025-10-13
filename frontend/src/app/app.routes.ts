@@ -16,6 +16,7 @@ import { UploadBill } from './upload-bill/upload-bill';
 import { UploadBillId } from './upload-bill-id/upload-bill-id';
 import { BuildingList } from './building-list/building-list';
 import { BuildingInfo } from './building-info/building-info';
+import { EditBuildingInfo } from './edit-building-info/edit-building-info';
 import { BillList } from './bill-list/bill-list';
 import { ActionPlan } from './action-plan/action-plan';
 import { BillInformation } from './bill-information/bill-information';
@@ -52,13 +53,14 @@ export const routes: Routes = [
   { path: 'home', component: Home, canActivate: [AuthGuard] },
   { path: 'create-new-project', component: NewProject, canActivate: [AuthGuard] },
   { path: 'upload-first-bill/:id', component: UploadFirstBill, canActivate: [AuthGuard] },
-  { path: 'projects-list', component: ProjectsList, canActivate: [AuthGuard] },
+  { path: 'projects', component: ProjectsList, canActivate: [AuthGuard] },
   { path: 'project-list', component: ProjectList, canActivate: [AuthGuard] },
   { path: 'add-building/:id', component: AddBuilding, canActivate: [AuthGuard] },
   { path: 'upload-bills', component: UploadBill, canActivate: [AuthGuard] },
   { path: 'upload-bills-id/:id', component: UploadBillId, canActivate: [AuthGuard] },
   { path: 'building-list/:id', component: BuildingList, canActivate: [AuthGuard] },
   { path: 'building-info/:id', component: BuildingInfo, canActivate: [AuthGuard] },
+  { path: 'edit-building-info/:id', component: EditBuildingInfo, canActivate: [AuthGuard] },
   { path: 'bills', component: BillList, canActivate: [AuthGuard] },
   { path: 'bill-information/:type', component: BillInformation, canActivate: [AuthGuard] },
   { path: 'action-plan', component: ActionPlan, canActivate: [AuthGuard] },

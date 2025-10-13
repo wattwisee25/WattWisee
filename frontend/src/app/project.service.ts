@@ -46,11 +46,10 @@ export class ProjectService {
     return this.http.get<Building>(`${this.apiUrl}/buildings/${buildingId}`, { withCredentials: true });
   }
 
-updateBuilding(buildingId: string, building: Building): Observable<Building> {
-  return this.http.put<Building>(`${this.apiUrl}/buildings/${buildingId}`, building, {
-    withCredentials: true
-  });
+updateBuilding(buildingId: string, buildingData: any): Observable<any> {
+  return this.http.put(`/api/projects/buildings/${buildingId}`, buildingData, { withCredentials: true });
 }
+
 
 
 

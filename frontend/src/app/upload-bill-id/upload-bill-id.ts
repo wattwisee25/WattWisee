@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { MenuComponent } from '../menu/menu';
+import { Menu } from '../menu/menu';
 
 
 type BillType = 'electricity' | 'oil' | 'lpg';
@@ -13,7 +13,7 @@ type BillType = 'electricity' | 'oil' | 'lpg';
 @Component({
   selector: 'app-upload-bill-id',
   standalone: true,
-  imports: [CommonModule, MenuComponent, FormsModule, RouterModule],
+  imports: [CommonModule, Menu, FormsModule, RouterModule],
   templateUrl: './upload-bill-id.html',
   styleUrls: ['./upload-bill-id.css']
 })
