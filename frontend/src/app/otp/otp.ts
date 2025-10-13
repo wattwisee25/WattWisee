@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './otp.html',
   styleUrls: ['./otp.css']
 })
-export class OtpComponent {
+export class Otp {
   email: string = '';
   otp: string = '';
 

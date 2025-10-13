@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { SupplierMenuComponent } from '../supplier-menu/supplier-menu';
+import { SupplierMenu } from '../supplier-menu/supplier-menu';
 
 interface Action {
   title: string;
@@ -14,11 +14,11 @@ interface Action {
 @Component({
   selector: 'app-supplier-recommended',
   standalone: true,
-  imports: [CommonModule, SupplierMenuComponent],
+  imports: [CommonModule, SupplierMenu],
   templateUrl: './supplier-recommended.html',
   styleUrls: ['./supplier-recommended.css']
 })
-export class SupplierRecommendedComponent implements OnInit {
+export class SupplierRecommended implements OnInit {
 
   term: string = '';
   allActions: Record<string, Action[]> = {};

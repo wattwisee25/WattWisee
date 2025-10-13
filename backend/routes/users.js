@@ -60,7 +60,7 @@ router.post('/', async (req, res) => {
               <p>Hi <strong>${newUser.contact_name || 'there'}</strong>,</p>
               <p>Thank you for registering on <b>WattWisee</b>! We're excited to have you on board.</p>
               <p style="text-align: center; margin-top: 30px;">
-                <a href="http://localhost:4200/login" 
+                <a href="http://localhost:4200/" 
                    style="background-color: #c1dbe3; color: #31545b; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
                    Login to Your Account
                 </a>

@@ -7,15 +7,15 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-import { MenuComponent } from "../menu/menu";
+import { Menu } from "../menu/menu";
 
 @Component({
   selector: 'app-setting',
-  imports: [MenuComponent, FormsModule, CommonModule],
+  imports: [Menu, FormsModule, CommonModule],
   templateUrl: './setting.html',
   styleUrl: './setting.css'
 })
-export class SettingComponent {
+export class Setting {
   showDeleteModal = false;
   deleteEmail = '';
   deleteError = '';

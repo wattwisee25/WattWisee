@@ -9,7 +9,7 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './access.html',
   styleUrl: './access.css'
 })
-export class AccessComponent implements OnInit {
+export class Access implements OnInit {
 
   constructor(private router: Router) {}
 

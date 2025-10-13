@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { SupplierMenuComponent } from "../supplier-menu/supplier-menu";
+import { SupplierMenu } from "../supplier-menu/supplier-menu";
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-action-plan-supplier',
   standalone: true,
-  imports: [SupplierMenuComponent, CommonModule],
+  imports: [SupplierMenu, CommonModule],
   templateUrl: './action-plan-supplier.html',
   styleUrl: './action-plan-supplier.css'
 })
-export class ActionPlanSupplierComponent {
+export class ActionPlanSupplier {
 
   items: { icon: SafeHtml, term: string,}[] = [];
 

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './welcome.html',
   styleUrls: ['./welcome.css']
 })
-export class WelcomeComponent implements OnInit {
+export class Welcome implements OnInit {
 
   constructor(private router: Router) {}
 

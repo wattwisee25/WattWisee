@@ -27,7 +27,7 @@ interface CreateProjectResponse {
   templateUrl: './first-new-project.html',
   styleUrls: ['./first-new-project.css']
 })
-export class NewProjectComponent {
+export class NewProject {
   projectName: string = '';
   buildingName: string = '';
   selectedImage: File | null = null;

@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './supplier-otp.html',
   styleUrl: './supplier-otp.css'
 })
-export class SupplierOtpComponent {
+export class SupplierOtp {
   email: string = '';
   otp: string = '';
 

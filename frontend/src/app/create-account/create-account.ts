@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './create-account.html',
   styleUrls: ['./create-account.css']
 })
-export class CreateAccountComponent {
+export class CreateAccount {
   constructor(private http: HttpClient, private router: Router) {}
 
   user = {

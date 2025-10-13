@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from "../menu/menu";
+import { Menu } from "../menu/menu";
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-action-plan',
-  imports: [MenuComponent, CommonModule],
+  imports: [Menu, CommonModule],
   templateUrl: './action-plan.html',
   styleUrl: './action-plan.css'
 })
-export class ActionPlanComponent {
+export class ActionPlan {
 
   items: { icon: SafeHtml, term: string }[] = [];
 

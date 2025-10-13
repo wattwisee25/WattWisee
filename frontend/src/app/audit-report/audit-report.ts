@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { MenuComponent } from "../menu/menu";
+import { Menu } from "../menu/menu";
 
 @Component({
   selector: 'app-audit-report',
-  imports: [MenuComponent],
+  imports: [Menu],
   templateUrl: './audit-report.html',
   styleUrl: './audit-report.css'
 })
-export class AuditReportComponent {
+export class AuditReport {
 
 }

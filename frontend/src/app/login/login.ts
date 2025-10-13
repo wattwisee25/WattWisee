@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
-export class LoginComponent implements OnInit {
+export class Login implements OnInit {
   showPassword = false;
 
   email = '';
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.checkAuthStatus().subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/home']);
       }
     });
   }

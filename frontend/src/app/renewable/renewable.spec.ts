@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RenewableComponent } from './renewable';
+import { Renewable } from './renewable';
 
-describe('RenewableComponent', () => {
-  let component: RenewableComponent;
-  let fixture: ComponentFixture<RenewableComponent>;
+describe('Renewable', () => {
+  let component: Renewable;
+  let fixture: ComponentFixture<Renewable>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RenewableComponent]
+      imports: [Renewable]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RenewableComponent);
+    fixture = TestBed.createComponent(Renewable);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

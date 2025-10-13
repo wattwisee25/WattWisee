@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuComponent } from "../menu/menu";
+import { Menu } from "../menu/menu";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
@@ -10,9 +10,9 @@ import { AuthService } from '../auth.service';
   templateUrl: './personal-data.html',
   styleUrls: ['./personal-data.css'],
   standalone: true,
-  imports: [FormsModule, MenuComponent, CommonModule]
+  imports: [FormsModule, Menu, CommonModule]
 })
-export class PersonalDataComponent implements OnInit {
+export class PersonalData implements OnInit {
   personalData = {
     contact_name: '',
     company_name: '',

@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService, Project } from '../project.service';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from '../menu/menu';
+import { Menu } from '../menu/menu';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [CommonModule, MenuComponent, RouterModule, FormsModule],
+  imports: [CommonModule, Menu, RouterModule, FormsModule],
   templateUrl: './project-list.html',
   styleUrls: ['./project-list.css']
 })
-export class ProjectListComponent implements OnInit {
+export class ProjectList implements OnInit {
   projects: Project[] = [];       // Tutti i progetti dal server
   filteredProjects: Project[] = []; // Progetti filtrati da mostrare
   searchTerm: string = '';        // Termine di ricerca

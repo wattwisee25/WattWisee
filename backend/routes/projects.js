@@ -134,5 +134,45 @@ router.get('/buildings/:buildingId', verifyToken, async (req, res) => {
   }
 });
 
+// ==================== UPDATE SINGLE BUILDING BY ID ====================
+router.put('/buildings/:buildingId', verifyToken, async (req, res) => {
+  try {
+    const { buildingId } = req.params;
+    const updatedData = req.body;
+
+    const project = await Project.findOne({ 'buildings._id': buildingId });
+    if (!project) return res.status(404).json({ message: 'Building not found' });
+
+    if (project.owner.toString() !== req.userId) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    const building = project.buildings.id(buildingId);
+    if (!building) return res.status(404).json({ message: 'Building not found' });
+
+    // Aggiorna solo campi definiti
+    Object.keys(updatedData).forEach(key => {
+      if (updatedData[key] !== undefined) {
+        building[key] = updatedData[key];
+      }
+    });
+
+    await project.save();
+
+    res.status(200).json({
+      message: 'Building updated successfully',
+      building: building.toObject()
+    });
+
+  } catch (err) {
+    console.error('Errore aggiornamento edificio:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
 
 export default router;

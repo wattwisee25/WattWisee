@@ -1,97 +1,83 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AccessComponent } from './access/access';
-import { LoginComponent } from './login/login';
-import { WelcomeComponent } from './welcome/welcome';
-
-import { OtpComponent } from './otp/otp';
-
-import { CreateAccountComponent } from './create-account/create-account';
-import { HomeComponent } from './home/home';
-import { NewProjectComponent } from './first-new-project/first-new-project';
-import { UploadFirstBillComponent } from './upload-first-bill/upload-first-bill';
-import { ProjectListComponent } from './project-list/project-list';
-import { ProjectComponent } from './project/project';
-import { AddBuildingComponent } from './add-building/add-building';
-import { UploadBillComponent } from './upload-bill/upload-bill';
-import { FirstBillComponent } from './first-bill/first-bill';
-import { UploadBillIdComponent } from './upload-bill-id/upload-bill-id';
-import { BuildingListComponent } from './building-list/building-list';
-import { BuildingInfoComponent } from './building-info/building-info';
-import { BuildingBillsComponent } from './building-bills/building-bills';
-import { MonthBillComponent } from './month-bill/month-bill';
-import { BillInfoComponent } from './bill-info/bill-info';
-import { BillListComponent } from './bill-list/bill-list';
-import { ActionPlanComponent } from './action-plan/action-plan';
-import { BillInformationComponent } from './bill-information/bill-information';
-
-import { RenewableComponent } from './renewable/renewable';
-import { AuditReportComponent } from './audit-report/audit-report';
-import { GlossaryComponent } from './glossary/glossary';
-import { ProfileComponent } from './profile/profile';
-import { PersonalDataComponent } from './personal-data/personal-data';
-import { SettingComponent } from './setting/setting';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password';
-import { ResetPasswordComponent } from './reset-password/reset-password';
-import { BillExampleComponent } from './bill-example/bill-example';
+import { Access } from './access/access';
+import { Login } from './login/login';
+import { Welcome } from './welcome/welcome';
+import { Otp } from './otp/otp';
+import { CreateAccount } from './create-account/create-account';
+import { Home } from './home/home';
+import { NewProject } from './first-new-project/first-new-project';
+import { UploadFirstBill } from './upload-first-bill/upload-first-bill';
+import { ProjectList } from './project-list/project-list';
+import { ProjectsList } from './projects-list/projects-list';
+import { AddBuilding } from './add-building/add-building';
+import { UploadBill } from './upload-bill/upload-bill';
+import { UploadBillId } from './upload-bill-id/upload-bill-id';
+import { BuildingList } from './building-list/building-list';
+import { BuildingInfo } from './building-info/building-info';
+import { BillList } from './bill-list/bill-list';
+import { ActionPlan } from './action-plan/action-plan';
+import { BillInformation } from './bill-information/bill-information';
+import { Renewable } from './renewable/renewable';
+import { AuditReport } from './audit-report/audit-report';
+import { Glossary } from './glossary/glossary';
+import { Profile } from './profile/profile';
+import { PersonalData } from './personal-data/personal-data';
+import { Setting } from './setting/setting';
+import { ForgotPassword } from './forgot-password/forgot-password';
+import { ResetPassword } from './reset-password/reset-password';
 import { AuthGuard } from './auth.guard';
 
-import { SupplierLoginComponent } from './supplier-login/supplier-login';
-import { SupplierOtpComponent } from './supplier-otp/supplier-otp';
-import { ActionPlanSupplierComponent } from './action-plan-supplier/action-plan-supplier';
-import { SupplierRecommendedComponent } from './supplier-recommended/supplier-recommended';
-import { SupplierUploadComponent } from './supplier-upload/supplier-upload';
-import { SupplierProfileComponent } from './supplier-profile/supplier-profile';
-import { SupplierPersonalDataComponent } from './supplier-personal-data/supplier-personal-data';
-import { SupplierSettingComponent } from './supplier-setting/supplier-setting';
-
+import { SupplierLogin } from './supplier-login/supplier-login';
+import { SupplierOtp } from './supplier-otp/supplier-otp';
+import { ActionPlanSupplier } from './action-plan-supplier/action-plan-supplier';
+import { SupplierRecommended } from './supplier-recommended/supplier-recommended';
+import { SupplierUpload } from './supplier-upload/supplier-upload';
+import { SupplierProfile } from './supplier-profile/supplier-profile';
+import { SupplierPersonalData } from './supplier-personal-data/supplier-personal-data';
+import { SupplierSetting } from './supplier-setting/supplier-setting';
 
 export const routes: Routes = [
-  //Before login
-  { path: '', component: AccessComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'otp', component: OtpComponent },
-  { path: 'create-account', component: CreateAccountComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password/:token', component: ResetPasswordComponent },
-    { path: 'welcome', component: WelcomeComponent },
+  // Before login
+  { path: '', component: Access },
+  { path: 'login', component: Login },
+  { path: 'otp', component: Otp },
+  { path: 'create-account', component: CreateAccount },
+  { path: 'forgot-password', component: ForgotPassword },
+  { path: 'reset-password/:token', component: ResetPassword },
+  { path: 'welcome', component: Welcome },
 
-  //After user login
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'create-new-project', component: NewProjectComponent, canActivate: [AuthGuard] },
-  { path: 'upload-first-bill/:id', component: UploadFirstBillComponent, canActivate: [AuthGuard] },
-  { path: 'projects', component: ProjectComponent, canActivate: [AuthGuard] },
-  { path: 'project-list', component: ProjectListComponent, canActivate: [AuthGuard] },
-  { path: 'add-building/:id', component: AddBuildingComponent, canActivate: [AuthGuard] },
-  { path: 'first-bill', component: FirstBillComponent, canActivate: [AuthGuard] },
-  { path: 'upload-bills', component: UploadBillComponent, canActivate: [AuthGuard] },
-  { path: 'upload-bills-id/:id', component: UploadBillIdComponent, canActivate: [AuthGuard] },
-  { path: 'building-list/:id', component: BuildingListComponent, canActivate: [AuthGuard] },
-  { path: 'building-info/:id', component: BuildingInfoComponent, canActivate: [AuthGuard] }, 
-  { path: 'building-bills/:id', component: BuildingBillsComponent, canActivate: [AuthGuard] },
-  { path: 'bill-info/:id', component: BillInfoComponent, canActivate: [AuthGuard] },
-  { path: 'bills', component: BillListComponent, canActivate: [AuthGuard] },
-  { path: 'bill-information/:type', component: BillInformationComponent, canActivate: [AuthGuard] },
-  { path: 'month-bill/:id/:type', component: MonthBillComponent, canActivate: [AuthGuard] },
-  { path: 'action-plan', component: ActionPlanComponent, canActivate: [AuthGuard] },
-  { path: 'renewable', component: RenewableComponent, canActivate: [AuthGuard] },
-  { path: 'audit-report', component: AuditReportComponent, canActivate: [AuthGuard] },
-  { path: 'glossary', component: GlossaryComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'personal-data', component: PersonalDataComponent, canActivate: [AuthGuard] },
-  { path: 'settings', component: SettingComponent, canActivate: [AuthGuard] },
-  { path: 'bill-example', component: BillExampleComponent },
+  // After user login
+  { path: 'home', component: Home, canActivate: [AuthGuard] },
+  { path: 'create-new-project', component: NewProject, canActivate: [AuthGuard] },
+  { path: 'upload-first-bill/:id', component: UploadFirstBill, canActivate: [AuthGuard] },
+  { path: 'projects-list', component: ProjectsList, canActivate: [AuthGuard] },
+  { path: 'project-list', component: ProjectList, canActivate: [AuthGuard] },
+  { path: 'add-building/:id', component: AddBuilding, canActivate: [AuthGuard] },
+  { path: 'upload-bills', component: UploadBill, canActivate: [AuthGuard] },
+  { path: 'upload-bills-id/:id', component: UploadBillId, canActivate: [AuthGuard] },
+  { path: 'building-list/:id', component: BuildingList, canActivate: [AuthGuard] },
+  { path: 'building-info/:id', component: BuildingInfo, canActivate: [AuthGuard] },
+  { path: 'bills', component: BillList, canActivate: [AuthGuard] },
+  { path: 'bill-information/:type', component: BillInformation, canActivate: [AuthGuard] },
+  { path: 'action-plan', component: ActionPlan, canActivate: [AuthGuard] },
+  { path: 'renewable', component: Renewable, canActivate: [AuthGuard] },
+  { path: 'audit-report', component: AuditReport, canActivate: [AuthGuard] },
+  { path: 'glossary', component: Glossary, canActivate: [AuthGuard] },
+  { path: 'profile', component: Profile, canActivate: [AuthGuard] },
+  { path: 'personal-data', component: PersonalData, canActivate: [AuthGuard] },
+  { path: 'settings', component: Setting, canActivate: [AuthGuard] },
 
-//Supplier routes
-  { path: 'supplier-login', component: SupplierLoginComponent },
-  { path: 'supplier-otp', component: SupplierOtpComponent },
-  { path: 'action-plan-supplier', component: ActionPlanSupplierComponent, canActivate: [AuthGuard] },
-  { path: 'recommended/:term', component: SupplierRecommendedComponent, canActivate: [AuthGuard] },
-  { path: 'upload/:term', component: SupplierUploadComponent, canActivate: [AuthGuard] },
-  { path: 'supplier-profile', component: SupplierProfileComponent, canActivate: [AuthGuard] },
-  { path: 'supplier-personal-data', component: SupplierPersonalDataComponent, canActivate: [AuthGuard] },
-  { path: 'supplier-settings', component: SupplierSettingComponent, canActivate: [AuthGuard] }
+  // Supplier routes
+  { path: 'supplier-login', component: SupplierLogin },
+  { path: 'supplier-otp', component: SupplierOtp },
+  { path: 'action-plan-supplier', component: ActionPlanSupplier, canActivate: [AuthGuard] },
+  { path: 'recommended/:term', component: SupplierRecommended, canActivate: [AuthGuard] },
+  { path: 'upload/:term', component: SupplierUpload, canActivate: [AuthGuard] },
+  { path: 'supplier-profile', component: SupplierProfile, canActivate: [AuthGuard] },
+  { path: 'supplier-personal-data', component: SupplierPersonalData, canActivate: [AuthGuard] },
+  { path: 'supplier-settings', component: SupplierSetting, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

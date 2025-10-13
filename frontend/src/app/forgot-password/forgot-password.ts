@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './forgot-password.html',
   styleUrls: ['./forgot-password.css']
 })
-export class ForgotPasswordComponent {
+export class ForgotPassword {
   email = '';
   message = '';
   error = '';

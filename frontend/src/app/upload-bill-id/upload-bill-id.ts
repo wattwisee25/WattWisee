@@ -17,7 +17,7 @@ type BillType = 'electricity' | 'oil' | 'lpg';
   templateUrl: './upload-bill-id.html',
   styleUrls: ['./upload-bill-id.css']
 })
-export class UploadBillIdComponent implements OnInit {
+export class UploadBillId implements OnInit {
   project!: Project;
   isLoading = true;
 

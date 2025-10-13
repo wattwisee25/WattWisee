@@ -53,6 +53,7 @@
         <p>
           <strong>ID:</strong> {{ selectedBuilding._id }} <br />
           <strong>Name:</strong> {{ selectedBuilding.name }} <br />
+          <strong>MPRN:</strong> {{ selectedBuilding.mprn }} <br />
           <strong>Address:</strong> {{ selectedBuilding.address }} <br />
           <strong>City:</strong> {{ selectedBuilding.city }} <br />
           <strong>Surface:</strong> {{ selectedBuilding.surface }} <br />
@@ -66,6 +67,10 @@
           <span>Name:</span>
           <input type="text" [(ngModel)]="selectedBuilding.name" />
         </label>
+          <label>
+            <span>MPRN:</span>
+            <input type="text" [(ngModel)]="selectedBuilding.mprn" />
+          </label>
          <label>
           <span>Address:</span>
           <input type="text" [(ngModel)]="selectedBuilding.address" />
@@ -95,7 +100,7 @@
     <div class="bill-types">
       <button
         class="bill"
-        [routerLink]="['/bills']"
+        [routerLink]="['/bills', selectedBuilding._id, 'electricity']"
       >
         Electricity bills
       </button>

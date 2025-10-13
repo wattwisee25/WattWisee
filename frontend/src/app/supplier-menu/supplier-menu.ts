@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './supplier-menu.html',
   styleUrl: './supplier-menu.css'
 })
-export class SupplierMenuComponent{
+export class SupplierMenu{
   sidebarOpen = false;
   isDesktop = window.innerWidth >= 768;
 

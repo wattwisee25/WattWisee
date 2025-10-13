@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupplierRecommendedComponent } from './supplier-recommended';
+import { SupplierRecommended } from './supplier-recommended';
 
-describe('SupplierRecommendedComponent', () => {
-  let component: SupplierRecommendedComponent;
-  let fixture: ComponentFixture<SupplierRecommendedComponent>;
+describe('SupplierRecommended', () => {
+  let component: SupplierRecommended;
+  let fixture: ComponentFixture<SupplierRecommended>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SupplierRecommendedComponent]
+      imports: [SupplierRecommended]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SupplierRecommendedComponent);
+    fixture = TestBed.createComponent(SupplierRecommended);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

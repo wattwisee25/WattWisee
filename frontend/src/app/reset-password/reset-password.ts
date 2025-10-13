@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './reset-password.html',
   styleUrls: ['./reset-password.css']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPassword implements OnInit {
   token = '';
   newPassword = '';
   confirmPassword = '';

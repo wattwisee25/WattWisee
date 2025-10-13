@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
-import { SupplierMenuComponent } from "../supplier-menu/supplier-menu";
+import { SupplierMenu } from "../supplier-menu/supplier-menu";
 
 
 @Component({
@@ -10,9 +10,9 @@ import { SupplierMenuComponent } from "../supplier-menu/supplier-menu";
   templateUrl: './supplier-personal-data.html',
   styleUrls: ['./supplier-personal-data.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule, SupplierMenuComponent]
+  imports: [FormsModule, CommonModule, SupplierMenu]
 })
-export class SupplierPersonalDataComponent implements OnInit {
+export class SupplierPersonalData implements OnInit {
   personalData = {
     contact_name: '',
     company_name: '',

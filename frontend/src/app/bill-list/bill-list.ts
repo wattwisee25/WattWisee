@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { MenuComponent } from "../menu/menu";
+import { Menu } from "../menu/menu";
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-bill-list',
-  imports: [MenuComponent, CommonModule],
+  imports: [Menu, CommonModule],
   templateUrl: './bill-list.html',
   styleUrl: './bill-list.css'
 })
-export class BillListComponent {
+export class BillList {
 
   month = [
     { term: 'January'},

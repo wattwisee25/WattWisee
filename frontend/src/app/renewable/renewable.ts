@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { MenuComponent } from "../menu/menu";
+import { Menu } from "../menu/menu";
 
 @Component({
   selector: 'app-renewable',
-  imports: [MenuComponent],
+  imports: [Menu],
   templateUrl: './renewable.html',
   styleUrl: './renewable.css'
 })
-export class RenewableComponent {
+export class Renewable {
 
 }

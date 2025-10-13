@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MenuComponent } from "../menu/menu";
+import { Menu } from "../menu/menu";
 
 @Component({
   selector: 'app-glossary',
   standalone: true,
-  imports: [CommonModule, MenuComponent],
+  imports: [CommonModule, Menu],
   templateUrl: './glossary.html',
   styleUrls: ['./glossary.css']
 })
-export class GlossaryComponent {
+export class Glossary {
   glossary = [
     { term: 'Biogas', definition: 'Biogas is a form of renewable energy. Biogas is produced through the anaerobic digestion or fermentation of organic feedstocks including biomass, sewage and agricultural and municipal wastes. The biogas can then be burnt as a renewable fuel.', expanded: false },
     { term: 'Biomass', definition: 'Biomass fuel is a form of renewable energy generated from burning organic material such as wood, poultry litter, and straw', expanded: false },

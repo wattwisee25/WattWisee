@@ -6,16 +6,15 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-import { MenuComponent } from "../menu/menu";
-import { SupplierMenuComponent } from "../supplier-menu/supplier-menu";
+import { SupplierMenu } from "../supplier-menu/supplier-menu";
 
 @Component({
   selector: 'app-supplier-setting',
-  imports: [FormsModule, CommonModule, SupplierMenuComponent],
+  imports: [FormsModule, CommonModule, SupplierMenu],
   templateUrl: './supplier-setting.html',
   styleUrl: './supplier-setting.css'
 })
-export class SupplierSettingComponent {
+export class SupplierSetting {
   showDeleteModal = false;
   deleteEmail = '';
   deleteError = '';

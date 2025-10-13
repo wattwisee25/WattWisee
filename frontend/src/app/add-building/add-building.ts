@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { MenuComponent } from "../menu/menu";
+import { Menu } from "../menu/menu";
 import { ProjectService } from '../project.service';
 
 interface Building {
+  mprn: string;
   floors: number;
   surface: number;
   city: string;
@@ -18,13 +19,13 @@ interface Building {
 @Component({
   selector: 'app-add-building',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, MenuComponent],
+  imports: [FormsModule, CommonModule, RouterModule, Menu],
   templateUrl: './add-building.html',
   styleUrl: './add-building.css'
 })
 
 
-export class AddBuildingComponent {
+export class AddBuilding {
   buildingName: string = '';
   selectedImage: File | null = null;
   selectedImagePreview: string | ArrayBuffer | null = null;
@@ -57,6 +58,7 @@ export class AddBuildingComponent {
     if (!this.buildingName || !this.selectedImagePreview) return;
 
   this.buildings.push({
+    mprn: '',  
     name: this.buildingName,
     imageUrl: this.selectedImagePreview,
     floors: 1,        // inserisci valori di default o campi nel form

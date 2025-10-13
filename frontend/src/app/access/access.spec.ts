@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccessComponent } from './access';
+import { Access } from './access';
 
 describe('Access', () => {
-  let component: AccessComponent;
-  let fixture: ComponentFixture<AccessComponent>;
+  let component: Access;
+  let fixture: ComponentFixture<Access>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccessComponent]
+      imports: [Access]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AccessComponent);
+    fixture = TestBed.createComponent(Access);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

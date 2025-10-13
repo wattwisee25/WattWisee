@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GlossaryComponent } from './glossary';
+import { Glossary } from './glossary';
 
 describe('Glossary', () => {
-  let component: GlossaryComponent;
-  let fixture: ComponentFixture<GlossaryComponent>;
+  let component: Glossary;
+  let fixture: ComponentFixture<Glossary>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GlossaryComponent]
+      imports: [Glossary]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GlossaryComponent);
+    fixture = TestBed.createComponent(Glossary);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

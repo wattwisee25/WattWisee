@@ -15,7 +15,7 @@ type BillType = 'electricity' | 'oil' | 'lpg';
   templateUrl: './upload-first-bill.html',
   styleUrls: ['./upload-first-bill.css']
 })
-export class UploadFirstBillComponent implements OnInit {
+export class UploadFirstBill implements OnInit {
   project!: Project;
   isLoading = true;
 
@@ -75,35 +75,6 @@ export class UploadFirstBillComponent implements OnInit {
 
   hasSelectedFiles(): boolean {
     return Object.values(this.selectedFilesByType).some(files => files.length > 0);
-  }
-
-  onUpload() {
-    if (!this.hasSelectedFiles()) return alert('Please select at least one file!');
-    if (!this.selectedBuildingId) return alert('Please select a building!');
-
-    const formData = new FormData();
-
-    (Object.entries(this.selectedFilesByType) as [BillType, File[]][]).forEach(([type, files]) => {
-      files.forEach(file => {
-        formData.append('files', file);
-        formData.append('types', type);
-      });
-    });
-
-    formData.append('buildingId', this.selectedBuildingId);
-
-    this.http.post('http://localhost:3000/api/upload', formData, { withCredentials: true })
-      .subscribe({
-        next: (res) => {
-          console.log('Uploaded files:', res);
-          alert('Files uploaded and processed successfully!');
-          this.selectedFilesByType = { electricity: [], oil: [], lpg: [] };
-        },
-        error: (err) => {
-          console.error('Error during processing:', err);
-          alert('An error occurred during processing.');
-        }
-      });
   }
 
   // 👇 nuovo metodo per reindirizzare alla pagina di compilazione bolletta

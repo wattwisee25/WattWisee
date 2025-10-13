@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './verify-email.html',
   styleUrls: ['./verify-email.css']
 })
-export class VerifyEmailComponent implements OnInit {
+export class VerifyEmail implements OnInit {
   verifyForm: FormGroup;
   userId: string = '';
   loading = false;

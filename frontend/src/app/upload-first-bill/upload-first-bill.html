@@ -34,8 +34,7 @@
     <div class="finish-row">
       <button
         class="finish-btn"
-        (click)="onUpload()"
-        [disabled]="!hasSelectedFiles() || !selectedBuildingId"
+        routerLink="/home"
       >
         Finish
       </button>

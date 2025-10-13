@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupplierUploadComponent } from './supplier-upload';
+import { SupplierUpload } from './supplier-upload';
 
-describe('SupplierUploadComponent', () => {
-  let component: SupplierUploadComponent;
-  let fixture: ComponentFixture<SupplierUploadComponent>;
+describe('SupplierUpload', () => {
+  let component: SupplierUpload;
+  let fixture: ComponentFixture<SupplierUpload>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SupplierUploadComponent]
+      imports: [SupplierUpload]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SupplierUploadComponent);
+    fixture = TestBed.createComponent(SupplierUpload);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

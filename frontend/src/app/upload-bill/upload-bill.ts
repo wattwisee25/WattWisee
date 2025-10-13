@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './upload-bill.html',
   styleUrl: './upload-bill.css'
 })
-export class UploadBillComponent {
+export class UploadBill {
 
   bill = [
     { term: 'Electricity'},

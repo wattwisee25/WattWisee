@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService, Project, Building } from '../project.service';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from '../menu/menu';
+import { Menu } from '../menu/menu';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -9,11 +9,11 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-building',
   standalone: true,
-  imports: [CommonModule, MenuComponent, FormsModule, RouterModule],
+  imports: [CommonModule, Menu, FormsModule, RouterModule],
   templateUrl: './building-list.html',
   styleUrls: ['./building-list.css'] // ⚠️ corretto
 })
-export class BuildingListComponent implements OnInit {
+export class BuildingList implements OnInit {
   project!: Project;
   isLoading = true;
 

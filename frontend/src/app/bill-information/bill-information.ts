@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 
@@ -13,7 +15,7 @@ type BillType = 'electricity' | 'oil' | 'lpg';
   templateUrl: './bill-information.html',
   styleUrls: ['./bill-information.css']
 })
-export class BillInformationComponent implements OnInit {
+export class BillInformation implements OnInit {
 
   electricityFields = [
     { key: 'mprn', label: 'MPRN number', type: 'text' },
@@ -58,7 +60,11 @@ export class BillInformationComponent implements OnInit {
   currentIndex: number = 0;
   currentBill: any = { data: {} };
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location) { }
+
+    goBack(): void {
+    this.location.back(); // Torna alla pagina precedente
+  }
 
   ngOnInit() {
     // leggi tipo bolletta dai parametri di route

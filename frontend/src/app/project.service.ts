@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Building {
+  mprn: any;
 floors: any;
 surface: any;
 city: any;
@@ -45,8 +46,8 @@ export class ProjectService {
     return this.http.get<Building>(`${this.apiUrl}/buildings/${buildingId}`, { withCredentials: true });
   }
 
-updateBuilding(id: string, building: Building): Observable<Building> {
-  return this.http.put<Building>(`${this.apiUrl}/buildings/${id}`, building, {
+updateBuilding(buildingId: string, building: Building): Observable<Building> {
+  return this.http.put<Building>(`${this.apiUrl}/buildings/${buildingId}`, building, {
     withCredentials: true
   });
 }

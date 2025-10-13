@@ -3,17 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectService, Building } from '../project.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MenuComponent } from '../menu/menu';
+import { Menu } from '../menu/menu';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-building-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, MenuComponent, RouterModule],
+  imports: [CommonModule, FormsModule, Menu, RouterModule],
   templateUrl: './building-info.html',
   styleUrls: ['./building-info.css']
 })
-export class BuildingInfoComponent implements OnInit {
+export class BuildingInfo implements OnInit {
   selectedBuilding: Building | null = null;
   isEditing = false;
   isLoading = false;
@@ -57,40 +57,20 @@ export class BuildingInfoComponent implements OnInit {
     this.isEditing = !this.isEditing;
   }
 
-  save() {
-    if (!this.selectedBuilding?._id) return;
+save() {
+  if (!this.selectedBuilding?._id) return;
 
-    this.projectService.updateBuilding(this.selectedBuilding._id, this.selectedBuilding)
-      .subscribe({
-        next: updated => {
-          this.selectedBuilding = updated;
-          this.isEditing = false;
-        },
-        error: err => {
-          console.error('Errore aggiornamento edificio', err);
-          this.errorMessage = 'Errore durante il salvataggio';
-        }
-      });
-  }
+  this.projectService.updateBuilding(this.selectedBuilding._id, this.selectedBuilding)
+    .subscribe({
+      next: (response) => {
+        this.selectedBuilding = response;
+        this.isEditing = false;
+      },
+      error: err => {
+        console.error('Error updating building', err);
+        this.errorMessage = 'Error while saving';
+      }
+    });
+}
 
-  addImage() {
-    if (!this.selectedBuilding?._id || !this.newImageUrl.trim()) return;
-
-    const updatedBuilding = {
-      ...this.selectedBuilding,
-      imageUrl: this.newImageUrl
-    };
-
-    this.projectService.updateBuilding(this.selectedBuilding._id, updatedBuilding)
-      .subscribe({
-        next: updated => {
-          this.selectedBuilding = updated;
-          this.newImageUrl = '';
-        },
-        error: err => {
-          console.error('Errore aggiunta immagine', err);
-          this.errorMessage = 'Errore durante l\'aggiunta dei dati';
-        }
-      });
-  }
 }

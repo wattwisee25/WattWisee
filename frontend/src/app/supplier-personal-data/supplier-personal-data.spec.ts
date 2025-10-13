@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupplierPersonalDataComponent } from './supplier-personal-data';
+import { SupplierPersonalData } from './supplier-personal-data';
 
-describe('SupplierPersonalDataComponent', () => {
-  let component: SupplierPersonalDataComponent;
-  let fixture: ComponentFixture<SupplierPersonalDataComponent>;
+describe('SupplierPersonalData', () => {
+  let component: SupplierPersonalData;
+  let fixture: ComponentFixture<SupplierPersonalData>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SupplierPersonalDataComponent]
+      imports: [SupplierPersonalData]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SupplierPersonalDataComponent);
+    fixture = TestBed.createComponent(SupplierPersonalData);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

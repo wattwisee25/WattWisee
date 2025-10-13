@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActionPlanSupplierComponent } from './action-plan-supplier';
+import { ActionPlanSupplier } from './action-plan-supplier';
 
-describe('ActionPlanSupplierComponent', () => {
-  let component: ActionPlanSupplierComponent;
-  let fixture: ComponentFixture<ActionPlanSupplierComponent>;
+describe('ActionPlanSupplier', () => {
+  let component: ActionPlanSupplier;
+  let fixture: ComponentFixture<ActionPlanSupplier>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActionPlanSupplierComponent]
+      imports: [ActionPlanSupplier]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActionPlanSupplierComponent);
+    fixture = TestBed.createComponent(ActionPlanSupplier);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

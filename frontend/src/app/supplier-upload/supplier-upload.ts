@@ -3,16 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { SupplierMenuComponent } from '../supplier-menu/supplier-menu';
+import { SupplierMenu } from '../supplier-menu/supplier-menu';
 
 @Component({
   selector: 'app-supplier-upload',
   standalone: true, 
-  imports: [SupplierMenuComponent, CommonModule],
+  imports: [SupplierMenu, CommonModule],
   templateUrl: './supplier-upload.html',
   styleUrl: './supplier-upload.css'
 })
-export class SupplierUploadComponent implements OnInit {
+export class SupplierUpload implements OnInit {
   
     term: string = '';
   

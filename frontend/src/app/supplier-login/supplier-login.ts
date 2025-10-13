@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './supplier-login.html',
   styleUrl: './supplier-login.css'
 })
-export class SupplierLoginComponent implements OnInit {
+export class SupplierLogin implements OnInit {
   showPassword = false;
 
   email = '';
