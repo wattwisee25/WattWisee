@@ -8,6 +8,14 @@
   padding: 20px;
 }
 
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: #c1dbe3;
+  flex-direction: column;
+}
+
+
 .up {
   width: 100%;
   display: flex;

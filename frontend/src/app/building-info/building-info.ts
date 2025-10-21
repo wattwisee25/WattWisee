@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Menu } from '../menu/menu';
 import { RouterModule } from '@angular/router';
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-building-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, Menu, RouterModule],
+  imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton],
   templateUrl: './building-info.html',
   styleUrls: ['./building-info.css']
 })

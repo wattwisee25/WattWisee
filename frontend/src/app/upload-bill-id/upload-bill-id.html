@@ -9,39 +9,18 @@
     <!-- Building selection -->
     <h3>Select the building you want to upload bills for:</h3>
     <div class="buildings-list">
-      <div
-        class="building-card"
-        *ngFor="let building of filteredBuildings"
-        [class.selected]="building._id === selectedBuildingId"
-        (click)="selectBuilding(building._id)"
-      >
+      <div class="building-card" *ngFor="let building of filteredBuildings"
+        [class.selected]="building._id === selectedBuildingId" (click)="selectBuilding(building._id)">
         <img [src]="building.imageUrl" alt="Building" />
         <p>{{ building.name }}</p>
       </div>
     </div>
 
     <!-- Hidden file inputs for each bill type -->
-    <input
-      #electricityInput
-      type="file"
-      (change)="onFilesSelected($event, 'electricity')"
-      style="display: none"
-      multiple
-    />
-    <input
-      #oilInput
-      type="file"
-      (change)="onFilesSelected($event, 'oil')"
-      style="display: none"
-      multiple
-    />
-    <input
-      #lpgInput
-      type="file"
-      (change)="onFilesSelected($event, 'lpg')"
-      style="display: none"
-      multiple
-    />
+    <input #electricityInput type="file" (change)="onFilesSelected($event, 'electricity')" style="display: none"
+      multiple />
+    <input #oilInput type="file" (change)="onFilesSelected($event, 'oil')" style="display: none" multiple />
+    <input #lpgInput type="file" (change)="onFilesSelected($event, 'lpg')" style="display: none" multiple />
 
     <!-- Bill type selection -->
     <h3>Upload bills to the correct repository:</h3>
@@ -91,21 +70,13 @@
 
     <!-- Upload button -->
     <div class="finish-row">
-      <button
-        class="finish-btn"
-        (click)="onUpload()"
-        [disabled]="!hasSelectedFiles() || !selectedBuildingId"
-      >
+      <button class="finish-btn" (click)="onUpload()" [disabled]="!hasSelectedFiles() || !selectedBuildingId">
         Finish
       </button>
     </div>
   </div>
 
 </div>
-  
-  <div class="back">
-    <div class="link">
-    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l4 4" /><path d="M5 12l4 -4" /></svg>
-    <a routerLink="/project-list">Select the project</a>
-  </div>
-  </div>
+<div class="back-button">
+  <app-back-button></app-back-button>
+</div>

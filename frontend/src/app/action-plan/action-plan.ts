@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Menu } from "../menu/menu";
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-action-plan',
-  imports: [Menu, CommonModule],
+  imports: [Menu, CommonModule, BackButton],
   templateUrl: './action-plan.html',
   styleUrl: './action-plan.css'
 })

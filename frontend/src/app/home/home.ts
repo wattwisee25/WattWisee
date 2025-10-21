@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Menu } from "../menu/menu";
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-home',
-  imports: [Menu],
+  imports: [Menu, BackButton],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

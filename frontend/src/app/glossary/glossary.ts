@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Menu } from "../menu/menu";
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-glossary',
   standalone: true,
-  imports: [CommonModule, Menu],
+  imports: [CommonModule, Menu, BackButton],
   templateUrl: './glossary.html',
   styleUrls: ['./glossary.css']
 })

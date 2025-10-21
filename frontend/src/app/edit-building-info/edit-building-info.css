@@ -1,6 +1,6 @@
 @media screen and (min-width: 770px) {
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .edit-building-container {
+  .edit-building-container, .back-button {
     margin-left: 250px; /* ad esempio per compensare il menu fisso */
   }
 }
@@ -11,6 +11,13 @@
     margin-top: 50px; 
   }
 
+}
+
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: #c1dbe3;
+  flex-direction: column;
 }
 
 .edit-building-container {

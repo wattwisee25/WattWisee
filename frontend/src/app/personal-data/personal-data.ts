@@ -3,6 +3,7 @@ import { Menu } from "../menu/menu";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
+import { BackButton } from "../back-button/back-button";
 
 
 @Component({
@@ -10,7 +11,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './personal-data.html',
   styleUrls: ['./personal-data.css'],
   standalone: true,
-  imports: [FormsModule, Menu, CommonModule]
+  imports: [FormsModule, Menu, CommonModule, BackButton]
 })
 export class PersonalData implements OnInit {
   personalData = {

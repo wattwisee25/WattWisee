@@ -8,6 +8,13 @@
     background-color: #c1dbe3;
 }
 
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: #c1dbe3;
+  flex-direction: column;
+}
+
 .logo{
   width: 200px;
   margin: 0 auto 30px;

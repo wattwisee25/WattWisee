@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { BackButton } from "../back-button/back-button";
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 
 @Component({
   selector: 'app-upload-first-bill',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, BackButton],
   templateUrl: './upload-first-bill.html',
   styleUrls: ['./upload-first-bill.css']
 })

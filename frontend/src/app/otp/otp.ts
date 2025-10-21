@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-otp',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BackButton],
   standalone: true,
   templateUrl: './otp.html',
   styleUrls: ['./otp.css']

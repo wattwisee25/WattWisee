@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { Menu } from "../menu/menu";
 import { ProjectService } from '../project.service';
+import { BackButton } from "../back-button/back-button";
 
 interface Building {
   mprn: string;
@@ -19,7 +20,7 @@ interface Building {
 @Component({
   selector: 'app-add-building',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, Menu],
+  imports: [FormsModule, CommonModule, RouterModule, Menu, BackButton],
   templateUrl: './add-building.html',
   styleUrl: './add-building.css'
 })

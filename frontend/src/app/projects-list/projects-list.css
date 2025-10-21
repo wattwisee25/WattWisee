@@ -20,9 +20,16 @@ display: flex;
     padding: 2rem 1rem;
     box-sizing: border-box;
 }
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: transparent;
+  flex-direction: column;
+}
+
 @media screen and (min-width: 770px) {
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .project-container {
+  .project-container, .back-button {
     margin-left: 250px; 
   }
 }

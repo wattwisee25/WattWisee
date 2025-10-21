@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { BackButton } from "../back-button/back-button";
 
 
 @Component({
   selector: 'app-account',
-  imports: [Menu, FormsModule, CommonModule, RouterModule],
+  imports: [Menu, FormsModule, CommonModule, RouterModule, BackButton],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })

@@ -5,6 +5,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 // Routes
 import usersRouter from "./routes/users.js";
@@ -22,6 +23,10 @@ app.use(cookieParser());
 app.use("/api/users", usersRouter);
 app.use("/api/projects", projectsRouter);
 app.use("/api/bill", billRouter);
+
+//Rendere accessibile la cartella uploads
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 
 mongoose.connect("mongodb://localhost:27017/wattWisee")
   .then(() => {

@@ -11,8 +11,15 @@
   justify-content: center;
 }
 
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: transparent;
+  flex-direction: column;
+}
+
 @media screen and (min-width: 770px) {
-  .personal-data-container {
+  .personal-data-container, .back-button {
     margin-left: 250px; /* spazio per menu laterale */
   }
 }

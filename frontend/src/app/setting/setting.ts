@@ -8,10 +8,11 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { Menu } from "../menu/menu";
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-setting',
-  imports: [Menu, FormsModule, CommonModule],
+  imports: [Menu, FormsModule, CommonModule, BackButton],
   templateUrl: './setting.html',
   styleUrl: './setting.css'
 })

@@ -8,9 +8,15 @@
 
   @media screen and (min-width: 770px) {
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .renewable-container {
+  .renewable-container, .back-button {
     margin-left: 250px; /* ad esempio per compensare il menu fisso */
   }
+}
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: transparent;
+  flex-direction: column;
 }
 
 h2{

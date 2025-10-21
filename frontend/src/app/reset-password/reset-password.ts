@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-reset-password',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BackButton],
   templateUrl: './reset-password.html',
   styleUrls: ['./reset-password.css']
 })

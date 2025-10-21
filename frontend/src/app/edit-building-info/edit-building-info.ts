@@ -6,12 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { Menu } from '../menu/menu';
 import { ProjectService } from '../project.service';
 import { RouterModule } from '@angular/router';
+import { BackButton } from "../back-button/back-button";
 
 
 @Component({
   selector: 'app-edit-building-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, Menu, RouterModule],
+  imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton],
   templateUrl: './edit-building-info.html',
   styleUrls: ['./edit-building-info.css']
 })
@@ -131,7 +132,7 @@ saveBuilding() {
       this.location.back();
     },
     error: (err) => {
-      console.error('Errore nel salvataggio:', err);
+      console.error('Error while saving:', err);
       // puoi mostrare un messaggio UI oppure loggare, senza alert
     }
   });

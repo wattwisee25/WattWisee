@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { BackButton } from '../back-button/back-button';
 
 @Component({
   selector: 'app-create-account',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, BackButton],
   templateUrl: './create-account.html',
   styleUrls: ['./create-account.css']
 })

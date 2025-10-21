@@ -9,6 +9,13 @@
   box-sizing: border-box;
 }
 
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: #c1dbe3;
+  flex-direction: column;
+}
+
 /* Logo */
 .logo {
   width: 200px;

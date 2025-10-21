@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Menu } from '../menu/menu';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [CommonModule, Menu, RouterModule, FormsModule],
+  imports: [CommonModule, Menu, RouterModule, FormsModule, BackButton],
   templateUrl: './project-list.html',
   styleUrls: ['./project-list.css']
 })

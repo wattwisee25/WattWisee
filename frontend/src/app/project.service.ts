@@ -47,7 +47,7 @@ export class ProjectService {
   }
 
 updateBuilding(buildingId: string, buildingData: any): Observable<any> {
-  return this.http.put(`/api/projects/buildings/${buildingId}`, buildingData, { withCredentials: true });
+  return this.http.put(`${this.apiUrl}/buildings/${buildingId}`, buildingData, { withCredentials: true });
 }
 
 

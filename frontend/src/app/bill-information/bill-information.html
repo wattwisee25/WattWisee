@@ -16,8 +16,14 @@
       <!-- Electricity form -->
       <form *ngIf="billType === 'electricity'" (ngSubmit)="saveBill()">
         <div class="input-container" *ngFor="let field of electricityFields">
-          <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
-          <label>{{ field.label }}</label>
+          <ng-container *ngIf="field.type !== 'file'; else fileInput">
+            <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
+            <label>{{ field.label }}</label>
+          </ng-container>
+          <ng-template #fileInput>
+            <input type="file" (change)="onFileSelected($event, field.key)" />
+            <label>{{ field.label }}</label>
+          </ng-template>
         </div>
         <div class="btn-container">
           <button type="submit" class="upload-btn">Save</button>
@@ -27,8 +33,14 @@
       <!-- Oil form -->
       <form *ngIf="billType === 'oil'" (ngSubmit)="saveBill()">
         <div class="input-container" *ngFor="let field of oilFields">
-          <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
-          <label>{{ field.label }}</label>
+          <ng-container *ngIf="field.type !== 'file'; else fileInputOil">
+            <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
+            <label>{{ field.label }}</label>
+          </ng-container>
+          <ng-template #fileInputOil>
+            <input type="file" (change)="onFileSelected($event, field.key)" />
+            <label>{{ field.label }}</label>
+          </ng-template>
         </div>
         <div class="btn-container">
           <button type="submit" class="upload-btn">Save</button>
@@ -38,8 +50,14 @@
       <!-- LPG form -->
       <form *ngIf="billType === 'lpg'" (ngSubmit)="saveBill()">
         <div class="input-container" *ngFor="let field of lpgFields">
-          <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
-          <label>{{ field.label }}</label>
+          <ng-container *ngIf="field.type !== 'file'; else fileInputLpg">
+            <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
+            <label>{{ field.label }}</label>
+          </ng-container>
+          <ng-template #fileInputLpg>
+            <input type="file" (change)="onFileSelected($event, field.key)" />
+            <label>{{ field.label }}</label>
+          </ng-template>
         </div>
         <div class="btn-container">
           <button type="submit" class="upload-btn">Save</button>
@@ -51,27 +69,30 @@
 
   <div class="navigation-buttons">
     <button (click)="back()" [disabled]="currentIndex === 0" class="back-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M5 12l14 0" />
         <path d="M5 12l4 4" />
         <path d="M5 12l4 -4" />
       </svg>
-      Back
+      Previous
     </button>
 
     <p>{{ getIndicator() }}</p>
 
     <button (click)="next()" class="skip-btn">
-      Next
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 5l0 14" />
         <path d="M5 12l14 0" />
-        <path d="M15 16l4 -4" />
-        <path d="M15 8l4 4" />
-      </svg>
+      </svg>New
     </button>
   </div>
+</div>
+
+<div class="back-button">
+  <app-back-button></app-back-button>
 </div>

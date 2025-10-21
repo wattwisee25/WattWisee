@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadBill } from './upload-bill';
+import { BackButton } from './back-button';
 
-describe('UploadBill', () => {
-  let component: UploadBill;
-  let fixture: ComponentFixture<UploadBill>;
+describe('BackButton', () => {
+  let component: BackButton;
+  let fixture: ComponentFixture<BackButton>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UploadBill]
+      imports: [BackButton]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UploadBill);
+    fixture = TestBed.createComponent(BackButton);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

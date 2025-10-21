@@ -4,10 +4,11 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BackButton } from "../back-button/back-button";
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BackButton],
   templateUrl: './forgot-password.html',
   styleUrls: ['./forgot-password.css']
 })
@@ -21,7 +22,7 @@ export class ForgotPassword {
   onSubmit() {
     this.authService.forgotPassword(this.email).subscribe(
       () => {
-        this.message = 'Reset email sent. Check you mailbox.';
+        this.message = 'Reset email sent. Check your mailbox.';
         this.error = '';
       },
       (err) => {

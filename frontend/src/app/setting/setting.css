@@ -10,7 +10,7 @@
 }
 @media screen and (min-width: 770px) {
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .setting-container {
+  .setting-container, .back-button {
     margin-left: 250px; /* ad esempio per compensare il menu fisso */
   }
 
@@ -23,6 +23,14 @@
   }
 
 }
+
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: transparent;
+  flex-direction: column;
+}
+
 /* Splash layout */
 .splash {
   min-height: 100vh;

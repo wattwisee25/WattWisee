@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { BackButton } from "../back-button/back-button";
 
 interface Building {
   name: string;
@@ -23,7 +24,7 @@ interface CreateProjectResponse {
 @Component({
   selector: 'app-create-project',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, BackButton],
   templateUrl: './first-new-project.html',
   styleUrls: ['./first-new-project.css']
 })
