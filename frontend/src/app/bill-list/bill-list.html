@@ -80,6 +80,7 @@
       <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCost1 }}</p>
       <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCost2 }}</p>
       <p><strong>Total Cost:</strong> €{{ selectedBill.data.totalCost }}</p>
+      <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete Bill</button>
     </div>
 
     <!-- Oil -->
@@ -90,6 +91,7 @@
       <p><strong>kWh Equivalent:</strong> {{ selectedBill.data.kwhEquivalent }}</p>
       <p><strong>Carbon Tonnes:</strong> {{ selectedBill.data.tonnesCarbon }}</p>
       <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCostOil }}</p>
+      <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete Bill</button>
     </div>
 
     <!-- LPG -->
@@ -102,6 +104,7 @@
       <p><strong>Cubic Meters:</strong> {{ selectedBill.data.cubicMeters }}</p>
       <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCostLpg }}</p>
       <p><strong>Total Cost:</strong> €{{ selectedBill.data.totalCostLpg }}</p>
+      <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete Bill</button>
     </div>
 
   </div>

@@ -91,13 +91,18 @@ closeModal() {
   }
 
   // Elimina una bolletta
-  deleteBill(id?: string) {
-    if (!id) return console.warn('Cannot delete: id is undefined');
+// Elimina una bolletta
+deleteBill(id?: string) {
+  if (!id) return console.warn('Cannot delete: id is undefined');
 
-    this.http.delete(`http://localhost:3000/api/bill/${id}`)
-      .subscribe({
-        next: () => this.loadBills(),
-        error: (err) => console.error('Error deleting bill:', err)
-      });
-  }
+  this.http.delete(`http://localhost:3000/api/bill/${id}`)
+    .subscribe({
+      next: () => {
+        this.loadBills();    // ricarica la lista delle bollette
+        this.closeModal();   // chiude la modale
+      },
+      error: (err) => console.error('Error deleting bill:', err)
+    });
+}
+
 }

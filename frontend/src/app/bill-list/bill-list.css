@@ -162,6 +162,19 @@ li .view {
   color: #31545b;
 }
 
+.delete-btn {
+  margin-top: 15px;
+  background-color: #e57373;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: red;
+}
 
 /* Responsive */
 @media screen and (max-width: 1028px) {

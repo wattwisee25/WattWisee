@@ -1,14 +1,19 @@
 <!-- Toggle menu (solo mobile) -->
-<button class="btn btn-outline-secondary d-md-none mb-2 sidebar-toggle" (click)="toggleSidebar()"
-  [style.display]="sidebarOpen ? 'none' : 'block'" aria-label="Apri menu">
+<button class="btn btn-outline-secondary d-md-none mb-2 sidebar-toggle" 
+        (click)="toggleSidebar()"
+        [style.display]="sidebarOpen ? 'none' : 'block'" 
+        aria-label="Apri menu">
   <i class="bi bi-list"></i>
 </button>
 
 <!-- Sidebar -->
 <nav class="sidebar" [class.open]="sidebarOpen || isDesktop">
+
   <!-- Pulsante chiusura menu mobile -->
-  <button *ngIf="sidebarOpen && !isDesktop" class="btn btn-link text-white position-absolute top-0 end-0 m-1 d-md-none"
-    (click)="toggleSidebar()" aria-label="Chiudi menu">
+  <button *ngIf="sidebarOpen && !isDesktop" 
+          class="btn btn-link text-white position-absolute top-0 end-0 m-1 d-md-none"
+          (click)="toggleSidebar()" 
+          aria-label="Chiudi menu">
     <i class="bi bi-x-lg fs-6"></i>
   </button>
 
@@ -17,125 +22,21 @@
   </div>
 
   <ul class="nav flex-column sidebar-nav">
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2" routerLink="/home" routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }" (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-home">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-          <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-          <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-        </svg> <span>Home</span>
+    <li class="nav-item" *ngFor="let item of menuItems">
+      <a class="nav-link d-flex align-items-center gap-2" 
+         [routerLink]="item.route" 
+         [ngClass]="{ 'active': isActive(item.route) }" 
+         (click)="toggleSidebar()">
+        <span [innerHTML]="item.icon"></span>
+        <span>{{ item.label }}</span>
       </a>
     </li>
+
+    <!-- Logout separato -->
     <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2" routerLink="/projects" routerLinkActive="active"
-        (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-folder">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />
-        </svg> <span>Projects</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2" routerLink="/project-list" routerLinkActive="active"
-        (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-file-upload">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-          <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-          <path d="M12 11v6" />
-          <path d="M9.5 13.5l2.5 -2.5l2.5 2.5" />
-        </svg> <span>Add your bills</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2" routerLink="/action-plan" routerLinkActive="active"
-        (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-map">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" />
-          <path d="M9 4v13" />
-          <path d="M15 7v13" />
-        </svg> <span>Action plan</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2" routerLink="/renewable" routerLinkActive="active"
-        (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-sun-electricity">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M8 12a4 4 0 0 0 4 4m0 -8a4 4 0 0 0 -4 4" />
-          <path d="M3 12h1" />
-          <path d="M12 3v1" />
-          <path d="M12 20v1" />
-          <path d="M5.6 5.6l.7 .7" />
-          <path d="M6.3 17.7l-.7 .7" />
-          <path d="M20 7l-3 5h4l-3 5" />
-        </svg> <span>Green impact</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2" routerLink="/audit-report" routerLinkActive="active"
-        (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-checklist">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" />
-          <path d="M14 19l2 2l4 -4" />
-          <path d="M9 8h4" />
-          <path d="M9 12h2" />
-        </svg> <span>Audit report</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2" routerLink="/glossary" routerLinkActive="active"
-        (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-book">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
-          <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
-          <path d="M3 6l0 13" />
-          <path d="M12 6l0 13" />
-          <path d="M21 6l0 13" />
-        </svg><span>Glossary</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2" routerLink="/profile" routerLinkActive="active"
-        (click)="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-user">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-        </svg><span>Profile</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2 logout" (click)="logout()" style="cursor: pointer;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-logout">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-          <path d="M7 12h14l-3 -3" />
-          <path d="M14 15l3 -3" />
-        </svg>
+      <a class="nav-link d-flex align-items-center gap-2 logout" 
+         (click)="logout()" style="cursor: pointer;">
+        <i class="bi bi-box-arrow-right"></i>
         <span>Logout</span>
       </a>
     </li>

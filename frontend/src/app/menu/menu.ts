@@ -1,8 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -14,6 +13,18 @@ import { Router } from '@angular/router';
 export class Menu {
   sidebarOpen = false;
   isDesktop = window.innerWidth >= 768;
+
+    menuItems = [
+  { label: 'Home', route: '/home', icon: '<i class="bi bi-house"></i>' },
+  { label: 'Projects', route: '/projects', icon: '<i class="bi bi-folder"></i>' },
+  { label: 'Add your bills', route: '/project-list', icon: '<i class="bi bi-upload"></i>' },
+  { label: 'Action plan', route: '/action-plan', icon: '<i class="bi bi-map"></i>' },
+  { label: 'Green impact', route: '/renewable', icon: '<i class="bi bi-sun"></i>' },
+  { label: 'Audit report', route: '/audit-report', icon: '<i class="bi bi-check2-square"></i>' },
+  { label: 'Glossary', route: '/glossary', icon: '<i class="bi bi-book"></i>' },
+  { label: 'Profile', route: '/profile', icon: '<i class="bi bi-person"></i>' },
+];
+
 
   constructor(
     private authService: AuthService,
@@ -46,4 +57,10 @@ export class Menu {
       this.sidebarOpen = false;
     }
   }
+
+isActive(menuRoute: string): boolean {
+  // Ritorna true se l'URL corrente inizia con il percorso principale
+  return this.router.url.startsWith(menuRoute);
+}
+
 }

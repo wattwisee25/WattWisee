@@ -11,6 +11,7 @@ import path from "path";
 import usersRouter from "./routes/users.js";
 import projectsRouter from "./routes/projects.js";
 import billRouter from "./routes/bill.js";
+import uploadsRouter from "./routes/s-upload.js";  // <-- nuovo
 
 const app = express();
 
@@ -20,13 +21,14 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cors({ origin: "http://localhost:4200", credentials: true }));
 app.use(cookieParser());
 
+// Registrazione delle rotte
 app.use("/api/users", usersRouter);
 app.use("/api/projects", projectsRouter);
 app.use("/api/bill", billRouter);
+app.use("/api/uploads", uploadsRouter);  // <-- nuovo
 
-//Rendere accessibile la cartella uploads
+// Rendere accessibile la cartella uploads
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
-
 
 mongoose.connect("mongodb://localhost:27017/wattWisee")
   .then(() => {
@@ -34,4 +36,3 @@ mongoose.connect("mongodb://localhost:27017/wattWisee")
     app.listen(3000, () => console.log("Server running on http://localhost:3000"));
   })
   .catch(err => console.error("MongoDB connection error:", err));
-

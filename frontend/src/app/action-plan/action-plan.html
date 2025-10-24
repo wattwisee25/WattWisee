@@ -9,7 +9,7 @@
         <div class="plan">
          <ul class="menu-list">
   <li *ngFor="let item of items">
-    <button class="menu-btn">
+    <button class="menu-btn" routerLink="./actions">
       <span class="icon" [innerHTML]="item.icon"></span>
       <span class="term">{{ item.term }}</span>
     </button>

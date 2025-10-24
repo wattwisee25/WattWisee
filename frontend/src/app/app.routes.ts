@@ -18,6 +18,7 @@ import { BuildingInfo } from './building-info/building-info';
 import { EditBuildingInfo } from './edit-building-info/edit-building-info';
 import { BillList } from './bill-list/bill-list';
 import { ActionPlan } from './action-plan/action-plan';
+import { Actions } from './actions/actions';
 import { BillInformation } from './bill-information/bill-information';
 import { Renewable } from './renewable/renewable';
 import { AuditReport } from './audit-report/audit-report';
@@ -62,6 +63,7 @@ export const routes: Routes = [
   { path: 'bills/:id/:type', component: BillList, canActivate: [AuthGuard] },
   { path: 'bill-information/:type', component: BillInformation, canActivate: [AuthGuard] },
   { path: 'action-plan', component: ActionPlan, canActivate: [AuthGuard] },
+  { path: 'actions', component: Actions, canActivate: [AuthGuard] },
   { path: 'renewable', component: Renewable, canActivate: [AuthGuard] },
   { path: 'audit-report', component: AuditReport, canActivate: [AuthGuard] },
   { path: 'glossary', component: Glossary, canActivate: [AuthGuard] },
