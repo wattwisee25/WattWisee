@@ -463,4 +463,15 @@ router.delete('/me', authMiddleware, async (req, res) => {
   }
 });
 
+router.get('/suppliers', authMiddleware, async (req, res) => {
+  try {
+    const suppliers = await User.find({ register_as: 'Supplier' }).select('company_name email _id');
+    res.json(suppliers);
+    console.log('Fetched suppliers:', suppliers);
+  } catch (err) {
+    console.error('Error fetching suppliers:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 export default router;

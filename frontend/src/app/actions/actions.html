@@ -1,13 +1,27 @@
 <header>
-    <app-menu></app-menu>
+  <app-menu></app-menu>
 </header>
 <div class="action-container">
-    <div class="title">
-      <h2 class="title1">{{ term }}</h2>
-      <h2 class="suppl">Top 3 suppliers</h2>
-    </div>
-</div>
+  <div class="title-container">
+    <h2 class="title">{{ term }}</h2>
+    <h2 class="supplier">Top 3 suppliers</h2>
+  </div>
 
-  <div class="back-button">
-    <app-back-button></app-back-button>
+  <div class="content-container">
+    <div class="cards-container">
+      <div class="card" *ngFor="let supplier of suppliers">
+        <h3 class="card-title">{{ supplier.name }}</h3>
+        <ul>
+          <li *ngFor="let item of items">
+            <div class="data">{{ item.data }}</div>
+            <div class="term">{{ item.term }}</div>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
+
+</div>
+<div class="back-button">
+  <app-back-button></app-back-button>
+</div>

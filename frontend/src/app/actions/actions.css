@@ -13,6 +13,14 @@
 
 }
 
+.action-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin-top: 20px;
+  height: 100vh;
+}
+
 .back-button {
   display: flex;
   align-items: flex-start;
@@ -20,10 +28,85 @@
   flex-direction: column;
 }
 
-.title1{
+.title-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.title{
     color: #31545b;
 }
 
-.suppl{
+.supplier{
     color: #F8951E;
+}
+
+/*Card*/
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.card {
+  background: #f8f9fa;               /* sfondo chiaro */
+  border-radius: 12px;               /* angoli arrotondati */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* ombra */
+  width: 100%;                       /* larghezza piena del contenitore */
+  min-width: 500px;                  /* larghezza massima */
+  padding: 1.5rem;                   /* padding interno */
+  text-align: center;                 /* testo centrato */
+  transition: transform 0.2s ease;   /* transizione per effetti hover */
+  margin: 0 auto;                     /* centra la card orizzontalmente */
+}
+
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card-title {
+  color: #F8951E;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card li {
+  margin-bottom: 0.8rem;
+}
+
+.data {
+  color: #31545b;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.term {
+  color: #31545b;
+  font-size: 0.9rem;
+}
+
+.comments {
+  border-top: 1px solid #ddd;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  font-size: 0.85rem;
+  color: #555;
 }

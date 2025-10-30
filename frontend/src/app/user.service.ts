@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export interface User {
+  _id: Object;
   contact_name: string;
   company_name: string;
   register_as: string;
@@ -19,19 +20,25 @@ export interface User {
 export class UserService {
   private apiUrl = 'http://localhost:3000/api/users'; // indirizzo backend
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Metodo per registrare un utente
   registerUser(user: User): Observable<User> {
     return this.http.post<User>(this.apiUrl, user);
   }
 
-  // Metodo per ottenere tutti gli utenti (opzionale)
+  // Metodo per ottenere tutti gli utenti
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
 
-    deleteAccount(): Observable<any> {
+getSuppliers(): Observable<User[]> {
+  return this.http.get<User[]>(`${this.apiUrl}/suppliers`, { withCredentials: true });
+}
+
+
+
+  deleteAccount(): Observable<any> {
     return this.http.delete(`${this.apiUrl}/me`, { withCredentials: true });
   }
 }
