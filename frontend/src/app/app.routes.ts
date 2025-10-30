@@ -18,6 +18,7 @@ import { BuildingInfo } from './building-info/building-info';
 import { EditBuildingInfo } from './edit-building-info/edit-building-info';
 import { BillList } from './bill-list/bill-list';
 import { ActionPlan } from './action-plan/action-plan';
+import { Recommended } from './recommended/recommended';
 import { Actions } from './actions/actions';
 import { BillInformation } from './bill-information/bill-information';
 import { Renewable } from './renewable/renewable';
@@ -63,7 +64,8 @@ export const routes: Routes = [
   { path: 'bills/:id/:type', component: BillList, canActivate: [AuthGuard] },
   { path: 'bill-information/:type', component: BillInformation, canActivate: [AuthGuard] },
   { path: 'action-plan', component: ActionPlan, canActivate: [AuthGuard] },
-  { path: 'actions', component: Actions, canActivate: [AuthGuard] },
+  { path: 'recommended/:term', component: Recommended, canActivate: [AuthGuard] },
+  { path: 'actions/:term', component: Actions, canActivate: [AuthGuard] },
   { path: 'renewable', component: Renewable, canActivate: [AuthGuard] },
   { path: 'audit-report', component: AuditReport, canActivate: [AuthGuard] },
   { path: 'glossary', component: Glossary, canActivate: [AuthGuard] },
@@ -75,7 +77,7 @@ export const routes: Routes = [
   { path: 'supplier-login', component: SupplierLogin },
   { path: 'supplier-otp', component: SupplierOtp },
   { path: 'action-plan-supplier', component: ActionPlanSupplier, canActivate: [AuthGuard] },
-  { path: 'recommended/:term', component: SupplierRecommended, canActivate: [AuthGuard] },
+  { path: 'supplier-recommended/:term', component: SupplierRecommended, canActivate: [AuthGuard] },
   { path: 'upload/:term', component: SupplierUpload, canActivate: [AuthGuard] },
   { path: 'supplier-profile', component: SupplierProfile, canActivate: [AuthGuard] },
   { path: 'supplier-personal-data', component: SupplierPersonalData, canActivate: [AuthGuard] },

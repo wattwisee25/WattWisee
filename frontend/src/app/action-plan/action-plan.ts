@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Menu } from "../menu/menu";
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BackButton } from "../back-button/back-button";
-import { AppRoutingModule } from "../app.routes";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-action-plan',
-  imports: [Menu, CommonModule, BackButton, AppRoutingModule],
+  standalone: true,
+  imports: [Menu, CommonModule, BackButton],
   templateUrl: './action-plan.html',
   styleUrl: './action-plan.css'
 })
@@ -15,7 +16,7 @@ export class ActionPlan {
 
   items: { icon: SafeHtml, term: string }[] = [];
 
-  constructor(private sanitizer: DomSanitizer) {
+    constructor(private sanitizer: DomSanitizer, private router: Router) {
     this.items = [
       {
         icon: this.sanitizer.bypassSecurityTrustHtml(`
@@ -147,5 +148,11 @@ export class ActionPlan {
       term: 'Others'
     }
     ];
+  }
+
+    goToItem(term: string) {
+    const encodedTerm = encodeURIComponent(term);
+    localStorage.setItem('selectedAction', term);
+    this.router.navigate(['/recommended', encodedTerm]);
   }
 }

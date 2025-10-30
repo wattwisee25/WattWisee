@@ -123,6 +123,7 @@ export class SupplierRecommended implements OnInit {
   
   goToItem(term: string) {
     const encodedTerm = encodeURIComponent(term);
+    localStorage.setItem('selectedRecommended', term);
     this.router.navigate(['/upload', encodedTerm]);
   }
 }

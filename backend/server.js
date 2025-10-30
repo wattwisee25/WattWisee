@@ -11,7 +11,7 @@ import path from "path";
 import usersRouter from "./routes/users.js";
 import projectsRouter from "./routes/projects.js";
 import billRouter from "./routes/bill.js";
-import uploadsRouter from "./routes/s-upload.js";  // <-- nuovo
+import uploadsRouter from "./routes/s-upload.js"; 
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use("/api/users", usersRouter);
 app.use("/api/projects", projectsRouter);
 app.use("/api/bill", billRouter);
-app.use("/api/uploads", uploadsRouter);  // <-- nuovo
+app.use("/api/uploads", uploadsRouter); 
 
 // Rendere accessibile la cartella uploads
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));

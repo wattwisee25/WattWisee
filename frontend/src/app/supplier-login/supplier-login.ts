@@ -46,7 +46,9 @@ export class SupplierLogin implements OnInit {
   this.loginError = '';
 
   this.authService.supplierLogin(this.email, this.password, this.remember).subscribe({
-    next: () => {
+    next: (res: any) => {
+      const supplierId = res.supplier._id;
+      localStorage.setItem('supplierId', supplierId);
       if (this.remember) {
         localStorage.setItem('rememberedEmail', this.email);
       } else {

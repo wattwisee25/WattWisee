@@ -1,0 +1,29 @@
+@media screen and (min-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .action-container, .back-button {
+    margin-left: 250px; /* ad esempio per compensare il menu fisso */
+  }
+}
+
+  @media screen and (max-width: 770px) {
+  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+  .action-container {
+    margin-top: 50px; 
+  }
+
+}
+
+.back-button {
+  display: flex;
+  align-items: flex-start;
+  background-color: transparent;
+  flex-direction: column;
+}
+
+.title1{
+    color: #31545b;
+}
+
+.suppl{
+    color: #F8951E;
+}

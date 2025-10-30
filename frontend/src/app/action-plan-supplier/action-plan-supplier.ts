@@ -151,6 +151,7 @@ export class ActionPlanSupplier {
 
   goToItem(term: string) {
     const encodedTerm = encodeURIComponent(term);
-    this.router.navigate(['/recommended', encodedTerm]);
+    localStorage.setItem('selectedAction', term);
+    this.router.navigate(['/supplier-recommended', encodedTerm]);
   }
 }

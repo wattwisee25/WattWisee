@@ -226,7 +226,13 @@ router.post('/supplier-login', async (req, res) => {
       });
     }
 
-    res.json({ message: 'OTP sent via email.' });
+    res.json({
+  message: 'OTP sent via email.',
+  supplier: {
+    _id: supplier._id,
+  }
+});
+
   } catch (err) {
     console.error('Supplier login error:', err);
     res.status(500).json({ message: 'Server error' });
