@@ -25,17 +25,32 @@
 
 /* Toggle button visibile solo su mobile */
 .sidebar-toggle {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: none;
+  position: fixed;       /* resta fisso sullo schermo */
+  top: 0;
+  left: 0;
+  background: white;
   border: none;
   color: #31545b;
   font-size: 28px;
-  z-index: 1100;
+  z-index: 1100;         /* sopra la sidebar */
   cursor: pointer;
-  display: block;
+  display: flex;         /* trasforma il bottone in flex container */
+  justify-content: flex-start; /* allinea a sinistra */
+  align-items: center;   /* centra verticalmente l'icona */
+  width: 100%;           /* occupa tutta la larghezza */
+  padding: 10px 20px;    /* margine interno */
+  text-align: left;      /* fallback se flex non bastasse */
+    outline: none;
 }
+
+.sidebar-toggle:focus,
+.sidebar-toggle:active {
+  outline: none;           /* niente bordo lampeggiante */
+  background-color: white; /* mantiene lo sfondo bianco */
+  color: #31545b;          /* mantiene il colore */
+}
+
+
 
 /* Lista di link */
 .sidebar-nav {

@@ -8,11 +8,10 @@
   @media screen and (max-width: 770px) {
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
   .action-container {
-    margin-top: 50px; 
+    margin-top: 300px; 
   }
 
 }
-
 .action-container {
   display: flex;
   flex-direction: column;
@@ -32,10 +31,12 @@
     display: flex;
     flex-direction: row;
     gap: 20px;
+    align-items: center;
 }
 
 .title{
     color: #31545b;
+    font-size: 45px;
 }
 
 .supplier{
