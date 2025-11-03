@@ -2,7 +2,6 @@
   /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
   .renewable-container{
     margin-top: 50px; 
-    padding: 32px 16px;
   }
   }
 
@@ -19,29 +18,78 @@
   flex-direction: column;
 }
 
-h2{
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.values {
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.value {
+  text-align: center;
+}
+
+.data-section {
+  border-top: 1px solid #ccc;
+  padding-top: 12px;
+  background-color: #c1dbe3;
+  padding: 10px;
+}
+
+.label {
+  display: block;
+  font-size: 0.85em;
   color: #31545b;
 }
 
-.data{
-  background-color: #C1DBE3;
-  radius: 4px;
-  display: flex;
-  justify-content: space-around; /* Spazio uniforme tra gli elementi */
-  align-items: center; /* Allinea verticalmente al centro */
-  margin-top: 20px; /* Spazio sopra il contenitore */
-  gap:10px; /* Spazio tra i due elementi */
-  width: 80%;
-  
-}
-
-.kwh, .type, .co2{
+.data {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 4px;
   color: #31545b;
-  display: flex;
-  flex-direction: column; /* Dispone gli elementi in colonna */
 }
 
-.kwh span, .type span, .co2 span {
-  margin-top: 5px; /* Spazio tra il pulsante e il testo */
-  font-size: 12px; /* Dimensione del testo */
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+.scroll-btn {
+  background-color: transparent;
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  margin: 4px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+h3{
+  font-size: 20px;
+  color: #31545b;
 }
