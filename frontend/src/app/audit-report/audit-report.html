@@ -1,188 +1,252 @@
-<!-- =========================
-     HEADER
-========================= -->
 <header>
-  <!-- Main site menu component -->
   <app-menu></app-menu>
 </header>
 
-<!-- =========================
-     MAIN CONTAINER
-========================= -->
+
 <div class="container my-4">
 
   <div class="audit-container">
 
-      <!-- =========================
-           FILTER COMPONENT
-           Only visible when 'showFilter' is true
-      ========================= -->
-      <app-filter 
-        *ngIf="showFilter" 
-        (buildingSelected)="onBuildingSelected($event)">
-      </app-filter>
 
-      <!-- =========================
-           ACTION PLAN CONTENT
-           Shown when a building is selected (showFilter = false)
-      ========================= -->
-      <div *ngIf="!showFilter">
+      <app-filter *ngIf="showFilter" (buildingSelected)="onBuildingSelected($event)"></app-filter>
 
-        <!-- Project & Building Information -->
-        <div class="info-box">
-          <p><strong>Project:</strong> {{ selectedProjectName }}</p>
-          <p><strong>Building:</strong> {{ selectedBuildingName }}</p>
+  <!-- Contenuto pagina Action Plan -->
+  <div *ngIf="!showFilter">
+    <div class="info-box">
+    <p><strong>Project:</strong> {{ selectedProjectName }}</p>
+    <p><strong>Building:</strong> {{ selectedBuildingName }}</p>
+</div>
+
+
+
+
+    <!-- ✅ BOTTONI BER (Actual / Potential) -->
+    <div class="ber-container">
+      <h2>Building Energy Rating (BER)</h2>
+
+      <div class="ber">
+        <div class="actual">
+          <button value="D2" (click)="showRating('D2')">D2</button>
+          <span>Actual</span>
         </div>
 
-        <!-- =========================
-             BER BUTTONS (Actual / Potential)
-        ========================= -->
-        <div class="ber-container">
-          <h2>Building Energy Rating (BER)</h2>
+        <div class="potential">
+          <button value="A3" (click)="showRating('A3')">A3</button>
+          <span>Potential</span>
+        </div>
+      </div>
+    </div>
 
-          <div class="ber">
-            <!-- Actual BER button -->
-            <div class="actual">
-              <button value="D2" (click)="showRating('D2')">D2</button>
-              <span>Actual</span>
-            </div>
+    <!-- ✅ ENERGY RATING: VISIBILE SOLO DOPO CLICK -->
+    <div class="energy-rating-container" *ngIf="selectedRating">
 
-            <!-- Potential BER button -->
-            <div class="potential">
-              <button value="A3" (click)="showRating('A3')">A3</button>
-              <span>Potential</span>
-            </div>
-          </div>
+      <!-- Close button (X) -->
+      <button class="close-btn" (click)="selectedRating = null">✕</button>
+
+      <!-- SCALA EFFICIENZA -->
+      <div class="ber-model">
+        <div class="title">
+          <h3>Building Energy Rating</h3>
+          <h3>(indicator)</h3>
+          <h3>MOST EFFICIENT</h3>
         </div>
 
-        <!-- =========================
-             ENERGY RATING DISPLAY
-             Only visible when a rating is selected
-        ========================= -->
-        <div class="energy-rating-container" *ngIf="selectedRating">
-
-          <!-- Close button to hide rating -->
-          <button class="close-btn" (click)="selectedRating = null">✕</button>
-
-          <!-- BER Scale visualization -->
-          <div class="ber-model">
-
-            <!-- Scale titles -->
-            <div class="title">
-              <h3>Building Energy Rating</h3>
-              <h3>(indicator)</h3>
-              <h3>MOST EFFICIENT</h3>
-            </div>
-
-            <!-- Efficiency scale -->
-            <div class="efficiency-scale">
-              <!-- Loop through all efficiency levels -->
-              <div *ngFor="let level of efficiencyLevels"
-                   class="efficiency-level"
-                   [ngClass]="level.code">
-                <span class="range">{{ level.range }}</span>
-                <span class="code">{{ level.code }}</span>
-              </div>
-
-              <!-- Current building indicator -->
-              <div class="current-indicator" [style.top.%]="currentIndicatorPosition">
-                <span>{{ currentLevel.code }}</span>
-                <span>{{ currentLevel.value }} kWh/m²/yr</span>
-              </div>
-            </div>
+        <div class="efficiency-scale">
+          <div *ngFor="let level of efficiencyLevels"
+               class="efficiency-level"
+               [ngClass]="level.code">
+            <span class="range">{{ level.range }}</span>
+            <span class="code">{{ level.code }}</span>
           </div>
 
-          <!-- =========================
-               CO2 Emissions Indicator
-          ========================= -->
-          <div class="co2-indicator-container">
-            <h3>Carbon Dioxide (CO2)<br>Emission Indicator</h3>
-
-            <div class="co2-scale">
-              <!-- Best-case label -->
-              <div class="co2-value-label">BEST<br>0</div>
-
-              <!-- Vertical bar representing scale -->
-              <div class="co2-bar"></div>
-
-              <!-- Worst-case label -->
-              <div class="co2-value-label bottom">WORST<br>> 3.0</div>
-
-              <!-- Current CO2 position indicator -->
-              <div class="co2-indicator"
-                   [style.top.%]="currentCO2Position">
-                <div class="co2-numbers">
-                  12 KgCO2/m²/yr<br>0.27
-                </div>
-              </div>
-
-            </div>
+          <!-- Indicatore attuale -->
+          <div class="current-indicator" [style.top.%]="currentIndicatorPosition">
+            <span>{{ currentLevel.code }}</span>
+            <span>{{ currentLevel.value }} kWh/m²/yr</span>
           </div>
         </div>
-        <!-- END ENERGY RATING -->
+      </div>
 
-        <!-- =========================
-             SITE TOUR CHECKLIST
-        ========================= -->
-        <div class="checklist-container">
-          <div class="content">
-            <h2>Site tour checklist</h2>
-            <p>The table below shows which areas of your site the auditor checked on during the site visit.</p>
 
-            <table class="table checklist-table">
-              <thead>
-                <tr>
-                  <th class="text-start"></th>
-                  <th class="yes-no-na">Yes</th>
-                  <th class="yes-no-na">No</th>
-                  <th class="yes-no-na">N/A</th>
-                  <th class="text-start" style="min-width: 300px;">Observations & Comments</th>
-                </tr>
-              </thead>
+      <!-- SCALA EMISSIONI CO2 -->
+      <div class="co2-indicator-container">
 
-              <tbody>
-                <!-- Hard-coded checklist rows -->
-                <tr>
-                  <td>Physical Condition of Building(s)</td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="observations" contenteditable="true"></td>
-                </tr>
+        <h3>Carbon Dioxide (CO2)<br>Emission Indicator</h3>
 
-                <tr>
-                  <td>Insulation of Walls, Roofs</td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="observations" contenteditable="true"></td>
-                </tr>
+      <div class="co2-scale">
 
-                <tr>
-                  <td>Windows and external doors</td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="checkbox-cell"><input type="checkbox"></td>
-                  <td class="observations" contenteditable="true"></td>
-                </tr>
+  <div class="co2-value-label">BEST<br>0</div>
 
-                <!-- Additional checklist rows omitted for brevity -->
-              </tbody>
-            </table>
+  <div class="co2-bar"></div>
 
-          </div>
-        </div>
-        <!-- END CHECKLIST -->
+  <div class="co2-value-label bottom">WORST<br>> 3.0</div>
+
+  <div class="co2-indicator"
+       [style.top.%]="currentCO2Position">
+      <div class="co2-numbers">
+        12 KgCO2/m²/yr<br>0.27
+      </div>
+  </div>
+
+</div>
+      </div>
+
+    </div>
+    <!-- ✅ END ENERGY RATING -->
+
+
+
+    <!-- ✅ CHECKLIST COMPLETA -->
+    <div class="checklist-container">
+      <div class="content">
+
+        <h2>Site tour checklist</h2>
+        <p>The table below shows which areas of your site the auditor checked on during the site visit.</p>
+
+        <table class="table checklist-table">
+
+          <thead>
+            <tr>
+              <th class="text-start"></th>
+              <th class="yes-no-na">Yes</th>
+              <th class="yes-no-na">No</th>
+              <th class="yes-no-na">N/A</th>
+              <th class="text-start" style="min-width: 300px;">Observations & Comments</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Physical Condition of Building(s)</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Insulation of Walls, Roofs</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Windows and external doors</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Space Heating</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Water Heating</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Heating Controls</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>ICT & office equipment</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Ventilation & Air Conditioning</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Lighting</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Refrigeration & Cooling</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Compressed air</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Pumps</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Industrial processes</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Transport</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+            <tr>
+              <td>Evidence of Energy Awareness (posters etc.)</td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="checkbox-cell"><input type="checkbox"></td>
+              <td class="observations" contenteditable="true"></td>
+            </tr>
+
+          </tbody>
+        </table>
 
       </div>
-      <!-- END ACTION PLAN CONTENT -->
+    </div>
+
+
 
   </div>
-</div>
 
-<!-- =========================
-     BACK BUTTON
-========================= -->
-<div class="back-button">
-  <app-back-button></app-back-button>
 </div>
+    <div class="back-button">
+      <app-back-button></app-back-button>
+    </div>
