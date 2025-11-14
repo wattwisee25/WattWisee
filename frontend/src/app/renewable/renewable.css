@@ -1,95 +1,101 @@
-  @media screen and (max-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .renewable-container{
-    margin-top: 50px; 
-  }
-  }
-
-  @media screen and (min-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .renewable-container, .back-button {
-    margin-left: 250px; /* ad esempio per compensare il menu fisso */
+/* --- RESPONSIVE LAYOUT --- */
+@media screen and (max-width: 770px) {
+  .renewable-container {
+    margin-top: 50px;
   }
 }
-.back-button {
-  display: flex;
-  align-items: flex-start;
-  background-color: transparent;
-  flex-direction: column;
+
+@media screen and (min-width: 770px) {
+  .renewable-container,
+  .back-button {
+    margin-left: 250px; /* compensa il menu fisso */
+  }
+}
+
+/* --- STRUCTURE --- */
+.renewable-container {
+  padding: 20px;
 }
 
 .scroll-container {
   display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  flex-direction: column; /* ✅ trasformato in verticale */
   gap: 16px;
-  padding: 16px 0;
 }
 
-.scroll-container::-webkit-scrollbar {
-  display: none;
-}
-
+/* --- ACCORDION ITEM --- */
 .item {
-  flex: 0 0 100%;
-  scroll-snap-align: start;
   border-radius: 8px;
+  background-color: #ffffff;
   padding: 16px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  cursor: pointer; /* titolo cliccabile */
 }
 
-.values {
-  display: flex;
-  justify-content: space-around;
-  gap: 16px;
+.term {
+  margin: 0;
+  font-size: 22px;
+  color: #31545b;
+  font-weight: bold;
 }
 
-.value {
-  text-align: center;
-}
-
+/* --- SECTION INSIDE ACCORDION --- */
 .data-section {
   border-top: 1px solid #ccc;
   padding-top: 12px;
   background-color: #c1dbe3;
   padding: 10px;
+  margin-top: 12px;
+  border-radius: 6px;
 }
 
-.label {
-  display: block;
-  font-size: 0.85em;
+.data-section h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
   color: #31545b;
+}
+
+/* --- VALUES INSIDE SECTIONS --- */
+.values {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap; 
+}
+
+.value {
+  text-align: center;
+  flex: 1;
+  min-width: 120px;
 }
 
 .data {
-  font-size: 1.5em;
+  display: block;
+  font-size: 1.4em;
   font-weight: bold;
-  margin-top: 4px;
   color: #31545b;
 }
 
-.buttons{
+.label {
+  font-size: 0.9em;
+  color: #31545b;
+}
+
+/* --- BACK BUTTON --- */
+.back-button {
   display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-}
-.scroll-btn {
+  align-items: flex-start;
+  margin-top: 20px;
   background-color: transparent;
-  color: black;
-  border: none;
-  padding: 8px 16px;
-  margin: 4px;
-  border-radius: 5px;
-  cursor: pointer;
+  flex-direction: column;
 }
 
-h3{
-  font-size: 20px;
-  color: #31545b;
+/* --- ANIMAZIONE SOFT PER L’APERTURA (opzionale ma bellissima) --- */
+.item > div {
+  animation: fadeIn 0.25s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

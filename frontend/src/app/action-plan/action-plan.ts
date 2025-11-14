@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Menu } from "../menu/menu";
+import { Filter } from '../filter/filter';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BackButton } from "../back-button/back-button";
 import { Router } from '@angular/router';
@@ -8,13 +9,19 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-action-plan',
   standalone: true,
-  imports: [Menu, CommonModule, BackButton],
+  imports: [Menu, CommonModule, BackButton, Filter],
   templateUrl: './action-plan.html',
-  styleUrl: './action-plan.css'
+  styleUrl: './action-plan.css',
 })
 export class ActionPlan {
 
   items: { icon: SafeHtml, term: string }[] = [];
+
+  showFilter = true;
+  selectedProjectId: string = '';
+  selectedBuildingId: string = '';
+  selectedProjectName: string = '';
+  selectedBuildingName: string = '';
 
     constructor(private sanitizer: DomSanitizer, private router: Router) {
     this.items = [
@@ -150,7 +157,18 @@ export class ActionPlan {
     ];
   }
 
-    goToItem(term: string) {
+  
+   // Quando il FilterComponent emette un building selezionato
+  onBuildingSelected(event: { projectId: string; projectName: string; buildingId: string; buildingName: string }) {
+    this.selectedProjectId = event.projectId;
+    this.selectedProjectName = event.projectName;
+    this.selectedBuildingId = event.buildingId;
+    this.selectedBuildingName = event.buildingName;
+
+    this.showFilter = false; // chiude il modale
+  }
+
+  goToItem(term: string) {
     const encodedTerm = encodeURIComponent(term);
     localStorage.setItem('selectedAction', term);
     this.router.navigate(['/recommended', encodedTerm]);

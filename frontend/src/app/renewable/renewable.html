@@ -1,34 +1,40 @@
 <header>
-    <app-menu></app-menu>
+  <app-menu></app-menu>
 </header>
 
 <div class="renewable-container">
-<div #scrollContainer class="scroll-container">
+
+  <div class="scroll-container">
+
     <div class="item" *ngFor="let item of items">
-        <h2>{{ item.title }}</h2>
+
+      <!-- Titolo cliccabile -->
+      <h2 class="term" (click)="toggle(item)">
+        {{ item.title }}
+      </h2>
+
+      <!-- Contenuto espanso -->
+      <div *ngIf="item.expanded">
+
         <div class="data-section">
-            <h3>{{ item.subtitle1 }}</h3>
-            <div class="values">
-                <div class="value" *ngFor="let v of item.values">
-                    <span class="data">{{ v.value }}</span>
-                    <span class="label">{{ v.label }}</span>
-                </div>
+          <h3>{{ item.subtitle1 }}</h3>
+
+          <div class="values">
+            <div class="value" *ngFor="let v of item.values">
+              <span class="data">{{ v.value }}</span>
+              <span class="label">{{ v.label }}</span>
             </div>
+          </div>
         </div>
-        <div class="data-section2">
-            <h3>{{ item.subtitle2 }}</h3>
-        </div>
+
+      </div>
+
     </div>
+
+  </div>
+
 </div>
 
-<div class="buttons" style="text-align:center; margin-top:10px;">
-    <button class="scroll-btn" (click)="scrollLeft()">←</button>
-    <p class="subtitle" style="text-align:center; margin-top:8px;">
-        {{ items[activeIndex]?.title }}
-    </p>
-    <button class="scroll-btn" (click)="scrollRight()">→</button>
-</div>
-</div>
 <div class="back-button">
-    <app-back-button></app-back-button>
+  <app-back-button></app-back-button>
 </div>

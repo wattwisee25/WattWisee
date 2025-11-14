@@ -1,27 +1,47 @@
 <header>
+  <!-- Main menu component -->
   <app-menu></app-menu>
 </header>
+
+<!-- TODO: Add a filter for Building if needed -->
+
 <div class="action-container">
+  <!-- Title section -->
   <div class="title-container">
-    <h2 class="title">{{ term }}</h2>
-    <h2 class="supplier">Top 3 suppliers</h2>
+    <h2 class="title">{{ term }}</h2> <!-- Main term/title -->
+    <h2 class="supplier">Top 3 suppliers</h2> <!-- Subtitle -->
   </div>
 
   <div class="content-container">
     <div class="cards-container">
-      <div class="card" *ngFor="let supplier of suppliers">
-        <h3 class="card-title">{{ supplier.name }}</h3>
-        <ul>
-          <li *ngFor="let item of items">
-            <div class="data">{{ item.data }}</div>
-            <div class="term">{{ item.term }}</div>
+      <!-- Loop through suppliers and render a card for each -->
+      <div class="card" *ngFor="let supplier of suppliers" [class.open]="supplier.showDetails">
+        
+        <!-- Card header: click toggles the details -->
+        <h3 class="card-title" (click)="toggleDetails(supplier)">
+          {{ supplier.name }}
+        </h3>
+
+        <!-- Closed card: show only the first 3 main data items -->
+        <ul class="main-data" *ngIf="!supplier.showDetails">
+          <li *ngFor="let item of getCardItems(supplier)">
+            <strong>{{ item.term }}:</strong> {{ item.data }}
           </li>
         </ul>
+
+        <!-- Open card: show all filtered items, excluding duplicates or hidden fields -->
+        <ul class="details-list" *ngIf="supplier.showDetails">
+          <li *ngFor="let item of getVisibleItems(supplier)">
+            <strong>{{ item.term }}:</strong> {{ item.data }}
+          </li>
+        </ul>
+
       </div>
     </div>
   </div>
-
 </div>
+
 <div class="back-button">
+  <!-- Back button component -->
   <app-back-button></app-back-button>
 </div>

@@ -22,8 +22,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET /api/uploads/filter?ids=68d28484cc9f78e41d32ca2d&action=Building%20Envelope&term=Upgrade%20walls
-router.get("/filter", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const { ids, action, term } = req.query;
 
@@ -33,22 +32,21 @@ router.get("/filter", async (req, res) => {
       return res.status(400).json({ message: "Missing parameters" });
     }
 
-    // Converti gli ID in ObjectId validi
     const supplierIds = ids.split(",").map(id => {
       if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new Error(`Invalid ObjectId: ${id}`);
       }
-       return new mongoose.Types.ObjectId(id); 
+      return new mongoose.Types.ObjectId(id);
     });
 
     console.log("Converted supplierIds:", supplierIds);
 
-    // Query filtrata
+    // ✅ Prendi tutti i campi, inclusi supplierId
     const uploads = await Upload.find({
       supplierId: { $in: supplierIds },
-      macroCategory: { $regex: `^${action}$`, $options: "i" },  // case-insensitive
+      macroCategory: { $regex: `^${action}$`, $options: "i" },
       term: { $regex: `^${term}$`, $options: "i" }
-    }).select("costSavings emissionReduction costWork paybackPeriod notes");
+    });
 
     console.log("Uploads found:", uploads);
 

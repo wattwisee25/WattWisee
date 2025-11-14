@@ -99,3 +99,20 @@ li {
   font-weight: bold;
   text-align: center;
 }
+
+p{
+  font-size: 20px;
+  background-color: #c1dbe3;
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  color: #31545b;
+  
+}
+.info-box{
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 10px;
+}

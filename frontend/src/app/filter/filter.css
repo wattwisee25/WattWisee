@@ -1,0 +1,67 @@
+/* Sfondo semi-trasparente che copre tutta la pagina */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center; /* centra orizzontalmente */
+  z-index: 1000;
+  padding: 0; /* rimuovo padding che rompe il centramento */
+}
+
+/* Contenuto del modale */
+.modal-content {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+/* Titolo */
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+/* Label e select */
+.modal-content label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.modal-content select {
+  width: 100%;
+  padding: 6px 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Schermi piccoli: fino a 769px */
+@media screen and (max-width: 769px) {
+  .modal-content {
+    width: 90%; /* occupa quasi tutto lo schermo */
+  }
+}
+
+/* Schermi medi / grandi: da 770px in su */
+@media screen and (min-width: 770px) {
+    .modal-backdrop{
+        left: 250px; /* spostamento a destra per menu fisso di 250px */
+    }
+  .modal-content {
+    /* spostamento a destra per menu fisso di 250px */
+    left: -125px; /* metà del menu */
+  }
+}

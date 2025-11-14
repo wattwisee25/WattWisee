@@ -1,12 +1,22 @@
 <header>
-    <app-menu></app-menu>
+  <app-menu></app-menu>
 </header>
+
 <div class="action-plan-container">
   <div class="title-container">
-    <h2>Action plan</h2>
+    <h2>Action Plan</h2>
   </div>
-  <div class="plan">
-    <ul class="menu-list">
+
+  <!-- Modale Filter -->
+  <app-filter *ngIf="showFilter" (buildingSelected)="onBuildingSelected($event)"></app-filter>
+
+  <!-- Contenuto pagina Action Plan -->
+  <div *ngIf="!showFilter">
+    <div class="info-box">
+    <p><strong>Project:</strong> {{ selectedProjectName }}</p>
+    <p><strong>Building:</strong> {{ selectedBuildingName }}</p>
+</div>
+    <ul>
       <li *ngFor="let item of items">
         <button class="menu-btn" (click)="goToItem(item.term)">
           <span class="icon" [innerHTML]="item.icon"></span>
@@ -15,8 +25,9 @@
       </li>
     </ul>
   </div>
-</div>
 
+
+</div>
   <div class="back-button">
     <app-back-button></app-back-button>
-    </div>
+  </div>

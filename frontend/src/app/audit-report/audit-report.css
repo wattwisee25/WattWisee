@@ -1,17 +1,18 @@
+/* ─────────────────────────────── */
+/*  LAYOUT CONTAINER / BACK BUTTON */
+/* ─────────────────────────────── */
 @media screen and (min-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .audit-container, .back-button {
-    margin-left: 250px; /* ad esempio per compensare il menu fisso */
+  .audit-container,
+  .back-button {
+    margin-left: 250px; /* space for fixed menu */
   }
 }
 
-  @media screen and (max-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
+@media screen and (max-width: 770px) {
   .audit-container {
-    margin-top: 50px; 
+    margin-top: 50px;
     padding: 32px 16px;
   }
-
 }
 
 .back-button {
@@ -21,68 +22,259 @@
   flex-direction: column;
 }
 
+/* ─────────────────────────────── */
+/*  CHECKLIST TABLE                */
+/* ─────────────────────────────── */
 
-h2{
+h2 {
   color: #31545b;
 }
 
-/* Righe alternate azzurre e bianche */
 .checklist-table tbody tr:nth-child(odd) td {
-    background-color: #c1dbe3 !important; /* azzurro chiaro */
+  background-color: #c1dbe3 !important; /* light blue */
 }
 
 .checklist-table tbody tr:nth-child(even) td {
-    background-color: #ffffff !important; /* bianco */
+  background-color: #ffffff !important; /* white */
 }
 
 table {
-  border-collapse: collapse; /* elimina gli spazi tra le celle */
+  border-collapse: collapse;
 }
 
 td, th {
-  border: none; /* rimuove i bordi delle celle */
+  border: none;
 }
+
+/* ─────────────────────────────── */
+/*  BER BUTTONS                    */
+/* ─────────────────────────────── */
 
 .ber {
   display: flex;
-  justify-content: center; /* Spazio uniforme tra gli elementi */
-  align-items: center; /* Allinea verticalmente al centro */
-  margin-top: 20px; /* Spazio sopra il contenitore */
-  gap: 40px; /* Spazio tra i due elementi */
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 40px;
 }
 
 .actual, .potential {
   display: flex;
-  flex-direction: column; /* Dispone gli elementi in colonna */
-  align-items: center; /* Allinea al centro orizzontalmente */
+  flex-direction: column;
+  align-items: center;
 }
 
 .actual span, .potential span {
-  margin-top: 5px; /* Spazio tra il pulsante e il testo */
-  font-size: 12px; /* Dimensione del testo */
+  margin-top: 5px;
+  font-size: 12px;
 }
 
 .actual button {
   background-color: #FFF100;
-
 }
 
 .actual button, .potential button {
   width: 120px;
   height: 100px;
   font-weight: bold;
-  color: #31545b; /* Colore del testo bianco */
-  border: none; /* Rimuove il bordo */
-  padding: 10px 20px; /* Spaziatura interna */
-  text-align: center; /* Allinea il testo al centro */
-  text-decoration: none; /* Rimuove la sottolineatura */
-  display: inline-block; /* Permette di impostare larghezza e altezza */
-  font-size: 50px; /* Dimensione del testo */
-  margin: 4px 2px; /* Spaziatura esterna */
-  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
-  border-radius: 4px; /* Angoli arrotondati */
+  color: #31545b;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 50px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .potential button {
   background-color: #00A651;
+}
+
+/* ─────────────────────────────── */
+/*  ENERGY RATING WRAPPER          */
+/* ─────────────────────────────── */
+
+.energy-rating-container {
+  display: flex;
+  width: 100%;
+  gap: 50px;
+  align-items: center;
+  background-color: #c1dbe3;
+  padding: 60px;
+  justify-content: space-around;
+  position: relative;
+}
+
+@media screen and (max-width: 800px) {
+  .energy-rating-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+
+/* ─────────────────────────────── */
+/*  BER PYRAMID SCALE              */
+/* ─────────────────────────────── */
+
+.efficiency-scale {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+
+.efficiency-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 5px;
+  color: #31545b;
+  font-weight: bold;
+  font-size: 12px;
+  position: relative;
+  height: 24px;
+
+  /* Right arrow shape */
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 50%,
+    100% 100%,
+    0 100%
+  );
+
+  border-radius: 4px;
+}
+
+/* Colors */
+.efficiency-level.A1, .efficiency-level.A2, .efficiency-level.A3 { background-color: #00A651; }
+.efficiency-level.B1, .efficiency-level.B2, .efficiency-level.B3 { background-color: #4CB847; }
+.efficiency-level.C1, .efficiency-level.C2, .efficiency-level.C3 { background-color: #BFD630; }
+.efficiency-level.D1, .efficiency-level.D2 { background-color: #FFF100; }
+.efficiency-level.E1, .efficiency-level.E2 { background-color: #FEB811; }
+.efficiency-level.F { background-color: #F36F23; }
+.efficiency-level.G { background-color: #EE1C25; }
+
+/* Widths for pyramid effect */
+.efficiency-level.A1 { width: 130px; }
+.efficiency-level.A2 { width: 140px; }
+.efficiency-level.A3 { width: 150px; }
+.efficiency-level.B1 { width: 160px; }
+.efficiency-level.B2 { width: 170px; }
+.efficiency-level.B3 { width: 180px; }
+.efficiency-level.C1 { width: 190px; }
+.efficiency-level.C2 { width: 200px; }
+.efficiency-level.C3 { width: 210px; }
+.efficiency-level.D1 { width: 220px; }
+.efficiency-level.D2 { width: 230px; }
+.efficiency-level.E1 { width: 240px; }
+.efficiency-level.E2 { width: 250px; }
+.efficiency-level.F { width: 260px; }
+.efficiency-level.G { width: 270px; }
+
+/* Current BER indicator */
+.current-indicator {
+  position: absolute;
+  left: calc(100% + 10px);
+  background: #fff;
+  border-radius: 4px;
+  padding: 10px 6px 10px 25px;
+  clip-path: polygon(40% 0%, 100% 0%, 100% 100%, 40% 100%, 0 50%);
+  font-size: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transform: translateY(-50%);
+}
+
+/* ─────────────────────────────── */
+/*  CARBON DIOXIDE (CO2) INDICATOR */
+/* ─────────────────────────────── */
+
+.co2-indicator-container {
+  width: 200px;
+  padding: 20px;
+}
+
+.co2-scale {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60px;
+  height: 380px;
+  background: linear-gradient(to bottom, #c1d4dc, #7a929c);
+  border-radius: 4px;
+}
+
+/* Labels */
+.co2-value-label {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  color: #2f3f45;
+  pointer-events: none;
+}
+
+.co2-value-label.top { top: 5px; }
+.co2-value-label.bottom { bottom: 5px; }
+
+/* CO2 indicator (arrow) */
+.co2-indicator {
+  position: absolute;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+  background: #fff;
+  padding-left: 30px;
+  padding-right: 6px;
+  border-radius: 4px;
+  clip-path: polygon(40% 0%, 100% 0%, 100% 100%, 40% 100%, 0 50%);
+  font-size: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: top 0.4s ease-out;
+}
+
+.co2-numbers {
+  font-size: 10px;
+}
+
+/* ─────────────────────────────── */
+/*  CLOSE BUTTON                   */
+/* ─────────────────────────────── */
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* ─────────────────────────────── */
+/*  INFO BOX                       */
+/* ─────────────────────────────── */
+
+.info-box p {
+  font-size: 20px;
+  background-color: #c1dbe3;
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  color: #31545b;
+}
+
+.info-box {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 10px;
 }

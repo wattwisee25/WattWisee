@@ -1,0 +1,141 @@
+===============================
+BUILDING ENERGY RATING (BER)
+===============================
+
+1️⃣ U-VALUE
+
+The U-value measures how much heat passes through a building element (wall, window, roof) per square meter per degree of temperature difference. 
+Lower U-value = better insulation.
+
+Formula:
+
+    U = 1 / R_total
+
+where R_total is the total thermal resistance of the component, including internal and external surfaces:
+
+    R_total = R_internal_surface + Σ (d_i / k_i) + R_external_surface
+
+Parameters:
+- d_i = thickness of layer i (meters)
+- k_i = thermal conductivity of layer i (W/m·K)
+- R_internal_surface ≈ 0.13 m²·K/W (typical)
+- R_external_surface ≈ 0.04 m²·K/W (typical)
+
+---
+
+2️⃣ HEAT LOSS BY TRANSMISSION
+
+Heat loss through the building envelope:
+
+    Q_transmission = Σ (U_i * A_i * ΔT * t)
+
+Where:
+- U_i = U-value of component i (W/m²·K)
+- A_i = area of component i (m²)
+- ΔT = temperature difference (K) between inside and outside
+- t = time (hours), usually 8760 h/year
+
+---
+
+3️⃣ HEAT LOSS BY VENTILATION
+
+Ventilation heat loss:
+
+    Q_ventilation = V * n * ρ * c_p * ΔT
+
+Where:
+- V = building volume (m³)
+- n = air changes per hour (ACH)
+- ρ = air density ≈ 1.2 kg/m³
+- c_p = specific heat of air ≈ 1000 J/kg·K
+- ΔT = temperature difference (K)
+
+---
+
+4️⃣ HEATING ENERGY
+
+Total heating energy considering system efficiency:
+
+    E_heating = (Q_transmission + Q_ventilation) / η_system
+
+Where:
+- η_system = heating system efficiency (e.g., 0.9 for 90%)
+
+---
+
+5️⃣ TOTAL ENERGY CONSUMPTION FOR BER
+
+Include heating, domestic hot water (DHW), lighting, and mechanical ventilation if present:
+
+    E_total = E_heating + E_DHW + E_lighting + E_ventilation
+
+---
+
+6️⃣ ENERGY USE INDICATOR (EUI)
+
+Convert total energy to energy use per unit area:
+
+    EUI = E_total / usable_floor_area
+
+Units: kWh/m²/year
+
+This EUI is used to assign the BER class:
+
+    BER Classification (example):
+    -----------------------------
+    A1: EUI < 0.17
+    A2: 0.17 ≤ EUI < 0.34
+    A3: 0.34 ≤ EUI < 0.50
+    B1: 0.50 ≤ EUI < 0.67
+    B2: 0.67 ≤ EUI < 0.84
+    B3: 0.84 ≤ EUI < 1.00
+    C1: 1.00 ≤ EUI < 1.17
+    C2: 1.17 ≤ EUI < 1.34
+    C3: 1.34 ≤ EUI < 1.50
+    D1: 1.50 ≤ EUI < 1.67
+    D2: 1.67 ≤ EUI < 1.75
+    E1: 2.00 ≤ EUI < 2.25
+    E2: 2.25 ≤ EUI < 2.50
+    F: 2.50 ≤ EUI < 3.00
+    G: EUI ≥ 3.00
+
+---
+
+EXAMPLE CALCULATION (simplified)
+
+Assume a wall with:
+- d1 = 0.1 m, k1 = 1.2 W/m·K
+- d2 = 0.05 m, k2 = 0.04 W/m·K
+- A_wall = 20 m²
+- ΔT = 20°C
+
+Step 1: Calculate R_total
+    R_total = 0.13 + (0.1/1.2) + (0.05/0.04) + 0.04
+            = 0.13 + 0.083 + 1.25 + 0.04
+            = 1.503 m²·K/W
+
+Step 2: Calculate U-value
+    U = 1 / R_total
+      ≈ 0.665 W/m²·K
+
+Step 3: Transmission heat loss for 1 year
+    Q_transmission = U * A * ΔT * t
+                   = 0.665 * 20 * 20 * 8760 / 1000  (convert J to kWh)
+                   ≈ 2326 kWh/year
+
+Step 4: Add ventilation losses, DHW, lighting etc. → E_total
+
+Step 5: Calculate EUI
+    EUI = E_total / floor_area
+         = (e.g., 2326 + 1000 + 200 + 100)/floor_area
+         = ... kWh/m²/year
+
+Step 6: Determine BER from table
+    Compare EUI to table above to assign BER class (e.g., D2, A3)
+
+---
+
+NOTES:
+- All layers and building components (roof, floor, windows) must be included.
+- Local regulations define exact U-values and coefficients.
+- Simplified approach ignores thermal bridging; professional BER calculation uses software (e.g., DEAP in Ireland).
