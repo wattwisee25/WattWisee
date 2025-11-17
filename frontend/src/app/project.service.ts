@@ -50,6 +50,21 @@ updateBuilding(buildingId: string, buildingData: any): Observable<any> {
   return this.http.put(`${this.apiUrl}/buildings/${buildingId}`, buildingData, { withCredentials: true });
 }
 
+getSingleBuilding(buildingId: string): Observable<any> {
+  return this.http.get(`/api/buildings/${buildingId}`);
+}
+
+saveChecklist(
+  projectId: string,
+  buildingId: string,
+  checklist: any[]
+): Observable<any> {
+  return this.http.post(
+    `${this.apiUrl}/${projectId}/buildings/${buildingId}/checklist`,
+    { checklist },
+    { withCredentials: true }  // ⬅️ OBBLIGATORIO PER INVIARE COOKIE
+  );
+}
 
 
 

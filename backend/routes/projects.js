@@ -171,6 +171,39 @@ router.put('/buildings/:buildingId', verifyToken, async (req, res) => {
 });
 
 
+// ==================== SAVE CHECKLIST ====================
+router.post('/:projectId/buildings/:buildingId/checklist', verifyToken, async (req, res) => {
+  try {
+    const { projectId, buildingId } = req.params;
+    const { checklist } = req.body;
+
+    if (!checklist || !Array.isArray(checklist)) {
+      return res.status(400).json({ message: 'Missing or invalid checklist data' });
+    }
+
+    // trova il progetto
+    const project = await Project.findById(projectId);
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    // verifica ownership
+    if (project.owner.toString() !== req.userId) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    // trova il building
+    const building = project.buildings.id(buildingId);
+    if (!building) return res.status(404).json({ message: 'Building not found' });
+
+    // salva la checklist
+    building.checklist = checklist; // assuming hai aggiunto un campo `checklist` nel modello Building
+    await project.save();
+
+    res.status(200).json({ message: 'Checklist saved successfully', checklist });
+  } catch (err) {
+    console.error('Error saving checklist:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 

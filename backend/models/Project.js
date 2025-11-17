@@ -38,7 +38,15 @@ const buildingSchema = new mongoose.Schema({
       notes: { type: String }
     }
   ],
-
+  checklist: [
+    {
+      label: String,
+      yes: Boolean,
+      no: Boolean,
+      na: Boolean,
+      comment: String
+    }
+  ],
   //Bollette collegate
   bills: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bill" }]
 });

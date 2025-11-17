@@ -13,11 +13,10 @@ import { BackButton } from "../back-button/back-button";
   styleUrls: ['./login.css']
 })
 export class Login implements OnInit {
-  showPassword = false;
-
   email = '';
   password = '';
   remember = false;
+  showPassword = false;
   loginError = '';
 
   constructor(
@@ -26,12 +25,14 @@ export class Login implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Ripristina email salvata se "remember me" era selezionato
     const savedEmail = localStorage.getItem('rememberedEmail');
     if (savedEmail) {
       this.email = savedEmail;
       this.remember = true;
     }
 
+    // Verifica se l’utente è già loggato
     this.authService.checkAuthStatus().subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.router.navigate(['/home']);
@@ -43,22 +44,29 @@ export class Login implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.loginError = '';
 
     this.authService.login(this.email, this.password, this.remember).subscribe({
-      next: () => {
+      next: (res: any) => {
+        // Salva email se "remember me"
         if (this.remember) {
           localStorage.setItem('rememberedEmail', this.email);
         } else {
           localStorage.removeItem('rememberedEmail');
         }
+
+        // Salva userId ricevuto dal backend
+        localStorage.setItem('userId', res.userId);
+
+        // Redirect verso OTP
         this.router.navigate(['/otp'], { queryParams: { email: this.email } });
       },
       error: (err) => {
-        this.loginError = 'Incorrect email or password';
         console.error(err);
+        this.loginError = err.error?.message || 'Incorrect email or password';
       }
     });
   }
+
 }

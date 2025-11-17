@@ -8,25 +8,31 @@
     <h3>Select Project and Building</h3>
 
     <label for="projectSelect">Project:</label>
-    <select
-      id="projectSelect"
-      [ngModel]="selectedProjectId"
-      (ngModelChange)="onProjectChange($event)"
-    >
-      <option value="">All projects</option>
-      <option *ngFor="let project of projects" [value]="project._id">{{ project.projectName }}</option>
-    </select>
+   <select
+  id="projectSelect"
+  [ngModel]="selectedProjectId"
+  (ngModelChange)="onProjectChange($event)"
+>
+  <option value="">/</option>
+  <option *ngFor="let project of projects" [value]="project._id">
+    {{ project.projectName }}
+  </option>
+</select>
 
-    <div *ngIf="selectedProjectId" style="margin-top: 10px;">
-      <label for="buildingSelect">Building:</label>
-      <select
-        id="buildingSelect"
-        [ngModel]="selectedBuildingId"
-        (ngModelChange)="onBuildingChange($event)"
-      >
-        <option value="">All buildings</option>
-        <option *ngFor="let b of buildings" [value]="b._id">{{ b.name }}</option>
-      </select>
+
+     <div *ngIf="selectedProjectId" style="margin-top: 10px;">
+  <label for="buildingSelect">Building:</label>
+  <select
+    id="buildingSelect"
+    [ngModel]="selectedBuildingId"
+    (ngModelChange)="onBuildingChange($event)"
+  >
+    <option value="">/</option>
+    <option *ngFor="let b of buildings" [value]="b._id">
+      {{ b.name }}
+    </option>
+  </select>
+</div>
+
     </div>
   </div>
-</div>

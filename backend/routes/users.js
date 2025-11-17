@@ -160,7 +160,12 @@ router.post('/login', async (req, res) => {
 
     }
 
-    res.json({ message: 'OTP sent via email.' });
+res.status(200).json({
+  message: 'OTP sent',
+  userId: user._id,
+  otpExpires
+});
+
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ message: 'Server error' });
