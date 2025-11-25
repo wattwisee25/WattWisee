@@ -15,12 +15,15 @@
 
   <!-- Building info -->
   <div *ngIf="!isLoading && selectedBuilding" class="building-info">
-    <div class="left">
-      <h2>{{ selectedBuilding.name }}</h2>
+   <div class="left">
+    <h2>{{ selectedBuilding.name }}</h2>
+  <div class="image-wrapper">
+    <img *ngIf="selectedBuilding.imageUrl"
+         [src]="selectedBuilding.imageUrl"
+         alt="{{ selectedBuilding.name }}" />
+  </div>
+</div>
 
-      <!-- Immagine -->
-      <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl" alt="{{ selectedBuilding.name }}" />
-    </div>
 
     <div class="right">
       <div class="title-right">
@@ -70,14 +73,35 @@
     <h4>Bills</h4>
     <div class="bill-types">
       <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'electricity']">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-bolt">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11" />
+        </svg>
         Electricity bills
       </button>
 
       <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'oil']">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-drop-circle">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path
+            d="M10.07 15.34c1.115 .88 2.74 .88 3.855 0c1.115 -.88 1.398 -2.388 .671 -3.575l-2.596 -3.765l-2.602 3.765c-.726 1.187 -.443 2.694 .672 3.575z" />
+          <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+        </svg>
         Oil - Fuel Oil bills
       </button>
 
       <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'lpg']">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-cylinder">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 6m-7 0a7 3 0 1 0 14 0a7 3 0 1 0 -14 0" />
+          <path d="M5 6v12c0 1.657 3.134 3 7 3s7 -1.343 7 -3v-12" />
+        </svg>
         LPG bills
       </button>
     </div>

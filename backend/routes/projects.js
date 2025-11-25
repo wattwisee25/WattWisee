@@ -150,6 +150,7 @@ router.put('/buildings/:buildingId', verifyToken, async (req, res) => {
     const building = project.buildings.id(buildingId);
     if (!building) return res.status(404).json({ message: 'Building not found' });
 
+
     // Aggiorna solo campi definiti
     Object.keys(updatedData).forEach(key => {
       if (updatedData[key] !== undefined) {
@@ -172,16 +173,11 @@ router.put('/buildings/:buildingId', verifyToken, async (req, res) => {
 
 
 // ==================== SAVE CHECKLIST ====================
-router.post('/:projectId/buildings/:buildingId/checklist', verifyToken, async (req, res) => {
+// Recupera la checklist di un building o di tutti i building
+router.get('/:projectId/buildings/:buildingId/checklist', verifyToken, async (req, res) => {
   try {
     const { projectId, buildingId } = req.params;
-    const { checklist } = req.body;
 
-    if (!checklist || !Array.isArray(checklist)) {
-      return res.status(400).json({ message: 'Missing or invalid checklist data' });
-    }
-
-    // trova il progetto
     const project = await Project.findById(projectId);
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
@@ -190,17 +186,86 @@ router.post('/:projectId/buildings/:buildingId/checklist', verifyToken, async (r
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
-    // trova il building
+    if (buildingId === 'all') {
+      // Aggrega le checklist di tutti i building
+      const allChecklists = project.buildings.map(b => b.checklist || []);
+
+      // Uniamo tutti i commenti e selezioni: se almeno un building ha yes/no/na selezionato, lo mostriamo
+      const mergedChecklist = [];
+      if (allChecklists.length > 0) {
+        const length = allChecklists[0].length; // assumiamo checklist uguale per tutti i building
+        for (let i = 0; i < length; i++) {
+          mergedChecklist.push({
+            label: allChecklists[0][i].label,
+            yes: allChecklists.some(cl => cl[i].yes),
+            no: allChecklists.some(cl => cl[i].no),
+            na: allChecklists.some(cl => cl[i].na),
+            // commenti concatenati con separatore
+            // Merge checklist per "all buildings" evitando duplicati
+            comment: Array.from(
+              new Set(   // Set rimuove i duplicati
+                allChecklists
+                  .map(cl => cl[i].comment?.trim()) // prendi solo i commenti e trim
+                  .filter(c => c && c.length > 0)   // filtra i vuoti
+              )
+            ).join('; ')
+
+          });
+        }
+      }
+
+      return res.status(200).json({ checklist: mergedChecklist });
+    }
+
+    // singolo building
     const building = project.buildings.id(buildingId);
     if (!building) return res.status(404).json({ message: 'Building not found' });
 
-    // salva la checklist
-    building.checklist = checklist; // assuming hai aggiunto un campo `checklist` nel modello Building
+    res.status(200).json({ checklist: building.checklist || [] });
+  } catch (err) {
+    console.error('Error fetching checklist:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+// Aggiorna o crea la checklist di un building
+router.put('/:projectId/buildings/:buildingId/checklist', verifyToken, async (req, res) => {
+  try {
+    const { projectId, buildingId } = req.params;
+    const { checklist } = req.body;
+
+    if (!checklist || !Array.isArray(checklist)) {
+      return res.status(400).json({ message: 'Missing or invalid checklist data' });
+    }
+
+    const project = await Project.findById(projectId);
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    // verifica ownership
+    if (project.owner.toString() !== req.userId) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    // 🔹 Se buildingId === 'all', aggiorna tutti i building
+    if (buildingId === 'all') {
+      project.buildings.forEach(building => {
+        building.checklist = checklist;
+      });
+      await project.save();
+      return res.status(200).json({ message: 'Checklist saved for all buildings', checklist });
+    }
+
+    // 🔹 Altrimenti aggiorna solo il building specifico
+    const building = project.buildings.id(buildingId);
+    if (!building) return res.status(404).json({ message: 'Building not found' });
+
+    building.checklist = checklist;
     await project.save();
 
-    res.status(200).json({ message: 'Checklist saved successfully', checklist });
+    res.status(200).json({ message: 'Checklist updated successfully', checklist });
   } catch (err) {
-    console.error('Error saving checklist:', err);
+    console.error('Error updating checklist:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });

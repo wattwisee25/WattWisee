@@ -22,16 +22,10 @@
 
      <div *ngIf="selectedProjectId" style="margin-top: 10px;">
   <label for="buildingSelect">Building:</label>
-  <select
-    id="buildingSelect"
-    [ngModel]="selectedBuildingId"
-    (ngModelChange)="onBuildingChange($event)"
-  >
-    <option value="">/</option>
-    <option *ngFor="let b of buildings" [value]="b._id">
-      {{ b.name }}
-    </option>
-  </select>
+  <select [(ngModel)]="selectedBuildingId" (change)="onBuildingChange(selectedBuildingId)">
+  <option *ngFor="let b of buildings" [value]="b._id">{{ b.name }}</option>
+</select>
+
 </div>
 
     </div>

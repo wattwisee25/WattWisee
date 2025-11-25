@@ -1,15 +1,14 @@
-<!-- Toggle menu (solo mobile) -->
+<!-- Toggle menu mobile -->
 <button class="btn btn-outline-secondary d-md-none mb-2 sidebar-toggle" 
         (click)="toggleSidebar()"
         [style.display]="sidebarOpen ? 'none' : 'block'" 
-        aria-label="Apri menu">
+        aria-label="Open menu">
   <i class="bi bi-list"></i>
 </button>
 
 <!-- Sidebar -->
 <nav class="sidebar" [class.open]="sidebarOpen || isDesktop">
-
-  <!-- Pulsante chiusura menu mobile -->
+  <!-- Close button mobile -->
   <button *ngIf="sidebarOpen && !isDesktop" 
           class="btn btn-link text-white position-absolute top-0 end-0 m-1 d-md-none"
           (click)="toggleSidebar()" 
@@ -22,19 +21,35 @@
   </div>
 
   <ul class="nav flex-column sidebar-nav">
-    <li class="nav-item" *ngFor="let item of menuItems">
-      <a class="nav-link d-flex align-items-center gap-2" 
-         [routerLink]="item.route" 
-         [ngClass]="{ 'active': isActive(item.route) }" 
+    <!-- Menu principale -->
+    <li *ngFor="let item of mainMenu" class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-2"
+         [routerLink]="item.route"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: item.exact }"
          (click)="toggleSidebar()">
         <span [innerHTML]="item.icon"></span>
         <span>{{ item.label }}</span>
       </a>
+
+      <!-- Sottomenu progetti solo sotto "Home" -->
+      <ul *ngIf="projectSelected && item.label === 'Home'">
+        <li *ngFor="let sub of projectMenu">
+          <a class="nav-link d-flex align-items-center gap-2"
+             [routerLink]="sub.route"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: false }"
+             (click)="toggleSidebar()">
+            <span [innerHTML]="sub.icon"></span>
+            <span>{{ sub.label }}</span>
+          </a>
+        </li>
+      </ul>
     </li>
 
-    <!-- Logout separato -->
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2 logout" 
+    <!-- Logout sempre in fondo -->
+    <li class="nav-item mt-auto">
+      <a class="nav-link d-flex align-items-center gap-2 logout"
          (click)="logout()" style="cursor: pointer;">
         <i class="bi bi-box-arrow-right"></i>
         <span>Logout</span>

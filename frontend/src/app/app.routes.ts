@@ -6,11 +6,10 @@ import { Login } from './login/login';
 import { Welcome } from './welcome/welcome';
 import { Otp } from './otp/otp';
 import { CreateAccount } from './create-account/create-account';
-import { Home } from './home/home';
 import { NewProject } from './first-new-project/first-new-project';
 import { UploadFirstBill } from './upload-first-bill/upload-first-bill';
 import { ProjectList } from './project-list/project-list';
-import { ProjectsList } from './projects-list/projects-list';
+import { Home } from './home/home';
 import { AddBuilding } from './add-building/add-building';
 import { UploadBillId } from './upload-bill-id/upload-bill-id';
 import { BuildingList } from './building-list/building-list';
@@ -51,14 +50,13 @@ export const routes: Routes = [
   { path: 'welcome', component: Welcome },
 
   // After user login
-  { path: 'home', component: Home, canActivate: [AuthGuard] },
   { path: 'create-new-project', component: NewProject, canActivate: [AuthGuard] },
   { path: 'upload-first-bill/:id', component: UploadFirstBill, canActivate: [AuthGuard] },
-  { path: 'projects', component: ProjectsList, canActivate: [AuthGuard] },
+  { path: 'home', component: Home, canActivate: [AuthGuard] },
   { path: 'project-list', component: ProjectList, canActivate: [AuthGuard] },
   { path: 'add-building/:id', component: AddBuilding, canActivate: [AuthGuard] },
-  { path: 'upload-bills-id/:id', component: UploadBillId, canActivate: [AuthGuard] },
-  { path: 'building-list/:id', component: BuildingList, canActivate: [AuthGuard] },
+  { path: 'upload-bills-id', component: UploadBillId, canActivate: [AuthGuard] },
+  { path: 'building-list', component: BuildingList, canActivate: [AuthGuard] },
   { path: 'building-info/:id', component: BuildingInfo, canActivate: [AuthGuard] },
   { path: 'edit-building-info/:id', component: EditBuildingInfo, canActivate: [AuthGuard] },
   { path: 'bills/:id/:type', component: BillList, canActivate: [AuthGuard] },

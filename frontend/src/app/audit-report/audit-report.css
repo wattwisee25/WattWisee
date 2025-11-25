@@ -262,17 +262,37 @@ td, th {
 /*  INFO BOX                       */
 /* ─────────────────────────────── */
 
+/* Info-box paragraph */
 .info-box p {
   font-size: 20px;
-  background-color: #c1dbe3;
+  background-color: #c1dbe3; /* blu chiaro */
   padding: 10px;
   border-radius: 5px;
   width: fit-content;
-  color: #31545b;
+  color: #31545b; /* testo blu scuro */
 }
+
+/* Info-box button */
+.info-box button {
+  font-size: 15px;
+  background-color: #31545b;
+; /* giallo chiaro per contrasto */
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  color: #f6ffa2; /* testo marrone scuro */
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.info-box button:hover {
+ transform: translateY(-2px);
+}
+
 
 .info-box {
   margin-bottom: 20px;
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

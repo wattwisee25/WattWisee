@@ -54,17 +54,23 @@ getSingleBuilding(buildingId: string): Observable<any> {
   return this.http.get(`/api/buildings/${buildingId}`);
 }
 
-saveChecklist(
-  projectId: string,
-  buildingId: string,
-  checklist: any[]
-): Observable<any> {
-  return this.http.post(
+// Aggiorna (o crea) la checklist di un building
+updateChecklist(projectId: string, buildingId: string, checklist: any[]): Observable<any> {
+  return this.http.put(
     `${this.apiUrl}/${projectId}/buildings/${buildingId}/checklist`,
     { checklist },
-    { withCredentials: true }  // ⬅️ OBBLIGATORIO PER INVIARE COOKIE
+    { withCredentials: true }
   );
 }
+
+// Recupera la checklist esistente di un building
+getChecklist(projectId: string, buildingId: string): Observable<any> {
+  return this.http.get(
+    `${this.apiUrl}/${projectId}/buildings/${buildingId}/checklist`,
+    { withCredentials: true }
+  );
+}
+
 
 
 

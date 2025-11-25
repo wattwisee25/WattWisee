@@ -38,12 +38,17 @@ export class UploadBillId implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const projectId = params.get('id');
-      if (projectId) this.loadProject(projectId);
-    });
+ngOnInit(): void {
+  const projectId = localStorage.getItem('selectedProjectId');
+  if (!projectId) {
+    alert('No project selected!');
+    this.router.navigate(['/projects']);
+    return;
   }
+  this.loadProject(projectId);
+}
+
+
 
   loadProject(projectId: string): void {
     this.isLoading = true;

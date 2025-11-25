@@ -7,7 +7,6 @@
 
   <div class="audit-container">
 
-
     <app-filter *ngIf="showFilter" (buildingSelected)="onBuildingSelected($event)"></app-filter>
 
     <!-- Contenuto pagina Action Plan -->
@@ -15,6 +14,12 @@
       <div class="info-box">
         <p><strong>Project:</strong> {{ selectedProjectName }}</p>
         <p><strong>Building:</strong> {{ selectedBuildingName }}</p>
+            <div class="filter-toggle" style="text-align: right; margin-bottom: 1rem;">
+  <button class="btn" (click)="toggleFilter()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-home-move"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2" /><path d="M19 12h2l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h5.5" /><path d="M16 19h6" /><path d="M19 16l3 3l-3 3" /></svg>
+    {{ showFilter ? 'Close Building Selection' : 'Change Building' }}
+  </button>
+</div>
       </div>
 
 
@@ -132,9 +137,13 @@
                 </td>
 
                 <td class="observations">
-                  <div class="editable" contenteditable="true" (input)="updateComment($event, item)"></div>
+  <div class="editable"
+       contenteditable="true"
+       (input)="updateComment($event, item)"
+       [innerText]="item.comment">
+  </div>
+</td>
 
-                </td>
               </tr>
             </tbody>
 

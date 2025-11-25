@@ -57,7 +57,7 @@ export class ActionPlan {
               c0-1.712 -1.232 -4.403 -2.333-5.588
               -2.084 3.353 -3.257 3.353 -4.667 2.235" />
           </svg>`),
-        term: 'Heating'
+        term: 'HVAC'
       },
     {
       icon:  this.sanitizer.bypassSecurityTrustHtml(`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

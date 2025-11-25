@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -10,26 +10,45 @@ import { AuthService } from '../auth.service';
   templateUrl: './menu.html',
   styleUrls: ['./menu.css'],
 })
-export class Menu {
+export class Menu implements OnInit {
   sidebarOpen = false;
   isDesktop = window.innerWidth >= 768;
 
-    menuItems = [
-  { label: 'Home', route: '/home', icon: '<i class="bi bi-house"></i>' },
-  { label: 'Projects', route: '/projects', icon: '<i class="bi bi-folder"></i>' },
-  { label: 'Add your bills', route: '/project-list', icon: '<i class="bi bi-upload"></i>' },
-  { label: 'Action plan', route: '/action-plan', icon: '<i class="bi bi-map"></i>' },
-  { label: 'Green impact', route: '/renewable', icon: '<i class="bi bi-sun"></i>' },
-  { label: 'Audit report', route: '/audit-report', icon: '<i class="bi bi-check2-square"></i>' },
-  { label: 'Glossary', route: '/glossary', icon: '<i class="bi bi-book"></i>' },
-  { label: 'Profile', route: '/profile', icon: '<i class="bi bi-person"></i>' },
-];
+  /** MENU PRINCIPALE */
+  mainMenu = [
+    { label: 'Home', route: '/home', icon: '<i class="bi bi-folder"></i>', exact: true },
+    { label: 'Glossary', route: '/glossary', icon: '<i class="bi bi-book"></i>', exact: true },
+    { label: 'Profile', route: '/profile', icon: '<i class="bi bi-person"></i>', exact: true },
+  ];
 
+  /** MENU PROGETTO (sotto Projects) */
+  projectMenu = [
+    { label: 'Building info', route: '/building-list', icon: '<i class="bi bi-building"></i>' },
+    { label: 'Add your bills', route: '/upload-bills-id', icon: '<i class="bi bi-upload"></i>' },
+    { label: 'Significant energy users', route: '/home', icon: '<i class="bi bi-lightning"></i>' },
+    { label: 'Audit report', route: '/audit-report', icon: '<i class="bi bi-check2-square"></i>' },
+    { label: 'Action plan & Green impact', route: '/action-plan', icon: '<i class="bi bi-recycle"></i>' },
+  ];
+
+  /** Flag: se un progetto è selezionato */
+  projectSelected = false;
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    // Controlla subito se c'è un progetto salvato in localStorage
+    const savedProjectId = localStorage.getItem('selectedProjectId');
+    this.projectSelected = !!savedProjectId;
+
+    // Aggiorna se il localStorage cambia
+    window.addEventListener('storage', () => {
+      const id = localStorage.getItem('selectedProjectId');
+      this.projectSelected = !!id;
+    });
+  }
 
   toggleSidebar() {
     if (!this.isDesktop) {
@@ -43,9 +62,7 @@ export class Menu {
         this.sidebarOpen = false;
         this.router.navigate(['/']);
       },
-      error: (error) => {
-        console.error('Logout error:', error);
-      }
+      error: (error) => console.error('Logout error:', error)
     });
   }
 
@@ -53,14 +70,25 @@ export class Menu {
   onResize() {
     const wasDesktop = this.isDesktop;
     this.isDesktop = window.innerWidth >= 768;
-    if (this.isDesktop && !wasDesktop) {
-      this.sidebarOpen = false;
-    }
+    if (this.isDesktop && !wasDesktop) this.sidebarOpen = false;
   }
 
-isActive(menuRoute: string): boolean {
-  // Ritorna true se l'URL corrente inizia con il percorso principale
-  return this.router.url.startsWith(menuRoute);
+  isActive(route: string): boolean {
+    return this.router.url.startsWith(route);
+  }
+
+  /** Naviga ad una route del progetto usando l'ID salvato in localStorage */
+navigateProjectRoute(route: string) {
+  const projectId = localStorage.getItem('selectedProjectId');
+  if (!projectId) {
+    alert('No project selected!');
+    this.router.navigate(['/home']);
+    return;
+  }
+
+  // Tutte le rotte del progetto leggono l'ID da localStorage, quindi basta navigare normalmente
+  this.router.navigate([route]);
 }
+
 
 }

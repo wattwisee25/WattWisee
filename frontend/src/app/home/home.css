@@ -1,79 +1,209 @@
-  @media screen and (max-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .home-container{
-    margin-top: 50px; 
-  }
-}
-
-  @media screen and (min-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .home-container, .back-button {
-    margin-left: 250px; /* ad esempio per compensare il menu fisso */
-  }
-}
-
-.back-button {
+/* ========== CONTAINER PRINCIPALE ========== */
+.project-container {
   display: flex;
-  align-items: flex-start;
-  background-color: transparent;
   flex-direction: column;
+  min-height: 100dvh;
+  background-color: #ffffff;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-  /* Dropdown Button */
-.dropbtn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
+.title-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  color: #31545b;
+}
+
+h2 {
+  font-size: 40px;
+  margin: 0;
+}
+
+/* ========== LISTA PROGETTI ========== */
+.project-list {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.project-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap; /* permette di andare su più righe se non ci stanno */
+  gap: 25px;
+}
+
+/* Ogni card progetto */
+li {
+  width: 100%; /* default per mobile */
+  background: #c1dbe3;
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
-/* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
-  background-color: #3e8e41;
+/* Su schermi larghi: due card per riga */
+@media screen and (min-width: 770px) {
+  li {
+    width: calc(50% - 12.5px); /* 50% meno metà gap per stare due card in row */
+  }
 }
 
-/* The search field */
-#myInput {
-  box-sizing: border-box;
-  background-position: 14px 12px;
-  background-repeat: no-repeat;
-  font-size: 16px;
-  padding: 14px 20px 12px 45px;
-  border: none;
-  border-bottom: 1px solid #ddd;
-}
-
-/* The search field when it gets focus/clicked on */
-#myInput:focus {outline: 3px solid #ddd;}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f6f6f6;
-  min-width: 230px;
-  border: 1px solid #ddd;
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
+/* Disattiva stile link */
+a {
   text-decoration: none;
+  color: inherit;
+}
+
+/* ========== SEARCH BAR ========== */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #c1dbe3;
+  border-radius: 8px;
+  padding: 6px 10px;
+  width: 100%;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+}
+
+.search-bar .search-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  flex-shrink: 0;
+  color: #333;
+}
+
+/* ========== BOTTONE NUOVO PROGETTO ========== */
+.newProject {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #31545b;
+  color: #31545b;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: 10px;
+}
+
+.newProject:hover {
+  background: #31545b;
+  color: white;
+}
+
+/* ========== CARD PROGETTO ========== */
+.project-card {
+  width: 100%;
+  cursor: pointer;
+}
+
+.image-wrapper {
+  width: 100%;
+}
+
+.project-image {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
   display: block;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
+.project-name {
+  margin: 10px 0 5px 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #31545b;
+}
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
+/* ========== DROPDOWN INFO ========== */
+.dropdown {
+  margin-top: 10px;
+  padding: 12px;
+  background: none;
+  border-radius: 6px;
+  border-left: 3px solid #31545b;
+  animation: fadeIn 0.5s ease-in-out; /* apertura più fluida */
+}
+
+/* Animazione più fluida con leggero movimento verticale */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Lista interna del dropdown */
+.dropdown ul {
+  list-style: inside circle;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap; /* permette di andare su più righe se non ci stanno */
+  gap: 0px;
+}
+
+.dropdown p {
+  margin: 0;
+  padding: 5px;
+  background: #d2f0f9;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.dropdown li{
+  padding: 1px;
+  margin-bottom: 10px;
+}
+
+/* Bottone apertura dropdown */
+.open-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: #31545b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ========== BACK BUTTON ========== */
+.back-button {
+  display: flex;
+  margin-top: 20px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media screen and (min-width: 770px) {
+  .project-container,
+  .back-button {
+    margin-left: 250px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .project-container {
+    margin-top: 50px;
+  }
+}

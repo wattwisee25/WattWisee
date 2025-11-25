@@ -4,62 +4,131 @@
 
 <div class="bill-list-container">
   <div class="content">
-    <h1 class="title">Bills</h1>
-
-    <div class="months-grid">
-      <div class="month" *ngFor="let month of months">
-        <h3>{{ month }}</h3>
-        <ul>
-          <li *ngFor="let bill of billsByMonth[month]" class="bill-item">
-
-            <!-- Card contenente info + pulsante PDF -->
-            <div class="bill-card">
-              <div class="bill-info">
-                <!-- Span cliccabile per aprire pop-up -->
-                <span class="bill-clickable" (click)="openBillDetails(bill)">
-                  <!-- Electricity -->
-                  <ng-container *ngIf="bill.type === 'electricity'">
-                    {{ bill.data['fromDate'] | date:'dd/MM/yyyy' }} - {{ bill.data['toDate'] | date:'dd/MM/yyyy' }},
-                    Cost: €{{ bill.data['totalCost'] || 'N/A' }}
-                  </ng-container>
-
-                  <!-- Oil -->
-                  <ng-container *ngIf="bill.type === 'oil'">
-                    Delivery: {{ bill.data['deliveryDate'] | date:'dd/MM/yyyy' }},
-                    Liters: {{ bill.data['quantityLiters'] }},
-                    Cost: €{{ bill.data['grossCostOil'] || 'N/A' }}
-                  </ng-container>
-
-                  <!-- LPG -->
-                  <ng-container *ngIf="bill.type === 'lpg'">
-                    {{ bill.data['fromLpg'] | date:'dd/MM/yyyy' }} - {{ bill.data['toLpg'] | date:'dd/MM/yyyy' }},
-                    Cost: €{{ bill.data['totalCostLpg'] || 'N/A' }}
-                  </ng-container>
-                </span>
-              </div>
-
-              <!-- Pulsante PDF -->
-              <button class="view" *ngIf="bill.data['filePath']" (click)="viewPdf(bill.data['filePath'])">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icon-tabler-eye">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
-                  <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
-                </svg>
-              </button>
-            </div>
-
-          </li>
-        </ul>
-      </div>
+    <div class="header-section">
+<h1 class="title">Bills - {{ type | titlecase }}</h1>
+<button class="go-to-bill-form-btn" (click)="goToBillForm()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+  New
+</button>
     </div>
 
+<div class="three-year-grid-wrapper">
+  <!-- Left arrow -->
+  <button class="year-nav left" (click)="changeYear(-1)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M13 20l-3 -8l3 -8" />
+    </svg>
+  </button>
+
+  <div class="three-year-grid">
+    <!-- Previous year -->
+    <div class="year-column">
+      <h2 class="year-title">{{ selectedYear - 1 }}</h2>
+      <ul class="bill-list">
+        <li *ngFor="let bill of getBillsByYear(selectedYear - 1)" class="bill-row">
+          <span (click)="openBillDetails(bill)">
+            <ng-container *ngIf="bill.type === 'electricity'">
+              {{ bill.data['fromDate'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} |  €{{ bill.data['totalCost'] | number:'1.2-2' }}
+            </ng-container>
+            <ng-container *ngIf="bill.type === 'oil'">
+              {{ bill.data['deliveryDate'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} |  €{{ bill.data['grossCostOil'] | number:'1.2-2' }}
+            </ng-container>
+            <ng-container *ngIf="bill.type === 'lpg'">
+              {{ bill.data['fromLpg'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} |  €{{ bill.data['totalCostLpg'] | number:'1.2-2' }}
+            </ng-container>
+          </span>
+          <button *ngIf="bill.data['filePath']" class="view-pdf-btn"
+                  (click)="viewPdf(bill.data['filePath']); $event.stopPropagation()">
+            <i class="bi bi-eye"></i>
+          </button>
+        </li>
+      </ul>
+      <div class="year-total">
+  Total: €{{ getTotalByYear(selectedYear - 1) | number:'1.2-2' }}
+</div>
+
+    </div>
+
+    <!-- Current year -->
+    <div class="year-column current">
+      <h2 class="year-title">{{ selectedYear }}</h2>
+      <ul class="bill-list">
+        <li *ngFor="let bill of getBillsByYear(selectedYear)" class="bill-row">
+          <span (click)="openBillDetails(bill)">
+            <ng-container *ngIf="bill.type === 'electricity'">
+              {{ bill.data['fromDate'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} | €{{ bill.data['totalCost'] | number:'1.2-2' }}
+            </ng-container>
+            <ng-container *ngIf="bill.type === 'oil'">
+              {{ bill.data['deliveryDate'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} | €{{ bill.data['grossCostOil'] | number:'1.2-2' }}
+            </ng-container>
+            <ng-container *ngIf="bill.type === 'lpg'">
+              {{ bill.data['fromLpg'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} | €{{ bill.data['totalCostLpg'] | number:'1.2-2' }}
+            </ng-container>
+          </span>
+          <button *ngIf="bill.data['filePath']" class="view-pdf-btn"
+                  (click)="viewPdf(bill.data['filePath']); $event.stopPropagation()">
+            <i class="bi bi-eye"></i>
+          </button>
+        </li>
+      </ul>
+      
+<div class="year-total">
+  Total: €{{ getTotalByYear(selectedYear) | number:'1.2-2' }}
+</div>
+
+
+    </div>
+
+    <!-- Next year -->
+    <div class="year-column">
+      <h2 class="year-title">{{ selectedYear + 1 }}</h2>
+      <ul class="bill-list">
+        <li *ngFor="let bill of getBillsByYear(selectedYear + 1)" class="bill-row">
+          <span (click)="openBillDetails(bill)">
+            <ng-container *ngIf="bill.type === 'electricity'">
+              {{ bill.data['fromDate'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} | €{{ bill.data['totalCost'] | number:'1.2-2' }}
+            </ng-container>
+            <ng-container *ngIf="bill.type === 'oil'">
+              {{ bill.data['deliveryDate'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} | €{{ bill.data['grossCostOil'] | number:'1.2-2' }}
+            </ng-container>
+            <ng-container *ngIf="bill.type === 'lpg'">
+              {{ bill.data['fromLpg'] | date:'dd/MM/yyyy' }} — {{bill.data['toDate'] | date:'dd/MM/yyyy'}} | €{{ bill.data['totalCostLpg'] | number:'1.2-2' }}
+            </ng-container>
+          </span>
+          <button *ngIf="bill.data['filePath']" class="view-pdf-btn"
+                  (click)="viewPdf(bill.data['filePath']); $event.stopPropagation()">
+            <i class="bi bi-eye"></i>
+          </button>
+        </li>
+      </ul>
+      <div class="year-total">
+  Total: €{{ getTotalByYear(selectedYear + 1) | number:'1.2-2' }}
+</div>
+
+    </div>
+  </div>
+
+  <!-- Right arrow -->
+  <button class="year-nav right" (click)="changeYear(1)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M11 4l3 8l-3 8" />
+    </svg>
+  </button>
+</div>
+
+
+    <!-- Back button -->
     <div class="back-button">
       <app-back-button></app-back-button>
     </div>
+
   </div>
 </div>
+
 
 <!-- Modale per dettagli bolletta -->
 <div class="modal" *ngIf="selectedBill">
@@ -68,20 +137,25 @@
     <h2>Bill Details</h2>
 
     <!-- Electricity -->
-    <div *ngIf="selectedBill.type === 'electricity'">
-      <p><strong>MPRN:</strong> {{ selectedBill.data.mprn }}</p>
-      <p><strong>MIC:</strong> {{ selectedBill.data.mic }}</p>
-      <p><strong>From:</strong> {{ selectedBill.data.fromDate | date:'dd/MM/yyyy' }}</p>
-      <p><strong>To:</strong> {{ selectedBill.data.toDate | date:'dd/MM/yyyy' }}</p>
-      <p><strong>Day Rate:</strong> €{{ selectedBill.data.dayRate }}</p>
-      <p><strong>Night Rate:</strong> €{{ selectedBill.data.nightRate }}</p>
-      <p><strong>kWh Day:</strong> {{ selectedBill.data.kwhDay }}</p>
-      <p><strong>kWh Night:</strong> {{ selectedBill.data.kwhNight }}</p>
-      <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCost1 }}</p>
-      <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCost2 }}</p>
-      <p><strong>Total Cost:</strong> €{{ selectedBill.data.totalCost }}</p>
-      <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete Bill</button>
-    </div>
+<!-- Electricity -->
+<div *ngIf="selectedBill.type === 'electricity'">
+  <p><strong>MPRN:</strong> {{ selectedBill.data.mprn }}</p>
+  <p><strong>MIC:</strong> {{ selectedBill.data.mic }}</p>
+  <p><strong>From:</strong> {{ selectedBill.data.fromDate | date:'dd/MM/yyyy' }}</p>
+  <p><strong>To:</strong> {{ selectedBill.data.toDate | date:'dd/MM/yyyy' }}</p>
+  <p><strong>Day Rate:</strong> €{{ selectedBill.data.dayRate }}</p>
+  <p><strong>Night Rate:</strong> €{{ selectedBill.data.nightRate }}</p>
+  <p><strong>kWh Day:</strong> {{ selectedBill.data.kwhDay }}</p>
+  <p><strong>kWh Night:</strong> {{ selectedBill.data.kwhNight }}</p>
+  <p><strong>Total Cost:</strong> €{{ selectedBill.data.totalCost | number:'1.2-2'}}</p>
+  
+  <div class="modal-buttons">
+<button (click)="editBill(selectedBill._id)" class="edit-btn">Edit</button>
+
+    <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete</button>
+  </div>
+</div>
+
 
     <!-- Oil -->
     <div *ngIf="selectedBill.type === 'oil'">
@@ -90,8 +164,11 @@
       <p><strong>Cost per Liter:</strong> €{{ selectedBill.data.costLiter }}</p>
       <p><strong>kWh Equivalent:</strong> {{ selectedBill.data.kwhEquivalent }}</p>
       <p><strong>Carbon Tonnes:</strong> {{ selectedBill.data.tonnesCarbon }}</p>
-      <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCostOil }}</p>
-      <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete Bill</button>
+      <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCostOil | number:'1.2-2'}}</p>
+  <div class="modal-buttons">
+    <button (click)="editBill(selectedBill._id)" class="edit-btn">Edit</button>
+    <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete</button>
+  </div>
     </div>
 
     <!-- LPG -->
@@ -103,8 +180,11 @@
       <p><strong>Rate:</strong> €{{ selectedBill.data.rate }}</p>
       <p><strong>Cubic Meters:</strong> {{ selectedBill.data.cubicMeters }}</p>
       <p><strong>Gross Cost:</strong> €{{ selectedBill.data.grossCostLpg }}</p>
-      <p><strong>Total Cost:</strong> €{{ selectedBill.data.totalCostLpg }}</p>
-      <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete Bill</button>
+      <p><strong>Total Cost:</strong> €{{ selectedBill.data.totalCostLpg | number:'1.2-2'}}</p>
+  <div class="modal-buttons">
+    <button (click)="editBill(selectedBill._id)" class="edit-btn">Edit</button>
+    <button (click)="deleteBill(selectedBill._id)" class="delete-btn">Delete</button>
+  </div>
     </div>
 
   </div>

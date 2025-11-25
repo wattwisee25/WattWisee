@@ -68,27 +68,30 @@ export class Filter implements OnInit {
   // -------------------------
   // PROJECT CHANGE
   // -------------------------
-  onProjectChange(projectId: string) {
-    this.selectedProjectId = projectId;
-    localStorage.setItem('selectedProjectId', projectId || '');
+onProjectChange(projectId: string) {
+  this.selectedProjectId = projectId;
+  localStorage.setItem('selectedProjectId', projectId || '');
 
-    if (projectId) {
-      this.projectService.getProjectById(projectId).subscribe({
-        next: (project: Project) => {
-          this.buildings = project.buildings ?? [];
-        },
-        error: (err) => console.error(err)
-      });
+  if (projectId) {
+    this.projectService.getProjectById(projectId).subscribe({
+      next: (project: Project) => {
+        this.buildings = project.buildings ?? [];
+        // Aggiungi opzione "Tutti i building" all'inizio
+        this.buildings.unshift({ _id: 'all', name: 'All buildings', mprn: null, floors: null, surface: null, city: null, address: null, imageUrl: null });
+      },
+      error: (err) => console.error(err)
+    });
 
-      this.selectedBuildingId = '';
-      localStorage.removeItem('selectedBuildingId');
+    this.selectedBuildingId = '';
+    localStorage.removeItem('selectedBuildingId');
 
-    } else {
-      this.buildings = [];
-      this.selectedBuildingId = '';
-      localStorage.removeItem('selectedBuildingId');
-    }
+  } else {
+    this.buildings = [];
+    this.selectedBuildingId = '';
+    localStorage.removeItem('selectedBuildingId');
   }
+}
+
 
   // -------------------------
   // BUILDING CHANGE
@@ -103,13 +106,25 @@ export class Filter implements OnInit {
   // -------------------------
   // EMIT FUNCTION
   // -------------------------
-  private emitSelection() {
-    if (!this.selectedProjectId || !this.selectedBuildingId) return;
+private emitSelection() {
+  if (!this.selectedProjectId || !this.selectedBuildingId) return;
 
-    const project = this.projects.find(p => p._id === this.selectedProjectId);
+  const project = this.projects.find(p => p._id === this.selectedProjectId);
+
+  if (!project) return;
+
+  if (this.selectedBuildingId === 'all') {
+    // Emissione di tutti i building
+    this.buildingSelected.emit({
+      projectId: project._id!,
+      projectName: project.projectName,
+      buildingId: 'all',
+      buildingName: 'All buildings',
+      buildingData: project.buildings // tutti i building
+    });
+  } else {
     const building = this.buildings.find(b => b._id === this.selectedBuildingId);
-
-    if (project && building) {
+    if (building) {
       this.buildingSelected.emit({
         projectId: project._id!,
         projectName: project.projectName,
@@ -119,4 +134,6 @@ export class Filter implements OnInit {
       });
     }
   }
+}
+
 }

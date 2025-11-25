@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService, Project, Building } from '../project.service';
 import { CommonModule } from '@angular/common';
 import { Menu } from '../menu/menu';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BackButton } from "../back-button/back-button";
@@ -18,23 +18,26 @@ export class BuildingList implements OnInit {
   project!: Project;
   isLoading = true;
 
-  searchTerm = '';            // testo inserito nella search bar
+  searchTerm = '';
   filteredBuildings: Building[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+      private router: Router 
   ) {}
 
-  ngOnInit(): void {
-    // legge l'id dalla URL ad ogni cambio di rotta
-    this.route.paramMap.subscribe(params => {
-      const projectId = params.get('id');
-      if (projectId) {
-        this.loadProject(projectId);
-      }
-    });
+ngOnInit(): void {
+  const projectId = localStorage.getItem('selectedProjectId');
+  if (!projectId) {
+    alert('No project selected!');
+    this.router.navigate(['/projects']);
+    return;
   }
+  this.loadProject(projectId);
+}
+
+
 
   loadProject(projectId: string): void {
     this.isLoading = true;
@@ -59,7 +62,15 @@ export class BuildingList implements OnInit {
   }
 
   trackByBuilding(index: number, building: Building): string {
-  return building?._id ?? index.toString();
+    return building?._id ?? index.toString();
+  }
+
+  /** 👉 SALVA L'ID DEL BUILDING IN LOCALSTORAGE */
+selectBuilding(buildingId?: string) {
+  if (!buildingId) return;
+  localStorage.setItem('selectedBuildingId', buildingId);
+  console.log('Building selezionato:', buildingId);
 }
 
 }
+

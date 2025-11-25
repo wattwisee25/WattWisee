@@ -60,10 +60,13 @@ export class AuditReport {
     { code: 'F', range: '≥ 2.50' }, { code: 'G', range: '≥ 3.00' }
   ];
 
-  // 🔹 Inietti HttpClient e ProjectService
   constructor(private projectService: ProjectService) {
     this.userId = localStorage.getItem('userId') || '';
   }
+
+  toggleFilter() {
+  this.showFilter = !this.showFilter;
+}
 
   toggleSelection(item: any, field: 'yes' | 'no' | 'na') {
     item.yes = field === 'yes';
@@ -76,7 +79,21 @@ export class AuditReport {
     if (target) item.comment = target.innerText;
   }
 
-  // 🔹 Salvataggio checklist usando ProjectService
+  // 🔹 Recupera checklist esistente per il building selezionato
+loadChecklist() {
+  if (!this.selectedProjectId || !this.selectedBuildingId) return;
+
+  this.projectService.getChecklist(this.selectedProjectId, this.selectedBuildingId).subscribe({
+    next: (res) => {
+      this.checklist = res.checklist || [];
+    },
+    error: (err) => {
+      console.error('Error loading checklist', err);
+    }
+  });
+}
+
+  // 🔹 Salvataggio / aggiornamento checklist
   saveChecklist() {
     if (!this.selectedProjectId || !this.selectedBuildingId) {
       console.error('Project or building ID missing');
@@ -84,15 +101,14 @@ export class AuditReport {
       return;
     }
 
-    this.projectService
-      .saveChecklist(this.selectedProjectId, this.selectedBuildingId, this.checklist)
+    this.projectService.updateChecklist(this.selectedProjectId, this.selectedBuildingId, this.checklist)
       .subscribe({
         next: (res) => {
-          console.log('Checklist saved successfully', res);
+          console.log('Checklist updated successfully', res);
           alert('Checklist saved!');
         },
         error: (err) => {
-          console.error('Error saving checklist', err);
+          console.error('Error updating checklist', err);
           alert('Error saving checklist');
         }
       });
@@ -107,6 +123,9 @@ export class AuditReport {
 
     this.showFilter = false;
     this.calculateBER(this.selectedBuilding);
+
+    // 🔹 Carica la checklist esistente appena si seleziona il building
+    this.loadChecklist();
   }
 
   showRating(value: string) {

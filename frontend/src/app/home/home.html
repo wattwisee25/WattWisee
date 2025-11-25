@@ -1,38 +1,90 @@
 <header>
-    <app-menu></app-menu>
+  <app-menu></app-menu>
 </header>
 
+<div class="project-container">
 
-<div class="home-container">
-    <div class="ber-container">
-        <h2>Building Energy Rate (BER):</h2>
-        <button class="actual">
+  <!-- Titolo + pulsante -->
+  <div class="title-container">
+    <h2>Your projects</h2>
+    <button routerLink="/create-new-project" class="newProject">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 5l0 14" />
+        <path d="M5 12l14 0" />
+      </svg>
+    </button>
+  </div>
 
-        </button>
-        <button class="potential">
+  <!-- Barra di ricerca -->
+  <div class="search-bar">
+    <input type="text" placeholder="Search projects..." [(ngModel)]="searchTerm" (input)="filterProjects()" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+      <path d="M21 21l-6 -6" />
+    </svg>
+  </div>
 
-        </button>
-        <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">All buildings</button>
-            <div id="myDropdown" class="dropdown-content">
-                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-                <a href="#about">About</a>
-                <a href="#base">Base</a>
-                <a href="#blog">Blog</a>
-                <a href="#contact">Contact</a>
-                <a href="#custom">Custom</a>
-                <a href="#support">Support</a>
-                <a href="#tools">Tools</a>
-            </div>
-        </div>
+  <!-- Lista dei progetti -->
+  <div class="project-list">
+    <ul>
+      @for (project of filteredProjects; track project._id) {
+<li>
+  <div class="project-card">
+
+    <!-- Clic per aprire/chiudere dropdown -->
+    <div class="image-wrapper" (click)="toggleDropdown(project)">
+      <img 
+        [src]="project.buildings[0].imageUrl || 'assets/default-image.png'"
+        alt="Building image"
+        class="project-image"
+      >
     </div>
-    <div class="data-container">
-        <h3>Energy performance of your business</h3>
+
+    <!-- Nome del progetto -->
+    <p class="project-name">{{ project.projectName }}</p>
+
+    <!-- DROPDOWN -->
+    <div class="dropdown" *ngIf="project.open">
+      <p><strong>Buildings:</strong> {{ project.buildings.length }}</p>
+
+      <ul>
+        <li *ngFor="let b of project.buildings">
+          {{ b.name }}
+        </li>
+      </ul>
+
+      <p><strong>Total bills:</strong> <!--{{ getTotalBills(project) }} --> €</p>
+
+      <!-- Entra nel progetto -->
+      <button 
+        class="open-btn"
+        [routerLink]="project._id ? ['/building-list'] : []"
+        (click)="selectProject(project._id)"
+      >
+        Open Project
+      </button>
     </div>
-    <div class="graph">
-        <h3>Energy performance of your business</h3>
-    </div>
+
+  </div>
+</li>
+
+      }
+    </ul>
+
+    <!-- Messaggio se nessun progetto -->
+    @if (filteredProjects.length === 0) {
+      <p style="text-align: center; margin-top: 30px;">No project found.</p>
+    }
+  </div>
+
 </div>
-    <div class="back-button">
-    <app-back-button></app-back-button>
-    </div>
+
+<!-- Back button -->
+<div class="back-button">
+  <app-back-button></app-back-button>
+</div>

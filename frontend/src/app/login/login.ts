@@ -35,7 +35,7 @@ export class Login implements OnInit {
     // Verifica se l’utente è già loggato
     this.authService.checkAuthStatus().subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/projects']);
       }
     });
   }

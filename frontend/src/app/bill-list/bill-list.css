@@ -1,125 +1,247 @@
-/* Contenitore principale */
+/* ================= CONTENITORE PRINCIPALE ================= */
 .bill-list-container {
   margin-top: 20px;
   padding: 0 20px;
   font-family: 'Inter', sans-serif;
 }
 
-/* Titolo principale */
-.title {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  color: #31545b;
-  text-align: center;
-  font-size: 28px;
-  font-weight: 600;
-}
-
-/* Contenitore dei mesi come griglia 3xN */
-.months-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-/* Singolo mese */
-.month {
-  background: #c1dbe3;
-  padding: 15px;
-  border-radius: 15px;
+.header-section {
   display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.month:hover {
-  transform: translateY(-3px);
+.go-to-bill-form-btn {
+  display: inline-flex;             /* Icona + testo in linea */
+  align-items: center;              /* Centra verticalmente */
+  gap: 8px;                         /* Spazio tra icona e testo */
+  padding: 8px 16px;                /* Spazio interno */
+  border: none;                     /* Nessun bordo */
+  border-radius: 8px;               /* Angoli arrotondati */
+  background-color: #31545b;        /* Colore principale */
+  color: #f6ffa2;                   /* Testo chiaro */
+  font-size: 14px;                   /* Dimensione del testo */
+  font-weight: 500;                 /* Testo leggermente più spesso */
+  cursor: pointer;                  /* Mano al passaggio */
+  transition: all 0.3s ease;        /* Animazioni morbide */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Leggera ombra */
 }
 
-/* Titolo del mese */
-.month h3 {
+.go-to-bill-form-btn svg {
+  stroke: #f6ffa2;                  /* Colore icona */
+  width: 20px;                       /* Dimensione icona */
+  height: 20px;
+  transition: transform 0.2s ease;   /* Piccolo effetto hover */
+}
+
+.go-to-bill-form-btn:hover {
+  background-color: #2a4a58;        /* Colore hover */
+  transform: translateY(-2px);      /* Leggero sollevamento */
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+.go-to-bill-form-btn:hover svg {
+  transform: scale(1.1);            /* Icona cresce leggermente */
+}
+
+
+.title{
+  font-size: 32px;
   color: #31545b;
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 20px;
-  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-/* Lista bollette */
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-li {
+/* Bottone New Bill a destra */
+.upload-bill-button {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-  background: #e0f7fa;
-  padding: 10px 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  gap: 8px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #31545b;
+  color: #f6ffa2;
+  cursor: pointer;
+  font-size: 14px;
   transition: background 0.2s ease;
 }
 
-li:hover {
-  background: #dafbff;
+.upload-bill-button:hover {
+  background-color: #2a4a58;
 }
 
-/* Contenuto della bolletta */
-li span {
-  flex: 1;
-  font-size: 14px;
-  color: #004d40;
-  padding-right: 10px;
+/* ================= GRID 3 COLONNE SCORREVOLE ================= */
+.three-year-grid-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  justify-content: space-evenly;
 }
 
-/* Pulsanti generici */
-button {
+/* Frecce di navigazione ai lati */
+.year-nav {
   background: none;
   border: none;
-  color: #31545b;
-  font-size: 16px;
   cursor: pointer;
-  border-radius: 8px;
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease, background 0.2s ease;
+  padding: 0.5rem;
+  transition: transform 0.2s, color 0.2s;
+  flex-shrink: 0;
 }
 
-button svg {
-  transition: transform 0.2s ease;
+.year-nav:hover {
+  transform: scale(1.2);
+  color: #31545b;
 }
 
-/* Hover: zoom dell'icona + leggera animazione colore */
-button:hover {
-  background: none;
-}
-
-button:hover svg {
-  transform: scale(1.3);
-}
-
-/* Pulsante view specifico */
-li .view {
-  margin-top: 0;
-}
-
-/* Back button */
-.back-button {
+/* Wrapper animato per effetto scorrimento */
+.three-year-grid {
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  margin-top: 20px;
+  gap: 60px;
+  transition: transform 0.5s ease-in-out;
+  flex-direction: row;
 }
 
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.edit-btn {
+  background-color: #4caf50;  /* Verde */
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.edit-btn:hover {
+  background-color: #45a049;
+}
+
+/* Delete button già esistente */
+.delete-btn {
+  background-color: #e57373;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: red;
+}
+
+
+/* Colonna anno */
+.year-column {
+  min-width: 300px;
+  background: #fafafa;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  flex-shrink: 0;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;  /* Per impilare lista + totale */
+}
+
+/* Evidenzia anno selezionato */
+.year-column.current {
+  border: 2px solid #31545b;
+}
+
+/* Titolo anno */
+.year-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #31545b;
+}
+
+.year-title.clickable {
+  cursor: pointer;
+  color: #31545b;
+}
+
+/* Lista bollette */
+.bill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;       /* Occupa tutto lo spazio sopra il totale */
+  overflow-y: auto;   /* Scroll se troppi elementi */
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.bill-row:hover {
+  background: #eee;
+}
+
+/* Contenuto bolletta */
+.bill-row span {
+  flex: 1;
+  font-size: 15px;
+  color: black;
+  padding-right: 8px;
+}
+
+/* Pulsante view PDF (occhio) */
+.view-pdf-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  transition: background 0.2s, transform 0.2s;
+  background-color: #c1dbe3
+}
+
+.view-pdf-btn:hover {
+  background-color: #c1dbe3;
+  transform: scale(1.2);
+}
+
+.view-pdf-btn svg {
+  color: #31545b;
+  font-size: 16px;
+}
+
+/* ================= TOTALE ANNO ================= */
+.year-total {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  color: #31545b;
+  padding: 8px 0;
+  border-top: 1px solid #ddd;
+  font-size: 20px;
+}
+
+/* ================= MODALE ================= */
 .modal {
   position: fixed;
   top: 0;
@@ -161,26 +283,33 @@ li .view {
   cursor: pointer;
   color: #31545b;
 }
+/* ================= RESPONSIVE ================= */
+@media screen and (max-width: 768px) {
+  .three-year-grid-wrapper {
+    flex-direction: row;
+    align-items: center;
+  }
 
-.delete-btn {
-  margin-top: 15px;
-  background-color: #e57373;
-  color: white;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+  .three-year-grid {
+    width: 100%;
+    flex-direction: column;
+  }
 
-.delete-btn:hover {
-  background-color: red;
-}
+  .year-nav {
+    margin: 10px 0;
+  }
 
-/* Responsive */
-@media screen and (max-width: 1028px) {
-  .bill-list-container,
-  .back-button {
-    margin-top: 50px;
+  .header-section .title {
+    font-size: 24px;
+  }
+
+  .bill-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .content{
+    margin-top: 60px;
   }
 }
 
