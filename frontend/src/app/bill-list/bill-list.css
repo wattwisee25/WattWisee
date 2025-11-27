@@ -77,9 +77,11 @@
   align-items: center;
   gap: 1rem;
   position: relative;
-  overflow: hidden;
-  justify-content: space-evenly;
+  overflow-x: auto;         /* scrollabile orizzontalmente */
+  scroll-behavior: smooth;  /* rende lo scroll fluido */
+  padding-bottom: 10px;
 }
+
 
 /* Frecce di navigazione ai lati */
 .year-nav {

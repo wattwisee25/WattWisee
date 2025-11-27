@@ -11,6 +11,16 @@ dotenv.config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET; // fallback
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ESM __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Percorso logo accessibile al backend
+const logoPath = path.join(__dirname, '../../frontend/src/assets/img/logo.png');
+
 
 let transporter;
 
@@ -74,7 +84,7 @@ router.post('/', async (req, res) => {
         attachments: [
           {
             filename: 'logo.png',
-            path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png', // percorso accessibile al backend
+            path: logoPath, // percorso accessibile al backend
             cid: 'logo' // corrisponde al src
           }
         ]
@@ -152,7 +162,7 @@ router.post('/login', async (req, res) => {
   attachments: [
     {
       filename: 'logo.png',
-      path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png', // percorso relativo al backend
+      path: logoPath, // percorso relativo al backend
       cid: 'logo' // deve corrispondere al src
     }
   ]
@@ -224,7 +234,7 @@ router.post('/supplier-login', async (req, res) => {
         attachments: [
           {
             filename: 'logo.png',
-            path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png',
+            path: logoPath,
             cid: 'logo'
           }
         ]
@@ -398,7 +408,7 @@ if (transporter) {
       attachments: [
         {
           filename: 'logo.png',
-          path: 'C:/Users/ilari/Documents/WattWisee/frontend/src/assets/img/logo.png',
+          path: logoPath,
           cid: 'logo'
         }
       ]

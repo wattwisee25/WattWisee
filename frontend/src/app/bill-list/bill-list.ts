@@ -36,61 +36,72 @@ export class BillList implements OnInit, AfterViewInit {
       const id = params.get('id');
       const typeParam = params.get('type') as 'electricity' | 'oil' | 'lpg';
 
-  if (!id || !typeParam) return;
+      if (!id || !typeParam) return;
 
-  this.buildingId = id;
-  this.type = typeParam;
-  this.loadBills();
-});
+      this.buildingId = id;
+      this.type = typeParam;
+      this.loadBills();
+    });
 
-    }
-
-ngAfterViewInit() {
-      this.updateGridPosition();
-    }
-
-loadBills() {
-      this.http.get(`http://localhost:3000/api/bill/${this.buildingId}/${this.type}`)
-        .subscribe({
-          next: (data: any) => {
-            this.bills = data || [];
-            this.groupBillsByMonth();
-            this.updateGridPosition();
-          },
-          error: (err) => console.error('Error loading bills:', err)
-        });
-    }
-
-editBill(billId: string) {
-  const buildingId = localStorage.getItem('selectedBuildingId');
-  if (!buildingId) {
-    return alert('No building selected!');
   }
 
-  // Naviga alla pagina bill-information, con type, buildingId e billId
-  this.router.navigate(
-    ['/bill-information', this.type],
-    { queryParams: { buildingId: buildingId, billId: billId } }
-  );
-}
-
-
-    getTotalByYear(year: number): number {
-  let total = 0;
-  const bills = this.getBillsByYear(year);
-  for (const b of bills) {
-    if (b.type === 'electricity') total += +b.data.totalCost || 0;
-    if (b.type === 'oil') total += +b.data.grossCostOil || 0;
-    if (b.type === 'lpg') total += +b.data.totalCostLpg || 0;
+  ngAfterViewInit() {
+    this.updateGridPosition();
   }
-  return total;
-}
+
+  loadBills() {
+    this.http.get(`http://localhost:3000/api/bill/${this.buildingId}/${this.type}`)
+      .subscribe({
+        next: (data: any) => {
+          this.bills = data || [];
+          this.groupBillsByMonth();
+          this.updateGridPosition();
+        },
+        error: (err) => console.error('Error loading bills:', err)
+      });
+  }
+
+  editBill(billId: string) {
+    const buildingId = localStorage.getItem('selectedBuildingId');
+    if (!buildingId) {
+      return alert('No building selected!');
+    }
+
+    // Naviga alla pagina bill-information, con type, buildingId e billId
+    this.router.navigate(
+      ['/bill-information', this.type],
+      { queryParams: { buildingId: buildingId, billId: billId } }
+    );
+  }
+
+  scrollYears(direction: 'left' | 'right') {
+    const container = document.querySelector('.three-year-grid-wrapper') as HTMLElement;
+    const scrollAmount = 320; // larghezza approssimativa di una colonna + gap
+    if (direction === 'left') {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
 
 
-parseAnyDate(dateStr: string): Date | null {
-      if(!dateStr) return null;
 
-      if(!isNaN(Date.parse(dateStr))) return new Date(dateStr);
+  getTotalByYear(year: number): number {
+    let total = 0;
+    const bills = this.getBillsByYear(year);
+    for (const b of bills) {
+      if (b.type === 'electricity') total += +b.data.totalCost || 0;
+      if (b.type === 'oil') total += +b.data.grossCostOil || 0;
+      if (b.type === 'lpg') total += +b.data.totalCostLpg || 0;
+    }
+    return total;
+  }
+
+
+  parseAnyDate(dateStr: string): Date | null {
+    if (!dateStr) return null;
+
+    if (!isNaN(Date.parse(dateStr))) return new Date(dateStr);
 
     if (dateStr.includes('/')) {
       const parts = dateStr.split('/');
