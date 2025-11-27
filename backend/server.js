@@ -30,7 +30,7 @@ app.use("/api/uploads", uploadsRouter);
 // Rendere accessibile la cartella uploads
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
-mongoose.connect("mongodb://localhost:27017/wattWisee")
+mongoose.connect("mongodb+srv://wattwisee25_db_user:Fi7W7YI8TDUTGuIA@wattwisee.9chzy5q.mongodb.net/wattWisee")
   .then(() => {
     console.log("✅ Connected to MongoDB!");
     app.listen(3000, () => console.log("Server running on http://localhost:3000"));
