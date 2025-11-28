@@ -32,6 +32,9 @@ let transporter;
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+      },
+      tls: {
+        rejectUnauthorized: false
       }
     });
     console.log("Nodemailer ready with Gmail:", process.env.EMAIL_USER);
@@ -133,12 +136,12 @@ router.post('/login', async (req, res) => {
     await user.save();
 
     if (transporter) {
-     await transporter.sendMail({
-  from: '"WattWisee Support" <no-reply@wattwisee.com>',
-  to: user.email,
-  subject: 'Your OTP Code - WattWisee',
-  text: `Your OTP code is: ${otp}. If you did not request this, please ignore this email.`,
-  html: `
+      await transporter.sendMail({
+        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+        to: user.email,
+        subject: 'Your OTP Code - WattWisee',
+        text: `Your OTP code is: ${otp}. If you did not request this, please ignore this email.`,
+        html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
       <div style="text-align: center;">
         <img src="cid:logo" alt="WattWisee Logo" style="height: 60px; margin-bottom: 20px;" />
@@ -159,22 +162,22 @@ router.post('/login', async (req, res) => {
       </p>
     </div>
   `,
-  attachments: [
-    {
-      filename: 'logo.png',
-      path: logoPath, // percorso relativo al backend
-      cid: 'logo' // deve corrispondere al src
-    }
-  ]
-});
+        attachments: [
+          {
+            filename: 'logo.png',
+            path: logoPath, // percorso relativo al backend
+            cid: 'logo' // deve corrispondere al src
+          }
+        ]
+      });
 
     }
 
-res.status(200).json({
-  message: 'OTP sent',
-  userId: user._id,
-  otpExpires
-});
+    res.status(200).json({
+      message: 'OTP sent',
+      userId: user._id,
+      otpExpires
+    });
 
   } catch (err) {
     console.error('Login error:', err);
@@ -242,11 +245,11 @@ router.post('/supplier-login', async (req, res) => {
     }
 
     res.json({
-  message: 'OTP sent via email.',
-  supplier: {
-    _id: supplier._id,
-  }
-});
+      message: 'OTP sent via email.',
+      supplier: {
+        _id: supplier._id,
+      }
+    });
 
   } catch (err) {
     console.error('Supplier login error:', err);
@@ -376,14 +379,14 @@ router.post('/forgot-password', async (req, res) => {
 
     const resetLink = `http://localhost:4200/reset-password/${token}`;
 
-if (transporter) {
-  try {
-    await transporter.sendMail({
-      from: '"WattWisee Support" <no-reply@wattwisee.com>',
-      to: email,
-      subject: 'Reset Your WattWisee Password',
-      text: `Hi ${user.contact_name || ''}, reset your password here: ${resetLink}`,
-      html: `
+    if (transporter) {
+      try {
+        await transporter.sendMail({
+          from: '"WattWisee Support" <no-reply@wattwisee.com>',
+          to: email,
+          subject: 'Reset Your WattWisee Password',
+          text: `Hi ${user.contact_name || ''}, reset your password here: ${resetLink}`,
+          html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
           <div style="background-color: #c1dbe3; padding: 20px; text-align: center; color: white;">
             <img src="cid:logo" alt="WattWisee Logo" style="height: 60px; margin-bottom: 20px;" />
@@ -405,19 +408,19 @@ if (transporter) {
           </div>
         </div>
       `,
-      attachments: [
-        {
-          filename: 'logo.png',
-          path: logoPath,
-          cid: 'logo'
-        }
-      ]
-    });
-    console.log('Password reset email sent');
-  } catch (err) {
-    console.error('Password reset email failed:', err);
-  }
-}
+          attachments: [
+            {
+              filename: 'logo.png',
+              path: logoPath,
+              cid: 'logo'
+            }
+          ]
+        });
+        console.log('Password reset email sent');
+      } catch (err) {
+        console.error('Password reset email failed:', err);
+      }
+    }
 
 
     res.json({ message: 'If this email exists, you will receive reset instructions.' });

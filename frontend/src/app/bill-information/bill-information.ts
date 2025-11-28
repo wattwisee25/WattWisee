@@ -134,14 +134,20 @@ export class BillInformation implements OnInit {
   }
 
   next() {
-    if (this.currentIndex < this.bills.length - 1) {
-      this.currentIndex++;
-      this.currentBill = this.bills[this.currentIndex];
-    } else {
-      this.bills.push(this.initEmptyBill());
-      this.currentIndex++;
-      this.currentBill = this.bills[this.currentIndex];
-    }
+    // if (this.currentIndex < this.bills.length - 1) {
+    //   this.currentIndex++;
+    //   this.currentBill = this.bills[this.currentIndex];
+    // } else {
+    //   this.bills.push(this.initEmptyBill());
+    //   this.currentIndex++;
+    //   this.currentBill = this.bills[this.currentIndex];
+    // }
+
+    const newBill = this.initEmptyBill();
+    this.bills.push(newBill);
+    //imposto currentIndex sull’ultimo sempre, senza aumentarlo manualmente
+    this.currentIndex = this.bills.length - 1;
+    this.currentBill = newBill
   }
 
   back() {

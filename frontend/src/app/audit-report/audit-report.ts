@@ -65,8 +65,8 @@ export class AuditReport {
   }
 
   toggleFilter() {
-  this.showFilter = !this.showFilter;
-}
+    this.showFilter = !this.showFilter;
+  }
 
   toggleSelection(item: any, field: 'yes' | 'no' | 'na') {
     item.yes = field === 'yes';
@@ -80,18 +80,18 @@ export class AuditReport {
   }
 
   // 🔹 Recupera checklist esistente per il building selezionato
-loadChecklist() {
-  if (!this.selectedProjectId || !this.selectedBuildingId) return;
+  loadChecklist() {
+    if (!this.selectedProjectId || !this.selectedBuildingId) return;
 
-  this.projectService.getChecklist(this.selectedProjectId, this.selectedBuildingId).subscribe({
-    next: (res) => {
-      this.checklist = res.checklist || [];
-    },
-    error: (err) => {
-      console.error('Error loading checklist', err);
-    }
-  });
-}
+    this.projectService.getChecklist(this.selectedProjectId, this.selectedBuildingId).subscribe({
+      next: (res) => {
+        this.checklist = res.checklist || [];
+      },
+      error: (err) => {
+        console.error('Error loading checklist', err);
+      }
+    });
+  }
 
   // 🔹 Salvataggio / aggiornamento checklist
   saveChecklist() {
@@ -134,7 +134,7 @@ loadChecklist() {
     if (level) this.currentLevel = { ...level, value: this.generateValueForLevel(level.code) };
   }
 
-  calculateBER(building: any) {
+  calculateBER(building: any) { //calcolo livello energetico (A1,A2, ecc.)
     if (!building) return;
     const ΔT = 20;
     const hoursPerYear = 8760;
