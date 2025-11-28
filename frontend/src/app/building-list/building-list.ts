@@ -69,6 +69,7 @@ ngOnInit(): void {
 selectBuilding(buildingId?: string) {
   if (!buildingId) return;
   localStorage.setItem('selectedBuildingId', buildingId);
+  localStorage.setItem('selectedBuildingName', (this.project.buildings?.find(b => b._id === buildingId)?.name || ''));
   console.log('Building selezionato:', buildingId);
 }
 

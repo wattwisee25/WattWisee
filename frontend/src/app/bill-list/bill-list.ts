@@ -17,6 +17,7 @@ export class BillList implements OnInit, AfterViewInit {
   @ViewChild('grid') grid!: ElementRef<HTMLDivElement>;
 
   buildingId = '';
+  selectedBuildingName = localStorage.getItem('selectedBuildingName') || '';
   type: 'electricity' | 'oil' | 'lpg' = 'electricity';
   bills: any[] = [];
   billsByMonth: { [month: string]: any[] } = {};
@@ -39,6 +40,7 @@ export class BillList implements OnInit, AfterViewInit {
       if (!id || !typeParam) return;
 
       this.buildingId = id;
+
       this.type = typeParam;
       this.loadBills();
     });

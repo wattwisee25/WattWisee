@@ -74,12 +74,21 @@
 /* ================= GRID 3 COLONNE SCORREVOLE ================= */
 .three-year-grid-wrapper {
   display: flex;
+  justify-content: space-around;
   align-items: center;
   gap: 1rem;
   position: relative;
   overflow-x: auto;         /* scrollabile orizzontalmente */
   scroll-behavior: smooth;  /* rende lo scroll fluido */
   padding-bottom: 10px;
+}
+
+p{
+    font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  color: #31545b; /* testo blu scuro */
 }
 
 
@@ -284,6 +293,14 @@
   font-weight: bold;
   cursor: pointer;
   color: #31545b;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: space-around;
+    flex-direction: row;
 }
 /* ================= RESPONSIVE ================= */
 @media screen and (max-width: 768px) {
