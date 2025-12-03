@@ -3,6 +3,7 @@ import Bill from "../models/Bill.js";
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -19,10 +20,26 @@ const storage = multer.diskStorage({
     cb(null, `${file.fieldname}-${timestamp}${ext}`);
   }
 });
-
 const upload = multer({ storage });
 
-// ==================== CREA NUOVA BOLLETTA CON FILE ====================
+// ==================== OTTIENI UNA BOLLETTA PER ID ====================
+router.get('/id/:id', async (req, res) => {
+  const id = req.params.id?.trim();
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'Bill not found' });
+  }
+
+  try {
+    const bill = await Bill.findById(id);
+    if (!bill) return res.status(404).json({ error: 'Bill not found' });
+    res.json(bill);
+  } catch (err) {
+    console.error("❌ Error fetching bill by ID:", err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// ==================== CREA O AGGIORNA UNA BOLLETTA ====================
 router.post('/', upload.single('bill'), async (req, res) => {
   try {
     const { buildingId, type, data } = req.body;
@@ -30,52 +47,54 @@ router.post('/', upload.single('bill'), async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const billData = JSON.parse(data); // i dati della bolletta arrivano come JSON string
-    if (req.file) {
-      billData.filePath = req.file.path; // salva il path del PDF
-      billData.fileName = req.file.originalname;
-    }
+    const billData = JSON.parse(data);
 
-    const newBill = new Bill({ buildingId, type, data: billData });
-    await newBill.save();
-    res.status(201).json(newBill);
-  } catch (err) {
-    console.error("❌ Error saving bill:", err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ==================== AGGIORNA UNA BOLLETTA CON FILE ====================
-router.put('/:id', upload.single('bill'), async (req, res) => {
-  try {
-    const billData = req.body.data ? JSON.parse(req.body.data) : {};
-
+    // Se arriva un file, aggiornalo nei dati
     if (req.file) {
       billData.filePath = req.file.path;
       billData.fileName = req.file.originalname;
     }
 
-    const updatedBill = await Bill.findByIdAndUpdate(
-      req.params.id,
-      { data: billData },
-      { new: true }
-    );
+    // ========= 🔍 SE ESISTE _id → UPDATE =========
+    if (billData._id) {
+      const id = billData._id;
 
-    if (!updatedBill) return res.status(404).json({ error: 'Bill not found' });
-    res.json(updatedBill);
+      // rimuovi _id dai dati per evitare errori di mongo
+      delete billData._id;
+
+      const updated = await Bill.findByIdAndUpdate(
+        id,
+        { buildingId, type, data: billData },
+        { new: true }
+      );
+
+      if (!updated) return res.status(404).json({ error: 'Bill not found' });
+
+      return res.json(updated);
+    }
+
+    // ========= 🟢 SE NON ESISTE → CREA =========
+    const newBill = new Bill({
+      buildingId,
+      type,
+      data: billData
+    });
+
+    await newBill.save();
+    return res.status(201).json(newBill);
+
   } catch (err) {
-    console.error("❌ Error updating bill:", err);
+    console.error("❌ Error saving/updating bill:", err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // ==================== OTTIENI BOLLETTE PER BUILDING E TYPE ====================
 router.get('/:buildingId/:type', async (req, res) => {
   try {
     const { buildingId, type } = req.params;
-    if (!['electricity', 'oil', 'lpg'].includes(type)) {
-      return res.status(400).json({ error: 'Invalid bill type' });
-    }
+    if (!['electricity', 'oil', 'lpg'].includes(type)) return res.status(400).json({ error: 'Invalid bill type' });
 
     const bills = await Bill.find({ buildingId, type }).sort({ createdAt: -1 });
     res.json(bills);
@@ -87,13 +106,21 @@ router.get('/:buildingId/:type', async (req, res) => {
 
 // ==================== ELIMINA UNA BOLLETTA ====================
 router.delete('/:id', async (req, res) => {
+  const id = req.params.id?.trim();
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: 'Bill not found' });
+
   try {
-    const deleted = await Bill.findByIdAndDelete(req.params.id);
+    const deleted = await Bill.findByIdAndDelete(id);
     if (!deleted) return res.status(404).json({ error: 'Bill not found' });
 
-    // elimina il file dal server se esiste
-    if (deleted.data.filePath && fs.existsSync(deleted.data.filePath)) {
-      fs.unlinkSync(deleted.data.filePath);
+    // Rimuove il file fisico se esiste
+    if (deleted.data) {
+      for (const key in deleted.data) {
+        const fileObj = deleted.data[key];
+        if (fileObj?.filePath && fs.existsSync(fileObj.filePath)) {
+          fs.unlinkSync(fileObj.filePath);
+        }
+      }
     }
 
     res.json({ message: 'Bill deleted successfully' });

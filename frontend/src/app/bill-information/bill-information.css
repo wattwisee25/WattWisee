@@ -170,7 +170,6 @@ h2 {
   color: #31545b;
   margin: 0;
 }
-
 .skip-btn,
 .back-btn {
   background: none;
@@ -178,4 +177,20 @@ h2 {
   color: #31545b;
   font-size: 16px;
   cursor: pointer;
+  transition: all 0.2s ease; /* transizione morbida */
+}
+
+/* effetto hover: alzato */
+.skip-btn:hover,
+.back-btn:hover {
+  color: #1f3a42;           /* colore più scuro */
+  transform: translateY(-2px); /* solleva leggermente il bottone */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2); /* leggero effetto ombra sul testo */
+}
+
+
+/* Stato disabilitato */
+.skip-btn:disabled {
+  color: #666;              /* testo più scuro */
+  cursor: not-allowed;      /* cambia il cursore */
 }

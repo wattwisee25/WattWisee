@@ -1,78 +1,74 @@
 <div class="bill-information-page">
+
   <div class="up">
     <img src="assets/img/logo.png" alt="WattWise logo" class="logo" />
     <button class="finish-btn" (click)="goBack()">Finish</button>
   </div>
 
   <div class="container">
-    <h2 *ngIf="billType === 'electricity'">Electricity bill information</h2>
-    <h2 *ngIf="billType === 'oil'">Oil bill information</h2>
-    <h2 *ngIf="billType === 'lpg'">LPG bill information</h2>
 
-    <p style="color: #555">We require 12 months bills for an accurate energy profile</p>
+    <h2>
+      {{ 
+        billType === 'electricity' ? 'Electricity bill information' :
+        billType === 'oil' ? 'Oil bill information' :
+        'LPG bill information'
+      }}
+    </h2>
 
+    <p class="subtitle">We require 12 months bills for an accurate energy profile</p>
+
+
+    <!-- UNICO FORM  -->
     <div class="form-container">
+      <form (ngSubmit)="saveBill()">
 
-      <!-- Electricity form -->
-      <form *ngIf="billType === 'electricity'" (ngSubmit)="saveBill()">
-        <div class="input-container" *ngFor="let field of electricityFields">
+        <div class="input-container" *ngFor="let field of getFields()">
+          
+          <!-- Normal input -->
           <ng-container *ngIf="field.type !== 'file'; else fileInput">
-            <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
+            <input 
+              [type]="field.type"
+              [(ngModel)]="currentBill.data[field.key]"
+              [name]="field.key"
+              placeholder=" "
+            />
             <label>{{ field.label }}</label>
           </ng-container>
+
+          <!-- File input -->
           <ng-template #fileInput>
-            <input type="file" (change)="onFileSelected($event, field.key)" />
+            <input 
+              type="file"
+              (change)="onFileSelected($event, field.key)"
+            />
             <label>{{ field.label }}</label>
           </ng-template>
+
         </div>
+
+        <!-- SAVE BUTTON -->
         <div class="btn-container">
           <button type="submit" class="upload-btn">Save</button>
         </div>
-      </form>
 
-      <!-- Oil form -->
-      <form *ngIf="billType === 'oil'" (ngSubmit)="saveBill()">
-        <div class="input-container" *ngFor="let field of oilFields">
-          <ng-container *ngIf="field.type !== 'file'; else fileInputOil">
-            <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
-            <label>{{ field.label }}</label>
-          </ng-container>
-          <ng-template #fileInputOil>
-            <input type="file" (change)="onFileSelected($event, field.key)" />
-            <label>{{ field.label }}</label>
-          </ng-template>
-        </div>
-        <div class="btn-container">
-          <button type="submit" class="upload-btn">Save</button>
-        </div>
       </form>
-
-      <!-- LPG form -->
-      <form *ngIf="billType === 'lpg'" (ngSubmit)="saveBill()">
-        <div class="input-container" *ngFor="let field of lpgFields">
-          <ng-container *ngIf="field.type !== 'file'; else fileInputLpg">
-            <input [type]="field.type" [(ngModel)]="currentBill.data[field.key]" [name]="field.key" placeholder=" " />
-            <label>{{ field.label }}</label>
-          </ng-container>
-          <ng-template #fileInputLpg>
-            <input type="file" (change)="onFileSelected($event, field.key)" />
-            <label>{{ field.label }}</label>
-          </ng-template>
-        </div>
-        <div class="btn-container">
-          <button type="submit" class="upload-btn">Save</button>
-        </div>
-      </form>
-
     </div>
+
   </div>
 
+
+  <!-- NAVIGATION BUTTONS -->
   <div class="navigation-buttons">
-    <button (click)="back()" [disabled]="currentIndex === 0" class="back-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+
+    <!-- PREVIOUS -->
+    <button 
+      (click)="back()"
+      [disabled]="currentIndex === 0"
+      class="back-btn"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M5 12l14 0" />
+        <path d="M5 12h14" />
         <path d="M5 12l4 4" />
         <path d="M5 12l4 -4" />
       </svg>
@@ -81,16 +77,23 @@
 
     <p>{{ getIndicator() }}</p>
 
-    <button (click)="next()" class="skip-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M12 5l0 14" />
-        <path d="M5 12l14 0" />
-      </svg>New
+    <!-- NEXT -->
+    <button 
+      (click)="next()"
+      class="skip-btn"
+      [disabled]="isCurrentBillEmpty()"
+    >
+      Next
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5" />
+        <path d="M19 12l-4 4" />
+        <path d="M19 12l-4 -4" />
+      </svg>
     </button>
+
   </div>
+
 </div>
 
 <div class="back-button">
