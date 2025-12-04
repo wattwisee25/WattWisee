@@ -13,6 +13,48 @@
     <p>{{ errorMessage }}</p>
   </div>
 
+  <div class="year-totals" *ngIf="selectedBuilding">
+    <h3>Totali e percentuali per {{ selectedYear }}</h3>
+
+    <div class="year-navigation">
+      <button (click)="changeYear(-1)">&#8592; Previous Year</button>
+      <button (click)="changeYear(1)">Next Year &#8594;</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Settore</th>
+          <th>Totale (€)</th>
+          <th>Percentuale (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Electricity</td>
+          <td>{{ totalsByYear.electricity | number:'1.2-2' }}</td>
+          <td>{{ percentsByYear.electricity | number:'1.0-0' }}%</td>
+        </tr>
+        <tr>
+          <td>Oil</td>
+          <td>{{ totalsByYear.oil | number:'1.2-2' }}</td>
+          <td>{{ percentsByYear.oil | number:'1.0-0' }}%</td>
+        </tr>
+        <tr>
+          <td>LPG</td>
+          <td>{{ totalsByYear.lpg | number:'1.2-2' }}</td>
+          <td>{{ percentsByYear.lpg | number:'1.0-0' }}%</td>
+        </tr>
+        <tr>
+          <td><strong>Totale Generale</strong></td>
+          <td><strong>{{ totalsByYear.grandTotal | number:'1.2-2' }}</strong></td>
+          <td><strong>100%</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
   <!-- Building info -->
   <div *ngIf="!isLoading && selectedBuilding" class="building-info">
     <div class="left">
