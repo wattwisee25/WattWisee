@@ -15,14 +15,12 @@
 
   <!-- Building info -->
   <div *ngIf="!isLoading && selectedBuilding" class="building-info">
-   <div class="left">
-    <h2>{{ selectedBuilding.name }}</h2>
-  <div class="image-wrapper">
-    <img *ngIf="selectedBuilding.imageUrl"
-         [src]="selectedBuilding.imageUrl"
-         alt="{{ selectedBuilding.name }}" />
-  </div>
-</div>
+    <div class="left">
+      <h2>{{ selectedBuilding.name }}</h2>
+      <div class="image-wrapper">
+        <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl" alt="{{ selectedBuilding.name }}" />
+      </div>
+    </div>
 
 
     <div class="right">
