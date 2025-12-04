@@ -24,7 +24,7 @@ export class BuildingInfo implements OnInit {
   errorMessage: string | null = null;
   newImageUrl: string = '';
 
-  // --- AGGIUNTO: anno selezionato + totali e percentuali ---
+  // anno selezionato + totali e percentuali
   selectedYear = new Date().getFullYear();
 
   totalsByYear = {
@@ -66,7 +66,7 @@ export class BuildingInfo implements OnInit {
         this.selectedBuilding = building;
         this.isLoading = false;
 
-        // 👉 Calcola totali e percentuali appena caricato il building
+        //Calcola totali e percentuali appena caricato il building
         await this.updateTotalsPercentages();
       },
       error: err => {
@@ -97,9 +97,7 @@ export class BuildingInfo implements OnInit {
       });
   }
 
-  // ---------------------------------------
-  // ✅ CALCOLI TOTALE + PERCENTUALI
-  // ---------------------------------------
+  //CALCOLI TOTALE + PERCENTUALI
   async getTotalsAndPercentsByYear(year: number) {
     if (!this.selectedBuilding?._id) return {
       totals: { electricity: 0, oil: 0, lpg: 0, grandTotal: 0 },
@@ -160,7 +158,7 @@ export class BuildingInfo implements OnInit {
     this.percentsByYear = result.percents;
   }
 
-  // Se vuoi cambiare anno dal template
+  //change year
   async changeYear(offset: number) {
     this.selectedYear += offset;
     await this.updateTotalsPercentages();
