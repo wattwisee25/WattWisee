@@ -1,6 +1,7 @@
 [build]
+  base = "frontend"
   command = "npm ci && npm run build -- --configuration WattWise"
-  publish = "dist/WattWisee"
+  publish = "frontend/dist/WattWise"
 
 [[redirects]]
   from = "/*"
