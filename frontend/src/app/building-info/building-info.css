@@ -126,6 +126,30 @@ h4 {
 
 
 /* ========================
+   PIE CHART
+======================== */
+.pie_chart {
+  margin: 37px 60px;
+}
+
+.pie_chart .container_data {
+  display: flex;
+  align-items: center;
+}
+
+.btn-year {
+  background-color: #31545b;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+/* ========================
    BILLS SECTION
 ======================== */
 .bills {

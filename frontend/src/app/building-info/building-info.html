@@ -13,7 +13,7 @@
     <p>{{ errorMessage }}</p>
   </div>
 
-  <!-- Building info -->
+  <!-- BUILDING INFO -->
   <div *ngIf="!isLoading && selectedBuilding" class="building-info">
     <div class="left">
       <h2>{{ selectedBuilding.name }}</h2>
@@ -48,8 +48,6 @@
         </a>
       </div>
 
-
-
       <!-- Modalità visualizzazione -->
       <div *ngIf="!isEditing" class="view-mode">
         <p>
@@ -67,43 +65,45 @@
 
 
   <!-- -- PIE CHART -- -->
-  <div class="year-totals" *ngIf="selectedBuilding">
+  <div class="year-totals" class="pie_chart" *ngIf="selectedBuilding">
     <h3>Annual totals and percentages for {{ selectedYear }}</h3>
 
     <div class="year-navigation">
-      <button (click)="changeYear(-1)">&#8592; Previous Year</button>
-      <button (click)="changeYear(1)">Next Year &#8594;</button>
+      <button (click)="changeYear(-1)" class="btn-year">&#8592; Previous Year</button>
+      <button (click)="changeYear(1)" class="btn-year">Next Year &#8594;</button>
     </div>
 
-    <!-- Chart -->
-    <div style="max-width: 400px; margin: 20px auto;">
-      <canvas #pieChart></canvas>
-    </div>
+    <div class="container_data">
+      <!-- Totals Table -->
+      <div class="totals-table">
+        <div class="total-row">
+          <span>Electricity: </span>
+          <span>€ {{ totalsByYear.electricity.toFixed(2) }} ({{ percentsByYear.electricity.toFixed(1) }}%)</span>
+        </div>
+        <div class="total-row">
+          <span>Oil: </span>
+          <span>€ {{ totalsByYear.oil.toFixed(2) }} ({{ percentsByYear.oil.toFixed(1) }}%)</span>
+        </div>
+        <div class="total-row">
+          <span>LPG: </span>
+          <span>€ {{ totalsByYear.lpg.toFixed(2) }} ({{ percentsByYear.lpg.toFixed(1) }}%)</span>
+        </div>
+        <div class="total-row grand-total">
+          <span><strong>Total: </strong></span>
+          <span><strong>€ {{ totalsByYear.grandTotal.toFixed(2) }}</strong></span>
+        </div>
+      </div>
 
-    <!-- Totals Table -->
-    <div class="totals-table">
-      <div class="total-row">
-        <span>Electricity: </span>
-        <span>€{{ totalsByYear.electricity.toFixed(2) }} ({{ percentsByYear.electricity.toFixed(1) }}%)</span>
-      </div>
-      <div class="total-row">
-        <span>Oil: </span>
-        <span>€{{ totalsByYear.oil.toFixed(2) }} ({{ percentsByYear.oil.toFixed(1) }}%)</span>
-      </div>
-      <div class="total-row">
-        <span>LPG: </span>
-        <span>€{{ totalsByYear.lpg.toFixed(2) }} ({{ percentsByYear.lpg.toFixed(1) }}%)</span>
-      </div>
-      <div class="total-row grand-total">
-        <span><strong>Grand Total:</strong></span>
-        <span><strong>€{{ totalsByYear.grandTotal.toFixed(2) }}</strong></span>
+      <!-- Chart -->
+      <div style="max-width: 350px; margin: 20px auto;">
+        <canvas #pieChart></canvas>
       </div>
     </div>
   </div>
 
-  <!-- Bills -->
+  <!-- BILLS -->
   <div *ngIf="!isLoading && selectedBuilding" class="bills">
-    <h4>Bills</h4>
+    <h3>Bills</h3>
     <div class="bill-types">
       <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'electricity']">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
