@@ -1,6 +1,6 @@
 [build]
   command = "ng build --configuration production"
-  publish = "dist/WattWisee"
+  publish = "dist/WattWisee/browser"
 
 [[redirects]]
   from = "/*"
