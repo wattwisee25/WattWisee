@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/WattWise/browser",
+            "outputPath": "dist/WattWise",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
