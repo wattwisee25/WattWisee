@@ -54,6 +54,12 @@ app.get('/logo', (req, res) => {
 mongoose.connect(process.env.MONGO_URI || "mongodb+srv://wattwisee25_db_user:Fi7W7YI8TDUTGuIA@wattwisee.9chzy5q.mongodb.net/wattWisee")
   .then(() => {
     console.log("✅ Connected to MongoDB!");
-    app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+   // Use the PORT environment variable provided by Render/Heroku, fallback to 3000 locally
+const port = process.env.PORT || 3000;
+
+// Start Express server only after MongoDB connection is established
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
   })
   .catch(err => console.error("MongoDB connection error:", err));

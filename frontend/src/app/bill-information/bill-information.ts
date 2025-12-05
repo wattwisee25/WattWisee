@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BackButton } from "../back-button/back-button";
+import { environment } from '../../enviroments/enviroments';
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 
@@ -119,7 +120,7 @@ export class BillInformation implements OnInit, OnDestroy {
 
   // --- Load single bill for editing ---
   loadSingleBill(billId: string) {
-    this.http.get(`http://localhost:3000/api/bill/id/${billId}`).subscribe({
+    this.http.get(`${environment.apiUrl}/api/bill/id/${billId}`).subscribe({
       next: (bill: any) => {
         this.bills = [bill];
         this.currentIndex = 0;
@@ -160,7 +161,7 @@ export class BillInformation implements OnInit, OnDestroy {
 
     formData.append('data', JSON.stringify(dataCopy));
 
-    this.http.post(`http://localhost:3000/api/bill/`, formData).subscribe({
+    this.http.post(`${environment.apiUrl}/api/bill/`, formData).subscribe({
       next: (res: any) => {
         alert('Bolletta salvata!');
         localStorage.removeItem(this.getDraftKey());

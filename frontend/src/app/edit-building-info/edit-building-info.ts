@@ -7,7 +7,7 @@ import { Menu } from '../menu/menu';
 import { ProjectService } from '../project.service';
 import { RouterModule } from '@angular/router';
 import { BackButton } from "../back-button/back-button";
-
+import { environment } from '../../enviroments/enviroments';
 
 @Component({
   selector: 'app-edit-building-info',
@@ -123,7 +123,7 @@ export class EditBuildingInfo implements OnInit {
 
 saveBuilding() {
   this.http.put(
-    `http://localhost:3000/api/projects/buildings/${this.buildingId}`,
+    `${environment.apiUrl}/api/projects/buildings/${this.buildingId}`,
     this.building,
     { withCredentials: true }
   ).subscribe({

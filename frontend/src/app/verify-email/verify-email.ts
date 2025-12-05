@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../../enviroments/enviroments';
 
 @Component({
   selector: 'app-verify-email',
@@ -46,7 +47,7 @@ export class VerifyEmail implements OnInit {
 
     const code = this.verifyForm.value.code;
 
-    this.http.post('http://localhost:3000/api/register/verify-email', {
+    this.http.post('${environment.apiUrl}/api/register/verify-email', {
       userId: this.userId,
       code: code
     }).subscribe({
@@ -68,7 +69,7 @@ export class VerifyEmail implements OnInit {
     this.resendLoading = true;
     this.error = '';
     
-    this.http.post('http://localhost:3000/api/register/resend-verification', {
+    this.http.post('${environment.apiUrl}/api/register/resend-verification', {
       userId: this.userId
     }).subscribe({
       next: (response: any) => {

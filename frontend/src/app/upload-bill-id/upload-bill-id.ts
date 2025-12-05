@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Menu } from '../menu/menu';
 import { BackButton } from "../back-button/back-button";
-
+import { environment } from '../../enviroments/enviroments';
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 
@@ -100,7 +100,7 @@ ngOnInit(): void {
 
     formData.append('buildingId', this.selectedBuildingId);
 
-    this.http.post('http://localhost:3000/api/upload', formData, { withCredentials: true })
+    this.http.post('${environment.apiUrl}/api/upload', formData, { withCredentials: true })
       .subscribe({
         next: (res) => {
           console.log('Uploaded files:', res);
