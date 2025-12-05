@@ -1,7 +1,10 @@
 [build]
   base = "frontend"
-  command = "npm ci && npm run build -- --configuration WattWise"
-  publish = "frontend/dist/WattWise"
+  command = "npm ci && npx ng build WattWisee --configuration production"
+  publish = "frontend/dist/WattWisee"
+
+[build.environment]
+  NODE_VERSION = "20"
 
 [[redirects]]
   from = "/*"

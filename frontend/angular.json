@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "WattWise": {
+    "WattWisee": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/WattWise",
+            "outputPath": "dist/WattWisee",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
