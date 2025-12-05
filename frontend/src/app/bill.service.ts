@@ -15,7 +15,8 @@ export interface Bill {
   providedIn: 'root'
 })
 export class BillService {
-  private apiUrl = '${environment.apiUrl}/api/bills'; 
+ private apiUrl = `${environment.apiUrl}/users`;
+
 
   constructor(private http: HttpClient) {}
 

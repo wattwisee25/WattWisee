@@ -24,7 +24,8 @@ export interface Project {
   providedIn: 'root'
 })
 export class ProjectService {
-  private apiUrl = '${environment.apiUrl}/api/projects';
+  private apiUrl = `${environment.apiUrl}/users`;
+
 
   constructor(private http: HttpClient) { }
 

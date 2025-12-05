@@ -19,7 +19,8 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = '${environment.apiUrl}/api/users'; // indirizzo backend
+private apiUrl = `${environment.apiUrl}/users`;
+ // indirizzo backend
 
   constructor(private http: HttpClient) { }
 

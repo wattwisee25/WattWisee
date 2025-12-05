@@ -10,7 +10,8 @@ import { environment } from '../enviroments/enviroments';
 })
 export class AuthService {
 
-  private apiUrl = '${environment.apiUrl}/api/users';
+private apiUrl = `${environment.apiUrl}/users`;
+
   
   constructor(private http: HttpClient, private router: Router) {}
 
