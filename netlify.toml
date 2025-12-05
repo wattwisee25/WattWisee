@@ -1,0 +1,16 @@
+[build]
+  # Netlify farà il build dalla cartella frontend
+  base = "frontend"
+  # Comando per installare dipendenze e buildare Angular
+  command = "npm ci && npx ng build WattWisee --configuration production"
+  # Cartella di output del build (Angular mette i file qui)
+  publish = "dist/WattWisee"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[redirects]]
+  # Questo serve per le SPA Angular, così Netlify sa di reindirizzare tutto a index.html
+  from = "/*"
+  to = "/index.html"
+  status = 200
