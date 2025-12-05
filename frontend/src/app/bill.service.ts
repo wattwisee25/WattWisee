@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../enviroments/enviroments';
 
 export interface Bill {
   _id?: string;
@@ -14,7 +15,7 @@ export interface Bill {
   providedIn: 'root'
 })
 export class BillService {
-  private apiUrl = 'http://localhost:3000/api/bills'; 
+  private apiUrl = '${environment.apiUrl}/api/bills'; 
 
   constructor(private http: HttpClient) {}
 
