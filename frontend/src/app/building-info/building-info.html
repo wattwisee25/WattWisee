@@ -14,7 +14,10 @@
   </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f36215c301786d758532182033397e140d7b729
 =======
 >>>>>>> 5f36215c301786d758532182033397e140d7b729
   <!-- Building info -->
@@ -90,6 +93,42 @@
 
     </div>
     
+  </div>
+
+
+  <!-- -- PIE CHART -- -->
+  <div class="year-totals" *ngIf="selectedBuilding">
+    <h3>Annual totals and percentages for {{ selectedYear }}</h3>
+
+    <div class="year-navigation">
+      <button (click)="changeYear(-1)">&#8592; Previous Year</button>
+      <button (click)="changeYear(1)">Next Year &#8594;</button>
+    </div>
+
+    <!-- Chart -->
+    <div style="max-width: 400px; margin: 20px auto;">
+      <canvas #pieChart></canvas>
+    </div>
+
+    <!-- Totals Table -->
+    <div class="totals-table">
+      <div class="total-row">
+        <span>Electricity: </span>
+        <span>€{{ totalsByYear.electricity.toFixed(2) }} ({{ percentsByYear.electricity.toFixed(1) }}%)</span>
+      </div>
+      <div class="total-row">
+        <span>Oil: </span>
+        <span>€{{ totalsByYear.oil.toFixed(2) }} ({{ percentsByYear.oil.toFixed(1) }}%)</span>
+      </div>
+      <div class="total-row">
+        <span>LPG: </span>
+        <span>€{{ totalsByYear.lpg.toFixed(2) }} ({{ percentsByYear.lpg.toFixed(1) }}%)</span>
+      </div>
+      <div class="total-row grand-total">
+        <span><strong>Grand Total:</strong></span>
+        <span><strong>€{{ totalsByYear.grandTotal.toFixed(2) }}</strong></span>
+      </div>
+    </div>
   </div>
 
 
