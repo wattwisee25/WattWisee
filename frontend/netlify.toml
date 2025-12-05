@@ -1,5 +1,5 @@
 [build]
-  base = "frontend"
+  base = "."
   command = "npm ci && npx ng build WattWisee --configuration production"
   publish = "frontend/dist/WattWisee"
 
