@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../enviroments/enviroments';
+import { environment } from '../../environments/environment';
 
 export interface Building {
   _id: string;
@@ -13,7 +13,7 @@ export interface Building {
   providedIn: 'root',
 })
 export class BuildingService {
-  private apiUrl = '${environment.apiUrl}/api/buildings'; // indirizzo backend
+  private apiUrl = `${environment.apiUrl}/api/buildings`; // indirizzo backend
 
   constructor(private http: HttpClient) {}
 

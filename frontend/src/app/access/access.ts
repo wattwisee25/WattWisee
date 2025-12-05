@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../enviroments/enviroments';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-access',

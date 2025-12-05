@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SupplierMenu } from '../supplier-menu/supplier-menu';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { environment } from '../../enviroments/enviroments';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-supplier-upload',
@@ -78,7 +78,7 @@ onSubmit(): void {
     installationTime: this.uploadForm.value.installationTime || ''
   };
 
-  this.http.post('${environment.apiUrl}/api/uploads', payload)
+  this.http.post(`${environment.apiUrl}/api/uploads`, payload)
     .subscribe({
       next: (res: any) => {
         console.log('Upload saved:', res);

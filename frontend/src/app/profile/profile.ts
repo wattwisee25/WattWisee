@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BackButton } from "../back-button/back-button";
-import { environment } from '../../enviroments/enviroments';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-account',

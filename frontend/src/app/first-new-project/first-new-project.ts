@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BackButton } from "../back-button/back-button";
-import { environment } from '../../enviroments/enviroments';
+import { environment } from '../../environments/environment';
 
 interface Building {
   name: string;
@@ -36,7 +36,7 @@ export class NewProject {
   selectedImagePreview: string | ArrayBuffer | null = null;
   buildings: Building[] = [];
 
-  private apiUrl = '${environment.apiUrl}/api/projects';
+  private apiUrl = `${environment.apiUrl}/api/projects`;
 
   constructor(private http: HttpClient, private router: Router) {}
 

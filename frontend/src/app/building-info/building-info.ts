@@ -7,7 +7,7 @@ import { Menu } from '../menu/menu';
 import { RouterModule } from '@angular/router';
 import { BackButton } from "../back-button/back-button";
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../enviroments/enviroments';
+import { environment } from '../../environments/environment';
 
 import Chart from 'chart.js/auto';   // Chart.js auto-registers all components
 

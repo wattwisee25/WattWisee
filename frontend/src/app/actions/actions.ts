@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user.service';
 import { Menu } from '../menu/menu';
 import { BackButton } from '../back-button/back-button';
-import { environment } from '../../enviroments/enviroments';
+import { environment } from '../../environments/environment';
 
 // Define an interface for individual data items
 export interface Item {
