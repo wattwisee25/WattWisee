@@ -10,6 +10,10 @@
     "test": "ng test",
     "dev": "nodemon src/server.js"
   },
+  "engines": {
+  "node": "20.x",
+  "npm": "9.x"
+},
   "prettier": {
     "overrides": [
       {
