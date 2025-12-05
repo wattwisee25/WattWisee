@@ -11,9 +11,9 @@
     "dev": "nodemon src/server.js"
   },
   "engines": {
-  "node": "20.x",
-  "npm": "9.x"
-},
+    "node": "20.x",
+    "npm": "9.x"
+  },
   "prettier": {
     "overrides": [
       {
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@angular/build": "^20.1.1",
-    "@angular/cli": "^20.1.1",
+    "@angular/cli": "^20.3.13",
     "@angular/compiler-cli": "^20.1.2",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^24.4.0",
