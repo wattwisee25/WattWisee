@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService, Building } from '../project.service';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,8 @@ import { Menu } from '../menu/menu';
 import { RouterModule } from '@angular/router';
 import { BackButton } from "../back-button/back-button";
 import { HttpClient } from '@angular/common/http';
+import { Chart, ChartConfiguration } from 'chart.js/auto';
+
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 
@@ -15,9 +17,12 @@ type BillType = 'electricity' | 'oil' | 'lpg';
   standalone: true,
   imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton],
   templateUrl: './building-info.html',
-  styleUrls: ['./building-info.css']
+  styleUrls: ['./building-info.css'],
 })
-export class BuildingInfo implements OnInit {
+export class BuildingInfo implements OnInit, AfterViewInit {
+  @ViewChild('pieChart') pieChartCanvas!: ElementRef<HTMLCanvasElement>;
+  private chart?: Chart;
+
   selectedBuilding: Building | null = null;
   isEditing = false;
   isLoading = false;
@@ -57,6 +62,61 @@ export class BuildingInfo implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    // Il grafico verrà creato dopo il caricamento dei dati
+  }
+
+  // --- CREATE PIE CHART ---
+  // Creates a new Chart.js pie chart instance
+  createPieChart() {
+    if (this.chart) {
+      this.chart.destroy(); // Distruggi il grafico esistente prima di crearne uno nuovo
+    }
+
+    const ctx = this.pieChartCanvas.nativeElement.getContext('2d');
+    if (!ctx) return;
+
+    this.chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Electricity', 'Oil', 'LPG'], // Labels for each sector
+        datasets: [{
+          data: [
+            this.totalsByYear.electricity || 0,
+            this.totalsByYear.oil || 0,
+            this.totalsByYear.lpg || 0
+          ],
+          backgroundColor: ['#42A5F5', '#FFCA28', '#66BB6A'] // Customize sector colors
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom' // Position of the legend
+          }
+        }
+      }
+    });
+  }
+
+  // --- UPDATE PIE CHART DATA ---
+  // Call this method after calculating totals and percentages
+  updatePieChart() {
+    if (!this.chart) {
+      this.createPieChart();
+      return;
+    }
+
+    // Aggiorna i dati del grafico esistente
+    this.chart.data.datasets[0].data = [
+      this.totalsByYear.electricity || 0,
+      this.totalsByYear.oil || 0,
+      this.totalsByYear.lpg || 0
+    ];
+    this.chart.update();
+  }
+
   loadBuilding(buildingId: string): void {
     this.isLoading = true;
     this.errorMessage = null;
@@ -68,6 +128,9 @@ export class BuildingInfo implements OnInit {
 
         //Calcola totali e percentuali appena caricato il building
         await this.updateTotalsPercentages();
+
+        // Crea il grafico a torta con i dati caricati
+        this.createPieChart();
       },
       error: err => {
         console.error('Error while loading building', err);
@@ -158,9 +221,15 @@ export class BuildingInfo implements OnInit {
     this.percentsByYear = result.percents;
   }
 
-  //change year
+  // --- CHANGE YEAR ---
+  // Updates the selected year and refreshes totals and pie chart
   async changeYear(offset: number) {
     this.selectedYear += offset;
+
+    // Recalculate totals and percentages for the new year
     await this.updateTotalsPercentages();
+
+    // Update the pie chart data
+    this.updatePieChart();
   }
 }
