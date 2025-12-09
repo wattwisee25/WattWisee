@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 export interface User {
   _id: Object;
@@ -18,7 +19,8 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api/users'; // indirizzo backend
+private apiUrl = `${environment.apiUrl}/api/users`;
+ // indirizzo backend
 
   constructor(private http: HttpClient) { }
 

@@ -1,5 +1,5 @@
 {
-  "name": "WattWise",
+  "name": "WattWisee",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -9,6 +9,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev": "nodemon src/server.js"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "9.x"
   },
   "prettier": {
     "overrides": [
@@ -43,8 +47,9 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^20.3.13",
     "@angular/build": "^20.1.1",
-    "@angular/cli": "^20.1.1",
+    "@angular/cli": "^20.3.13",
     "@angular/compiler-cli": "^20.1.2",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^24.4.0",

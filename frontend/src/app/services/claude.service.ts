@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ClaudeService {
@@ -13,7 +14,7 @@ export class ClaudeService {
     formData.append('buildingId', buildingId);
     formData.append('type', type);
 
-    return this.http.post('http://localhost:3000/api/claude/upload', formData);
+    return this.http.post(`${environment.apiUrl}/api/claude/upload`, formData);
 
   }
 }

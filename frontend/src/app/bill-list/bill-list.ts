@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Menu } from "../menu/menu";
 import { BackButton } from "../back-button/back-button";
+import { environment } from '../../environments/environment';
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 
@@ -56,7 +57,7 @@ export class BillList implements OnInit, AfterViewInit {
 
   // --- LOAD BILLS ---
   loadBills(): void {
-    this.http.get(`http://localhost:3000/api/bill/${this.buildingId}/${this.type}`)
+    this.http.get(`${environment.apiUrl}/api/bill/${this.buildingId}/${this.type}`)
       .subscribe({
         next: (data: any) => {
           this.bills = data || [];
@@ -167,7 +168,7 @@ export class BillList implements OnInit, AfterViewInit {
   // --- DELETE ---
   deleteBill(id?: string): void {
     if (!id) return;
-    this.http.delete(`http://localhost:3000/api/bill/${id}`).subscribe({
+    this.http.delete(`${environment.apiUrl}/api/bill/${id}`).subscribe({
       next: () => { this.loadBills(); this.closeModal(); },
       error: (err) => console.error(err)
     });
@@ -176,7 +177,7 @@ export class BillList implements OnInit, AfterViewInit {
   // --- VIEW PDF ---
   viewPdf(filePath: string): void {
     if (!filePath) return;
-    window.open(`http://localhost:3000/${filePath}`, '_blank');
+    window.open(`${environment.apiUrl}/${filePath}`, '_blank');
   }
 
   // --- NAVIGATE TO FORM ---

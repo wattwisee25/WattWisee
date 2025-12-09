@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BackButton } from '../back-button/back-button';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-create-account',
@@ -49,7 +50,7 @@ export class CreateAccount {
     //Costruisco l'oggetto da inviare senza repeat_password
     const payload = { ...this.user };
 
-    this.http.post('http://localhost:3000/api/users', payload).subscribe({
+    this.http.post(`${environment.apiUrl}/api/users`, payload).subscribe({
       next: (res: any) => {
         console.log('Successful registration:', res);
         this.router.navigate(['/']);

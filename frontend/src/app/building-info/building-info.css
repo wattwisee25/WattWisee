@@ -221,6 +221,50 @@ h4 {
   color: #31545b;
 }
 
+
+
+/* ========================
+   PIE CHART
+======================== */
+.year-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: center;
+}
+.year-navigation button {
+     background-color: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #31545b;
+    font-weight: bold;
+    transition: background-color 0.2s 
+ease;
+}
+
+.year-navigation button:hover {
+   transform: translateY(-2px);
+}
+
+.grand-total {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+.grand-total p{
+  margin: 0;
+  font-weight: bold;
+  color: #31545b;
+}
+
+.chart-container {
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+}
+
 /* ========================
    BACK BUTTON
 ======================== */

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user.service';
 import { Menu } from '../menu/menu';
 import { BackButton } from '../back-button/back-button';
+import { environment } from '../../environments/environment';
 
 // Define an interface for individual data items
 export interface Item {
@@ -81,8 +82,7 @@ export class Actions implements OnInit {
     const selectedAction = localStorage.getItem('selectedAction') || '';
     const selectedTerm = localStorage.getItem('selectedRecommended') || '';
 
-    this.http.get<any[]>(`http://localhost:3000/api/uploads?ids=${supplierIds.join(',')}&action=${encodeURIComponent(selectedAction)}&term=${encodeURIComponent(selectedTerm)}`)
-      .subscribe({
+ this.http.get<any[]>(`${environment.apiUrl}/api/uploads?ids=${supplierIds.join(',')}&action=${encodeURIComponent(selectedAction)}&term=${encodeURIComponent(selectedTerm)}`)      .subscribe({
         next: uploads => {
           // Map uploads to suppliers
           this.suppliers = this.suppliers.map(supplier => {
