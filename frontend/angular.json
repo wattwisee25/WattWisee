@@ -73,10 +73,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "WattWise:build:production"
+              "buildTarget": "WattWisee:build:production"
             },
             "development": {
-              "buildTarget": "WattWise:build:development"
+              "buildTarget": "WattWisee:build:development"
             }
           },
           "defaultConfiguration": "development"
