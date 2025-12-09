@@ -13,92 +13,102 @@
     <p>{{ errorMessage }}</p>
   </div>
 
-  <!-- BUILDING INFO -->
-  <div *ngIf="!isLoading && selectedBuilding" class="building-info">
-    <div class="left">
-      <h2>{{ selectedBuilding.name }}</h2>
-      <div class="image-wrapper">
-        <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl" alt="{{ selectedBuilding.name }}" />
-      </div>
-    </div>
 
-    <div class="right">
-      <div class="title-right">
-        <h4>Info</h4>
-        <a class="view-link" [routerLink]="['/building-info', selectedBuilding._id]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="icon icon-tabler icon-tabler-eye">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-            <path d="M21 12c-2.4 4 -5.4 6 -9 6s-6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6s6.6 2 9 6" />
-          </svg>
-          View
-        </a>
-        <a class="edit-link" [routerLink]="['/edit-building-info', selectedBuilding._id]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-            <path d="M16 5l3 3" />
-          </svg>
-          Edit
-        </a>
-      </div>
+  <div class="container-info-chart">
 
-      <!-- Modalità visualizzazione -->
-      <div *ngIf="!isEditing" class="view-mode">
-        <p>
-          <strong>ID:</strong> {{ selectedBuilding._id }} <br />
-          <strong>Name:</strong> {{ selectedBuilding.name }} <br />
-          <strong>MPRN:</strong> {{ selectedBuilding.mprn }} <br />
-          <strong>Address:</strong> {{ selectedBuilding.address }} <br />
-          <strong>City:</strong> {{ selectedBuilding.city }} <br />
-          <strong>Surface:</strong> {{ selectedBuilding.surface }} <br />
-          <strong>N° floors:</strong> {{ selectedBuilding.floors }} <br />
-        </p>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- -- PIE CHART -- -->
-  <div class="year-totals" class="pie_chart" *ngIf="selectedBuilding">
-    <h3>Annual totals and percentages for {{ selectedYear }}</h3>
-
-    <div class="year-navigation">
-      <button (click)="changeYear(-1)" class="btn-year">&#8592; Previous Year</button>
-      <button (click)="changeYear(1)" class="btn-year">Next Year &#8594;</button>
-    </div>
-
-    <div class="container_data">
-      <!-- Totals Table -->
-      <div class="totals-table">
-        <div class="total-row">
-          <span>Electricity: </span>
-          <span>€ {{ totalsByYear.electricity.toFixed(2) }} ({{ percentsByYear.electricity.toFixed(1) }}%)</span>
+    <!-- BUILDING INFO -->
+    <div class="card-building">
+      <div *ngIf="!isLoading && selectedBuilding" class="card-building-body building-info">
+        <div class="left">
+          <h2>{{ selectedBuilding.name }}</h2>
+          <div class="image-wrapper">
+            <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl"
+              alt="{{ selectedBuilding.name }}" />
+          </div>
         </div>
-        <div class="total-row">
-          <span>Oil: </span>
-          <span>€ {{ totalsByYear.oil.toFixed(2) }} ({{ percentsByYear.oil.toFixed(1) }}%)</span>
-        </div>
-        <div class="total-row">
-          <span>LPG: </span>
-          <span>€ {{ totalsByYear.lpg.toFixed(2) }} ({{ percentsByYear.lpg.toFixed(1) }}%)</span>
-        </div>
-        <div class="total-row grand-total">
-          <span><strong>Total: </strong></span>
-          <span><strong>€ {{ totalsByYear.grandTotal.toFixed(2) }}</strong></span>
+
+        <div class="right">
+          <div class="title-right">
+            <h4>Info</h4>
+            <a class="view-link" [routerLink]="['/building-info', selectedBuilding._id]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icon-tabler-eye">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                <path d="M21 12c-2.4 4 -5.4 6 -9 6s-6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6s6.6 2 9 6" />
+              </svg>
+              View
+            </a>
+            <a class="edit-link" [routerLink]="['/edit-building-info', selectedBuilding._id]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                <path d="M16 5l3 3" />
+              </svg>
+              Edit
+            </a>
+          </div>
+
+          <!-- Modalità visualizzazione -->
+          <div *ngIf="!isEditing" class="view-mode">
+            <p>
+              <!-- <strong>ID:</strong> {{ selectedBuilding._id }} <br /> -->
+              <strong>Name:</strong> {{ selectedBuilding.name }} <br />
+              <strong>MPRN:</strong> {{ selectedBuilding.mprn }} <br />
+              <strong>Address:</strong> {{ selectedBuilding.address }} <br />
+              <strong>City:</strong> {{ selectedBuilding.city }} <br />
+              <strong>Surface:</strong> {{ selectedBuilding.surface }} <br />
+              <strong>N° floors:</strong> {{ selectedBuilding.floors }} <br />
+            </p>
+          </div>
         </div>
       </div>
 
-      <!-- Chart -->
-      <div style="max-width: 350px; margin: 20px auto;">
-        <canvas #pieChart></canvas>
+    </div>
+
+    <!-- -- PIE CHART -- -->
+    <div class="card-building card-building-chart">
+      <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
+        <h3 class="">Energy Distribution {{ selectedYear }}</h3>
+
+        <div class="year-navigation">
+          <button (click)="changeYear(-1)" class="btn-year">&#8592; Previous Year</button>
+          <button (click)="changeYear(1)" class="btn-year">Next Year &#8594;</button>
+        </div>
+
+        <div class="container_data">
+          <!-- Totals Table -->
+          <!-- <div class="totals-table">
+            <div class="total-row">
+              <span>Electricity: </span>
+              <span>€ {{ totalsByYear.electricity.toFixed(2) }} ({{ percentsByYear.electricity.toFixed(1) }}%)</span>
+            </div>
+            <div class="total-row">
+              <span>Oil: </span>
+              <span>€ {{ totalsByYear.oil.toFixed(2) }} ({{ percentsByYear.oil.toFixed(1) }}%)</span>
+            </div>
+            <div class="total-row">
+              <span>LPG: </span>
+              <span>€ {{ totalsByYear.lpg.toFixed(2) }} ({{ percentsByYear.lpg.toFixed(1) }}%)</span>
+            </div>
+            <div class="total-row grand-total">
+              <span><strong>Total: </strong></span>
+              <span><strong>€ {{ totalsByYear.grandTotal.toFixed(2) }}</strong></span>
+            </div>
+          </div> -->
+
+          <!-- Chart -->
+          <div style="max-width: 350px; margin: 20px auto;">
+            <canvas #pieChart></canvas>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- BILLS -->
