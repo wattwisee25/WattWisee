@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { environment } from '../../environments/environment'; 
+import { environment } from '../../environments/environment.prod'; 
 
 @Component({
   selector: 'app-verify-email',

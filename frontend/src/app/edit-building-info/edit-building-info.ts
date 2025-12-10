@@ -7,7 +7,7 @@ import { Menu } from '../menu/menu';
 import { ProjectService } from '../project.service';
 import { RouterModule } from '@angular/router';
 import { BackButton } from "../back-button/back-button";
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.prod';
 
 @Component({
   selector: 'app-edit-building-info',
