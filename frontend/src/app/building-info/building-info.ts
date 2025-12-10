@@ -23,6 +23,10 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   @ViewChild('pieChart') pieChartCanvas!: ElementRef<HTMLCanvasElement>;
   private chart?: Chart;
 
+@ViewChild('lineChart') lineChartCanvas!: ElementRef<HTMLCanvasElement>;
+private lineChart?: Chart;
+
+
   selectedBuilding: Building | null = null;
   isEditing = false;
   isLoading = false;
@@ -100,6 +104,69 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     });
   }
 
+// --- CREATE LINE CHART ---
+// Crea il grafico lineare curvo
+createLineChart(monthlyData: { month: string, electricity: number, oil: number, lpg: number }[]) {
+  // filtra solo mesi pari (0 = Gen, 1 = Feb, 2 = Mar, ...)
+  const filteredData = monthlyData.filter((_, index) => index % 2 === 1); // mesi pari: Feb, Apr, Giugno, ...
+
+  if (this.lineChart) {
+    this.lineChart.destroy(); // distruggi se esiste
+  }
+
+  const ctx = this.lineChartCanvas.nativeElement.getContext('2d');
+  if (!ctx) return;
+
+  this.lineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: filteredData.map(d => d.month), // solo mesi pari
+      datasets: [
+        {
+          label: 'Electricity',
+          data: filteredData.map(d => d.electricity),
+          borderColor: '#42A5F5',
+          backgroundColor: '#42A5F5',
+          tension: 0.4,
+          fill: false
+        },
+        {
+          label: 'Oil',
+          data: filteredData.map(d => d.oil),
+          borderColor: '#FFCA28',
+          backgroundColor: '#FFCA28',
+          tension: 0.4,
+          fill: false
+        },
+        {
+          label: 'LPG',
+          data: filteredData.map(d => d.lpg),
+          borderColor: '#66BB6A',
+          backgroundColor: '#66BB6A',
+          tension: 0.4,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
+
+
+
   // --- UPDATE PIE CHART DATA ---
   // Call this method after calculating totals and percentages
   updatePieChart() {
@@ -128,9 +195,13 @@ export class BuildingInfo implements OnInit, AfterViewInit {
 
         //Calcola totali e percentuali appena caricato il building
         await this.updateTotalsPercentages();
-
         // Crea il grafico a torta con i dati caricati
         this.createPieChart();
+
+          const monthlyData = await this.getMonthlyData(this.selectedYear);
+  this.createLineChart(monthlyData);
+
+        
       },
       error: err => {
         console.error('Error while loading building', err);
@@ -228,8 +299,66 @@ export class BuildingInfo implements OnInit, AfterViewInit {
 
     // Recalculate totals and percentages for the new year
     await this.updateTotalsPercentages();
-
     // Update the pie chart data
     this.updatePieChart();
+
+      const monthlyData = await this.getMonthlyData(this.selectedYear);
+  this.createLineChart(monthlyData);
   }
+
+
+
+
+
+// Calcolo kWh
+async getMonthlyData(year: number) {
+  if (!this.selectedBuilding?._id) return [];
+
+  const buildingId = this.selectedBuilding._id;
+  const endpoints = [
+    `http://localhost:3000/api/bill/${buildingId}/electricity`,
+    `http://localhost:3000/api/bill/${buildingId}/oil`,
+    `http://localhost:3000/api/bill/${buildingId}/lpg`
+  ];
+
+  const results = await Promise.all(
+    endpoints.map(url => this.http.get<any[]>(url).toPromise())
+  );
+
+  const [electricity, oil, lpg] = results.map(r => r || []);
+
+  // inizializza array 12 mesi
+  const months = Array.from({ length: 12 }, (_, i) => ({
+    month: new Date(0, i).toLocaleString('default', { month: 'short' }),
+    electricity: 0,
+    oil: 0,
+    lpg: 0
+  }));
+
+  const setFinalMonthValue = (list: any[], type: BillType) => {
+    list.forEach(b => {
+      const to = new Date(b.data?.toDate || b.data?.deliveryDate || b.data?.toLpg);
+      if (to.getFullYear() === year) {
+        const monthIndex = to.getMonth();
+        if (type === 'electricity') {
+          months[monthIndex].electricity = (+b.data.kwhDay || 0) + (+b.data.kwhNight || 0);
+        }
+        if (type === 'oil') {
+          months[monthIndex].oil = +b.data.kwhEquivalent || 0;
+        }
+        if (type === 'lpg') {
+          months[monthIndex].lpg = +b.data.cubicMeters || 0;
+        }
+      }
+    });
+  }
+
+  setFinalMonthValue(electricity, 'electricity');
+  setFinalMonthValue(oil, 'oil');
+  setFinalMonthValue(lpg, 'lpg');
+
+  return months;
+}
+
+  
 }

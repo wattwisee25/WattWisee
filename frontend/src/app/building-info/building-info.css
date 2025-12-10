@@ -1,326 +1,164 @@
-.container-info-chart {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.card-building {
-  /* background-color: #fcfcfc; */
-  margin: 20px 50px;
-  border: 1px solid #bbb;
-  border-radius: 20px;
-  padding: 5px 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  margin-bottom: 30px;
-}
-
-/* ========================
-   BUILDING INFO LAYOUT
-======================== */
+/* ===== Container principale ===== */
 .building-info-container {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
-
-.building-info {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  margin: 20px 60px;
-  align-items: flex-start;
-}
-
-/* Responsive: sotto 900px impila a colonna */
-@media screen and (max-width: 900px) {
-  .building-info {
-    flex-direction: column;
-    align-items: center;
+    display: flex;
+    gap: 20px;
+    justify-content: space-evenly;
     margin: 20px;
-  }
-
-  .right {
-    width: 100%;
-    padding-left: 0;
-    margin-right: 0;
-  }
+    flex-direction: row;
 }
 
-/* ========================
-   LEFT COLUMN
-======================== */
-.left {
-  flex: 1;
+/* ===== Contenitore info + charts ===== */
+.container-info-chart {
+    display: flex;
+    gap: 20px;
+    width: 50%;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* ===== Card generica ===== */
+.card-building {
+  background-color: #ffffff; /* bianco come nel tuo screenshot */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  flex: 1 1 300px; /* minimo 300px, cresce se c’è spazio */
+  width: 100%; /* larghezza massima */
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 15px;
 }
 
-.left h2 {
-  /* height: 35px; */
-  margin-bottom: 25px;
-  font-size: 35px;
-  color: #31545b;
-  text-align: center;
+/* ===== Card info edificio ===== */
+.building-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-/* Wrapper immagine */
-.left .image-wrapper {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  /* border-radius: 12px; */
-  background-color: #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.left .image-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  /* border-radius: 12px; */
-  transition: transform 0.3s ease;
-}
-
-.left .image-wrapper img:hover {
-  transform: scale(1.05);
-}
-
-/* ========================
-   RIGHT COLUMN
-======================== */
-.right {
+.building-info .left,
+.building-info .right {
   flex: 1;
-  /* padding-left: 20px; */
-  /* padding-top: 10px; */
-  /* border-radius: 8px; */
-  min-height: 200px;
+}
+
+.image-wrapper img {
   width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
-.right p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  padding: 12px;
-  max-width: 100%;
-  border: 1px solid #ccc;
-  /* border-radius: 8px; */
-  background-color: #f5f5f5;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.right a {
-  color: #31545b;
-  text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: color 0.2s ease;
-}
-
-.right a:hover {
-  color: #254548;
-}
-
+/* ===== Titolo e link ===== */
 .title-right {
-  height: 35px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin-bottom: 15px; */
+  margin-bottom: 10px;
 }
 
-h4 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #31545b;
+.view-link,
+.edit-link {
+  text-decoration: none;
+  color: #2f4f4f; /* grigio scuro simile al tuo screenshot */
+  font-size: 0.9rem;
+  margin-left: 10px;
+}
+
+.view-link:hover,
+.edit-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Sezione Bills ===== */
+.bills-card .bill-types {
+display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.bills-card .bill {
+    flex: 1 1 100px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #c1dbe3;
+    cursor: pointer;
+    font-weight: 500;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s; /* <- transizione qui */
+}
+
+/* effetto hover */
+.bills-card .bill:hover {
+    transform: translateY(-5px); /* sposta il bottone verso l'alto */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* ombra per effetto sollevato */
 }
 
 
-/* ========================
-   PIE CHART
-======================== */
-
-.card-building-chart {
-  text-align: center;
-  height: 525px;
-  place-self: center;
-  align-content: center;
-}
-
-.pie_chart {
-  margin: 20px 60px;
-}
-
-.pie_chart h3 {
-  margin-bottom: 20px;
-}
-
-.pie_chart .container_data {
+/* ===== Charts ===== */
+.charts {
   display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Navigazione anno */
+.year-navigation {
+  display: flex;
+  justify-content: center;
   align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
 }
 
 .btn-year {
-  background-color: #31545b;
-  color: white;
+  color: #2f4f4f;
   border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: 8px;
+  padding: 6px 12px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-  margin-right: 10px;
-}
-
-/* ========================
-   BILLS SECTION
-======================== */
-.bills {
-  margin-top: 30px;
-  padding: 0 60px 40px 60px;
-}
-
-.bill-types {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.bill {
-  padding: 20px;
-  width: 200px;
-  height: 200px;
-  background-color: #c1dbe3;
-  text-align: center;
-  border-radius: 12px;
-  cursor: pointer;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.bill:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.bill svg {
-  margin-bottom: 8px;
-  color: #31545b;
-}
-
-
-
-/* ========================
-   PIE CHART
-======================== */
-.year-navigation {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    align-items: center;
-}
-.year-navigation button {
-     background-color: transparent;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    color: #31545b;
-    font-weight: bold;
-    transition: background-color 0.2s 
-ease;
-}
-
-.year-navigation button:hover {
-   transform: translateY(-2px);
-}
-
-.grand-total {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 1.2rem;
-}
-
-.grand-total p{
-  margin: 0;
-  font-weight: bold;
-  color: #31545b;
-}
-
-.chart-container {
-  width: 200px;
-  height: 200px;
-  margin: 20px auto;
-}
-
-/* ========================
-   BACK BUTTON
-======================== */
-.back-button {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 20px 60px;
+  font-size: 1rem;
   background-color: transparent;
 }
 
-/* ========================
-   MEDIA QUERIES GENERALI
-======================== */
-@media screen and (max-width: 1028px) {
-  .building-info-container {
-    margin-top: 50px;
-  }
-
-  .bill-types {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .bill {
-    width: 70%;
-    max-width: 300px;
-  }
+.btn-year:hover {
+      transform: translateY(-5px); /* sposta il bottone verso l'alto */
 }
 
-@media screen and (max-width: 768px) {
+/* Card grafici */
+.card-building-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .building-info-container,
-  .back-button {
-    margin-left: 0;
-  }
+/* Loader ed errori */
+.loading, .error {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+}
 
+/* Bottone back */
+.back-button {
+  margin-top: 20px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
   .building-info {
-    margin: 20px;
+    flex-direction: column;
+  }
+  .card-building {
+    max-width: 100%;
   }
 }
 
 @media screen and (min-width: 770px) {
-
-  .building-info-container,
-  .back-button {
+  .building-info-container {
     margin-left: 250px;
-    /* margine fisso per sidebar */
   }
-}
-
-@media screen and (max-width: 768px) {
-
-  .building-info-container,
-  .back-button {
-    margin-left: 0;
-    /* no margine su mobile */
+  .back-button{
+    margin-left: 250px;
   }
 }

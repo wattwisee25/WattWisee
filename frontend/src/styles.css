@@ -4,8 +4,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: 'Space grotesk', sans-serif; */
-  font-family: system-ui;
+  font-family: 'Space grotesk', sans-serif;
 }
 
 body {

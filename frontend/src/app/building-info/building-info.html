@@ -13,50 +13,26 @@
     <p>{{ errorMessage }}</p>
   </div>
 
-
   <div class="container-info-chart">
-
     <!-- BUILDING INFO -->
     <div class="card-building">
       <div *ngIf="!isLoading && selectedBuilding" class="card-building-body building-info">
         <div class="left">
           <h2>{{ selectedBuilding.name }}</h2>
           <div class="image-wrapper">
-            <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl"
-              alt="{{ selectedBuilding.name }}" />
+            <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl" alt="{{ selectedBuilding.name }}" />
           </div>
         </div>
 
         <div class="right">
           <div class="title-right">
             <h4>Info</h4>
-            <a class="view-link" [routerLink]="['/building-info', selectedBuilding._id]">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-eye">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                <path d="M21 12c-2.4 4 -5.4 6 -9 6s-6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6s6.6 2 9 6" />
-              </svg>
-              View
-            </a>
-            <a class="edit-link" [routerLink]="['/edit-building-info', selectedBuilding._id]">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-                <path d="M16 5l3 3" />
-              </svg>
-              Edit
-            </a>
+            <a class="view-link" [routerLink]="['/building-info', selectedBuilding._id]">View</a>
+            <a class="edit-link" [routerLink]="['/edit-building-info', selectedBuilding._id]">Edit</a>
           </div>
 
-          <!-- Modalità visualizzazione -->
           <div *ngIf="!isEditing" class="view-mode">
             <p>
-              <!-- <strong>ID:</strong> {{ selectedBuilding._id }} <br /> -->
               <strong>Name:</strong> {{ selectedBuilding.name }} <br />
               <strong>MPRN:</strong> {{ selectedBuilding.mprn }} <br />
               <strong>Address:</strong> {{ selectedBuilding.address }} <br />
@@ -67,89 +43,56 @@
           </div>
         </div>
       </div>
-
     </div>
 
-    <!-- -- PIE CHART -- -->
-    <div class="card-building card-building-chart">
-      <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
-        <h3 class="">Energy Distribution {{ selectedYear }}</h3>
+      <!-- BILLS SECTION RACCHIUSA IN CARD -->
+  <div class="card-building bills-card" *ngIf="!isLoading && selectedBuilding">
+    <div class="card-building-body">
+      <h3>Bills</h3>
+      <div class="bill-types">
+        <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'electricity']">Electricity</button>
+        <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'oil']">Oil - Fuel</button>
+        <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'lpg']">LPG</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="year-navigation">
-          <button (click)="changeYear(-1)" class="btn-year">&#8592; Previous Year</button>
-          <button (click)="changeYear(1)" class="btn-year">Next Year &#8594;</button>
+
+    <!-- CHARTS -->
+    <div class="charts">
+      <div class="year-navigation">
+        <button (click)="changeYear(-1)" class="btn-year">&#8592; Previous Year</button>
+        <span class="selected-year">{{ selectedYear }}</span>
+        <button (click)="changeYear(1)" class="btn-year">Next Year &#8594;</button>
+      </div>
+
+      <!-- PIE CHART -->
+      <div class="card-building card-building-chart">
+        <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
+          <h3>Energy Distribution</h3>
+          <div class="container_data">
+            <div style="max-width: 350px; margin: 20px auto;">
+              <canvas #pieChart></canvas>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="container_data">
-          <!-- Totals Table -->
-          <!-- <div class="totals-table">
-            <div class="total-row">
-              <span>Electricity: </span>
-              <span>€ {{ totalsByYear.electricity.toFixed(2) }} ({{ percentsByYear.electricity.toFixed(1) }}%)</span>
+      <!-- LINE CHART -->
+      <div class="card-building card-building-chart">
+        <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
+          <h3>kWh Distribution</h3>
+          <div class="container_data">
+            <div style="max-width: 350px; margin: 20px auto;">
+              <canvas #lineChart></canvas>
             </div>
-            <div class="total-row">
-              <span>Oil: </span>
-              <span>€ {{ totalsByYear.oil.toFixed(2) }} ({{ percentsByYear.oil.toFixed(1) }}%)</span>
-            </div>
-            <div class="total-row">
-              <span>LPG: </span>
-              <span>€ {{ totalsByYear.lpg.toFixed(2) }} ({{ percentsByYear.lpg.toFixed(1) }}%)</span>
-            </div>
-            <div class="total-row grand-total">
-              <span><strong>Total: </strong></span>
-              <span><strong>€ {{ totalsByYear.grandTotal.toFixed(2) }}</strong></span>
-            </div>
-          </div> -->
-
-          <!-- Chart -->
-          <div style="max-width: 350px; margin: 20px auto;">
-            <canvas #pieChart></canvas>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 
-  <!-- BILLS -->
-  <div *ngIf="!isLoading && selectedBuilding" class="bills">
-    <h3>Bills</h3>
-    <div class="bill-types">
-      <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'electricity']">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-bolt">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11" />
-        </svg>
-        Electricity bills
-      </button>
-
-      <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'oil']">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-drop-circle">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path
-            d="M10.07 15.34c1.115 .88 2.74 .88 3.855 0c1.115 -.88 1.398 -2.388 .671 -3.575l-2.596 -3.765l-2.602 3.765c-.726 1.187 -.443 2.694 .672 3.575z" />
-          <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-        </svg>
-        Oil - Fuel Oil bills
-      </button>
-
-      <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'lpg']">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-cylinder">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M12 6m-7 0a7 3 0 1 0 14 0a7 3 0 1 0 -14 0" />
-          <path d="M5 6v12c0 1.657 3.134 3 7 3s7 -1.343 7 -3v-12" />
-        </svg>
-        LPG bills
-      </button>
-    </div>
-  </div>
-</div>
 <div class="back-button">
   <app-back-button></app-back-button>
 </div>
