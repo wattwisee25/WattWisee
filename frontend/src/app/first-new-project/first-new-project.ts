@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BackButton } from "../back-button/back-button";
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 interface Building {
   name: string;

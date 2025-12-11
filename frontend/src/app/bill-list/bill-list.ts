@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Menu } from "../menu/menu";
 import { BackButton } from "../back-button/back-button";
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 

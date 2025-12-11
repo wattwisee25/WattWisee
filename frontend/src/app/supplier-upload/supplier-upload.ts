@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SupplierMenu } from '../supplier-menu/supplier-menu';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-supplier-upload',

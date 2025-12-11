@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BackButton } from "../back-button/back-button";
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 type BillType = 'electricity' | 'oil' | 'lpg';
 
