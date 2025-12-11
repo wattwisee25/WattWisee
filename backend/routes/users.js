@@ -30,26 +30,31 @@ const logoPath = path.join(__dirname, '../../frontend/src/assets/img/logo.png');
 let transporter;
 
 // ==================== INIZIALIZZA NODEMAILER ====================
-(async () => {
+(() => {
   try {
     transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // SSL
+      host: "smtp.sendgrid.net", // server SMTP SendGrid
+      port: 587,                 // porta TLS consigliata
+      secure: false,             // false per TLS (porta 587)
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      },
-      tls: {
-        rejectUnauthorized: false
+        user: "apikey",                   // sempre "apikey"
+        pass: process.env.SENDGRID_API_KEY // la tua API Key salvata nelle env di Render
       }
     });
-    console.log("Nodemailer ready with Gmail:", process.env.EMAIL_USER);
+
+    // Test connessione al server SMTP
+    transporter.verify((err, success) => {
+      if (err) {
+        console.error("SMTP connection failed:", err);
+      } else {
+        console.log("Nodemailer ready with SendGrid!");
+      }
+    });
+
   } catch (err) {
     console.error("Error creating transporter:", err);
   }
 })();
-
 
 // ==================== REGISTRAZIONE ====================
 router.post('/', async (req, res) => {
