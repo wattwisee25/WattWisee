@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ClaudeService } from './services/claude.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +22,9 @@ export class App {
 
   constructor(private http: HttpClient, private claudeService: ClaudeService) {}
 
+
   loadUsers() {
-    this.http.get<any[]>('http://localhost:3000/api/users').subscribe({
+    this.http.get<any[]>(environment.apiUrl).subscribe({
       next: data => this.users = data,
       error: err => console.error('Error loading users:', err)
     });

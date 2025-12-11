@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { BackButton } from "../back-button/back-button";
 import { HttpClient } from '@angular/common/http';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
+import { environment } from '../../environments/environment';
 
 
 type BillType = 'electricity' | 'oil' | 'lpg';
@@ -240,9 +241,9 @@ createLineChart(monthlyData: { month: string, electricity: number, oil: number, 
 
     const buildingId = this.selectedBuilding._id;
     const endpoints = [
-      `http://localhost:3000/api/bill/${buildingId}/electricity`,
-      `http://localhost:3000/api/bill/${buildingId}/oil`,
-      `http://localhost:3000/api/bill/${buildingId}/lpg`
+      `http://${environment.apiUrl}/api/bill/${buildingId}/electricity`,
+      `http://${environment.apiUrl}/api/bill/${buildingId}/oil`,
+      `http://${environment.apiUrl}/api/bill/${buildingId}/lpg`
     ];
 
     const results = await Promise.all(
@@ -316,9 +317,9 @@ async getMonthlyData(year: number) {
 
   const buildingId = this.selectedBuilding._id;
   const endpoints = [
-    `http://localhost:3000/api/bill/${buildingId}/electricity`,
-    `http://localhost:3000/api/bill/${buildingId}/oil`,
-    `http://localhost:3000/api/bill/${buildingId}/lpg`
+    `http://${environment.apiUrl}/api/bill/${buildingId}/electricity`,
+    `http://${environment.apiUrl}/api/bill/${buildingId}/oil`,
+    `http://${environment.apiUrl}/api/bill/${buildingId}/lpg`
   ];
 
   const results = await Promise.all(
