@@ -71,7 +71,8 @@ router.post('/', async (req, res) => {
     // Provo a inviare email
     if (transporter) {
       const mailOptions = {
-        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+from: process.env.EMAIL_USER,
+
         to: newUser.email,
         subject: 'Welcome to WattWisee!',
         text: `Hi ${newUser.contact_name || ''}, thank you for registering!`,
@@ -149,7 +150,7 @@ router.post('/login', async (req, res) => {
 
     if (transporter) {
       await transporter.sendMail({
-        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+        from: process.env.EMAIL_USER,
         to: user.email,
         subject: 'Your OTP Code - WattWisee',
         text: `Your OTP code is: ${otp}. If you did not request this, please ignore this email.`,
@@ -221,7 +222,7 @@ router.post('/supplier-login', async (req, res) => {
     // Invio email OTP
     if (transporter) {
       await transporter.sendMail({
-        from: '"WattWisee Support" <no-reply@wattwisee.com>',
+        from: process.env.EMAIL_USER,
         to: supplier.email,
         subject: 'Your OTP Code - WattWisee (Supplier)',
         text: `Your OTP code is: ${otp}. If you did not request this, please ignore this email.`,
@@ -394,7 +395,7 @@ router.post('/forgot-password', async (req, res) => {
     if (transporter) {
       try {
         await transporter.sendMail({
-          from: '"WattWisee Support" <no-reply@wattwisee.com>',
+          from: process.env.EMAIL_USER,
           to: email,
           subject: 'Reset Your WattWisee Password',
           text: `Hi ${user.contact_name || ''}, reset your password here: ${resetLink}`,
@@ -475,7 +476,7 @@ router.delete('/me', authMiddleware, async (req, res) => {
     if (transporter) {
       try {
         await transporter.sendMail({
-          from: '"WattWisee Support" <no-reply@wattwisee.com>',
+         from: process.env.EMAIL_USER,
           to: user.email,
           subject: 'Account Deletion Confirmation - WattWisee',
           text: `Hi ${user.contact_name || ''}, your account has been successfully deleted from WattWisee.`,

@@ -108,8 +108,8 @@ private lineChart?: Chart;
 // --- CREATE LINE CHART ---
 // Crea il grafico lineare curvo
 createLineChart(monthlyData: { month: string, electricity: number, oil: number, lpg: number }[]) {
-  // filtra solo mesi pari (0 = Gen, 1 = Feb, 2 = Mar, ...)
-  const filteredData = monthlyData.filter((_, index) => index % 2 === 1); // mesi pari: Feb, Apr, Giugno, ...
+const filteredData = monthlyData; // mostra tutti i 12 mesi
+
 
   if (this.lineChart) {
     this.lineChart.destroy(); // distruggi se esiste
@@ -241,9 +241,9 @@ createLineChart(monthlyData: { month: string, electricity: number, oil: number, 
 
     const buildingId = this.selectedBuilding._id;
     const endpoints = [
-      `http://${environment.apiUrl}/api/bill/${buildingId}/electricity`,
-      `http://${environment.apiUrl}/api/bill/${buildingId}/oil`,
-      `http://${environment.apiUrl}/api/bill/${buildingId}/lpg`
+      `${environment.apiUrl}/api/bill/${buildingId}/electricity`,
+      `${environment.apiUrl}/api/bill/${buildingId}/oil`,
+      `${environment.apiUrl}/api/bill/${buildingId}/lpg`
     ];
 
     const results = await Promise.all(
@@ -317,9 +317,9 @@ async getMonthlyData(year: number) {
 
   const buildingId = this.selectedBuilding._id;
   const endpoints = [
-    `http://${environment.apiUrl}/api/bill/${buildingId}/electricity`,
-    `http://${environment.apiUrl}/api/bill/${buildingId}/oil`,
-    `http://${environment.apiUrl}/api/bill/${buildingId}/lpg`
+    `${environment.apiUrl}/api/bill/${buildingId}/electricity`,
+    `${environment.apiUrl}/api/bill/${buildingId}/oil`,
+    `${environment.apiUrl}/api/bill/${buildingId}/lpg`
   ];
 
   const results = await Promise.all(
@@ -336,23 +336,27 @@ async getMonthlyData(year: number) {
     lpg: 0
   }));
 
-  const setFinalMonthValue = (list: any[], type: BillType) => {
-    list.forEach(b => {
-      const to = new Date(b.data?.toDate || b.data?.deliveryDate || b.data?.toLpg);
-      if (to.getFullYear() === year) {
-        const monthIndex = to.getMonth();
-        if (type === 'electricity') {
-          months[monthIndex].electricity = (+b.data.kwhDay || 0) + (+b.data.kwhNight || 0);
-        }
-        if (type === 'oil') {
-          months[monthIndex].oil = +b.data.kwhEquivalent || 0;
-        }
-        if (type === 'lpg') {
-          months[monthIndex].lpg = +b.data.cubicMeters || 0;
-        }
+ const setFinalMonthValue = (list: any[], type: BillType) => {
+  list.forEach(b => {
+    const to = new Date(b.data?.toDate || b.data?.deliveryDate || b.data?.toLpg);
+    if (to.getFullYear() === year) {
+      const monthIndex = to.getMonth();
+
+      if (type === 'electricity') {
+        const kwh = (+b.data.kwhDay || 0) + (+b.data.kwhNight || 0);
+        months[monthIndex].electricity += kwh; // SOMMA, non sovrascrive
       }
-    });
-  }
+
+      if (type === 'oil') {
+        months[monthIndex].oil += (+b.data.kwhEquivalent || 0);
+      }
+
+      if (type === 'lpg') {
+        months[monthIndex].lpg += (+b.data.cubicMeters || 0);
+      }
+    }
+  });
+};
 
   setFinalMonthValue(electricity, 'electricity');
   setFinalMonthValue(oil, 'oil');
