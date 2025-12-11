@@ -33,9 +33,9 @@ let transporter;
 (async () => {
   try {
     transporter = nodemailer.createTransport({
-      service: "smtp.gmail.com",
-        port: 465,            // porta SSL
-  secure: true,         // true per 465, false per 587
+      host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // SSL
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
