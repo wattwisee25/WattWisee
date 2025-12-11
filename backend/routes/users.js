@@ -33,12 +33,12 @@ let transporter;
 (() => {
   try {
     transporter = nodemailer.createTransport({
-      host: "smtp.sendgrid.net", // server SMTP SendGrid
-      port: 587,                 // porta TLS consigliata
-      secure: false,             // false per TLS (porta 587)
-      auth: {
-        user: "apikey",                   // sempre "apikey"
-        pass: process.env.SENDGRID_API_KEY // la tua API Key salvata nelle env di Render
+  host: "smtp.sendgrid.net",
+  port: 2525,
+  secure: false,
+  auth: {
+    user: "apikey",
+    pass: process.env.SENDGRID_API_KEY
       }
     });
 
