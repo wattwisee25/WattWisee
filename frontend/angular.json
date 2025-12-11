@@ -5,119 +5,83 @@
   "projects": {
     "WattWisee": {
       "projectType": "application",
-      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
-        "build": {
-          "builder": "@angular/build:application",
-          "options": {
-            "outputPath": "dist/WattWisee",
-            "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
-              },
-              {
-                "glob": "**/*",
-                "input": "public",
-                "output": "public"
-              }
-            ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-              "src/styles.css"
-            ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "3mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "50kB",
-                  "maximumError": "100kB"
-                }
-              ],
-              "outputHashing": "all",
-              "serviceWorker": "ngsw-config.json"
-            },
-            "development": {
-              "optimization": {
-                "scripts": false,
-                "styles": false,
-                "fonts": false
-              },
-              "extractLicenses": false,
-              "sourceMap": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
+"build": {
+  "builder": "@angular-devkit/build-angular:browser",
+  "options": {
+    "outputPath": "dist/WattWisee",
+    "index": "src/index.html",
+    "main": "src/main.ts",
+    "polyfills": ["zone.js"],
+    "tsConfig": "tsconfig.app.json",
+    "assets": [
+      { "glob": "**/*", "input": "src/assets", "output": "assets" },
+      { "glob": "**/*", "input": "public", "output": "public" }
+    ],
+    "styles": [
+      "node_modules/bootstrap/dist/css/bootstrap.min.css",
+      "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+      "src/styles.css"
+    ],
+    "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+    "serviceWorker": true,
+    "ngswConfigPath": "ngsw-config.json"
+  },
+  "configurations": {
+    "production": {
+      "optimization": true,
+      "outputHashing": "all",
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.prod.ts"
+        }
+      ],
+      "budgets": [
+        { "type": "initial", "maximumWarning": "2mb", "maximumError": "3mb" },
+        { "type": "anyComponentStyle", "maximumWarning": "50kB", "maximumError": "100kB" }
+      ]
+    },
+    "development": {
+      "optimization": false,
+      "extractLicenses": false,
+      "sourceMap": true,
+      "serviceWorker": false
+    }
+  },
+  "defaultConfiguration": "development"
+},
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
-            "production": {
-              "buildTarget": "WattWisee:build:production"
-            },
-            "development": {
-              "buildTarget": "WattWisee:build:development"
-            }
+            "production": { "buildTarget": "WattWisee:build:production" },
+            "development": { "buildTarget": "WattWisee:build:development" }
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
+        "extract-i18n": { "builder": "@angular/build:extract-i18n" },
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
-              },
-                            {
-                "glob": "**/*",
-                "input": "public",
-                "output": "public"
-              }
+              { "glob": "**/*", "input": "src/assets", "output": "assets" },
+              { "glob": "**/*", "input": "public", "output": "public" }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"]
           }
         }
       }
     }
   },
-  "cli": {
-    "analytics": "58fd8c09-b7fc-4c17-9b80-cbe2127991bf"
-  }
+  "cli": { "analytics": "58fd8c09-b7fc-4c17-9b80-cbe2127991bf" }
 }

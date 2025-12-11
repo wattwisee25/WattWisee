@@ -11,6 +11,11 @@ dotenv.config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET; // fallback
 
+const FRONTEND_URL = process.env.NODE_ENV === 'production' 
+  ? process.env.FRONTEND_URL_PROD 
+  : process.env.FRONTEND_URL;
+
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -73,7 +78,7 @@ router.post('/', async (req, res) => {
               <p>Hi <strong>${newUser.contact_name || 'there'}</strong>,</p>
               <p>Thank you for registering on <b>WattWisee</b>! We're excited to have you on board.</p>
               <p style="text-align: center; margin-top: 30px;">
-                <a href="http://localhost:4200/" 
+                <a href="${FRONTEND_URL}/" 
                    style="background-color: #c1dbe3; color: #31545b; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
                    Login to Your Account
                 </a>
@@ -155,7 +160,7 @@ router.post('/login', async (req, res) => {
         ${otp}
       </p>
       <div style="text-align: center; margin: 30px 0;">
-        <a href="http://localhost:4200/login" style="background-color: #31545b; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Go to WattWisee</a>
+        <a href="${FRONTEND_URL}/login" style="background-color: #31545b; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Go to WattWisee</a>
       </div>
       <p style="font-size: 14px; color: #888; text-align: center;">
         If you did not request this code, please ignore this email.
@@ -227,7 +232,7 @@ router.post('/supplier-login', async (req, res) => {
               ${otp}
             </p>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="http://localhost:4200/supplier-login" style="background-color: #31545b; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Go to WattWisee Supplier Login</a>
+              <a href="${FRONTEND_URL}/supplier-login" style="background-color: #31545b; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Go to WattWisee Supplier Login</a>
             </div>
             <p style="font-size: 14px; color: #888; text-align: center;">
               If you did not request this code, please ignore this email.
@@ -377,7 +382,7 @@ router.post('/forgot-password', async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
-    const resetLink = `http://localhost:4200/reset-password/${token}`;
+    const resetLink = `${FRONTEND_URL}/reset-password/${token}`;
 
     if (transporter) {
       try {

@@ -53,7 +53,7 @@ updateBuilding(buildingId: string, buildingData: any): Observable<any> {
 }
 
 getSingleBuilding(buildingId: string): Observable<any> {
-  return this.http.get(`/api/buildings/${buildingId}`);
+  return this.http.get(`${this.apiUrl}/buildings/${buildingId}`);
 }
 
 // Aggiorna (o crea) la checklist di un building
