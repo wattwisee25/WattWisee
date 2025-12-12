@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { BackButton } from "../back-button/back-button";
 import { HttpClient } from '@angular/common/http';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { environment } from '../../environments/environment';
 
 
@@ -24,8 +25,8 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   @ViewChild('pieChart') pieChartCanvas!: ElementRef<HTMLCanvasElement>;
   private chart?: Chart;
 
-@ViewChild('lineChart') lineChartCanvas!: ElementRef<HTMLCanvasElement>;
-private lineChart?: Chart;
+  @ViewChild('lineChart') lineChartCanvas!: ElementRef<HTMLCanvasElement>;
+  private lineChart?: Chart;
 
 
   selectedBuilding: Building | null = null;
@@ -68,115 +69,145 @@ private lineChart?: Chart;
   }
 
   ngAfterViewInit(): void {
-    // Il grafico verrà creato dopo il caricamento dei dati
+    //il grafico verrà creato dopo il caricamento dei dati
   }
 
+
   // --- CREATE PIE CHART ---
-  // Creates a new Chart.js pie chart instance
   createPieChart() {
     if (this.chart) {
-      this.chart.destroy(); // Distruggi il grafico esistente prima di crearne uno nuovo
+      this.chart.destroy();
     }
 
     const ctx = this.pieChartCanvas.nativeElement.getContext('2d');
     if (!ctx) return;
 
-    this.chart = new Chart(ctx, {
-      type: 'pie',
+    const config: ChartConfiguration<'doughnut'> = {
+      type: 'doughnut',
       data: {
-        labels: ['Electricity', 'Oil', 'LPG'], // Labels for each sector
+        labels: ['Electricity', 'Oil', 'LPG'],
         datasets: [{
           data: [
             this.totalsByYear.electricity || 0,
             this.totalsByYear.oil || 0,
             this.totalsByYear.lpg || 0
           ],
-          backgroundColor: ['#42A5F5', '#FFCA28', '#66BB6A'] // Customize sector colors
+          backgroundColor: ['#c1dbe3', '#292929ff', '#f6ffa2']
         }]
+      },
+      options: {
+        responsive: true,
+
+        cutout: '55%',   //donut
+
+        layout: {
+          padding: {
+            top: 20
+          }
+        },
+
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 30 } },
+          datalabels: {
+            color: '#333',
+            font: { weight: 'bold' },
+            align: 'end',
+            anchor: 'end',
+            offset: 0.5,
+            clamp: true,
+            formatter: (value, context) => {
+              let percent: number;
+              switch (context.dataIndex) {
+                case 0: percent = this.percentsByYear.electricity; break;
+                case 1: percent = this.percentsByYear.oil; break;
+                case 2: percent = this.percentsByYear.lpg; break;
+                default: percent = 0;
+              }
+              return percent > 0.1 ? `${percent.toFixed(1)}%` : '';
+            }
+          }
+        },
+
+        maintainAspectRatio: false
+      },
+
+      plugins: [ChartDataLabels]
+    };
+
+    this.chart = new Chart(ctx, config);
+  }
+
+
+  // --- CREATE LINE CHART ---
+  //line chart
+  createLineChart(monthlyData: { month: string, electricity: number, oil: number, lpg: number }[]) {
+    const filteredData = monthlyData; // show 12 mounths
+
+
+    if (this.lineChart) {
+      this.lineChart.destroy(); // destroy if already exists
+    }
+
+    const ctx = this.lineChartCanvas.nativeElement.getContext('2d');
+    if (!ctx) return;
+
+    this.lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: filteredData.map(d => d.month), // solo mesi pari
+        datasets: [
+          {
+            label: 'Electricity',
+            data: filteredData.map(d => d.electricity),
+            borderColor: '#c1dbe3',
+            backgroundColor: '#c1dbe3',
+            tension: 0.4,
+            fill: false
+          },
+          {
+            label: 'Oil',
+            data: filteredData.map(d => d.oil),
+            borderColor: '#292929ff',
+            backgroundColor: '#292929ff',
+            tension: 0.4,
+            fill: false
+          },
+          {
+            label: 'LPG',
+            data: filteredData.map(d => d.lpg),
+            borderColor: '#f6ffa2',
+            backgroundColor: '#f6ffa2',
+            tension: 0.4,
+            fill: false
+          }
+        ]
       },
       options: {
         responsive: true,
         plugins: {
           legend: {
-            position: 'bottom' // Position of the legend
+            position: 'bottom'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
           }
         }
       }
     });
   }
 
-// --- CREATE LINE CHART ---
-// Crea il grafico lineare curvo
-createLineChart(monthlyData: { month: string, electricity: number, oil: number, lpg: number }[]) {
-const filteredData = monthlyData; // mostra tutti i 12 mesi
-
-
-  if (this.lineChart) {
-    this.lineChart.destroy(); // distruggi se esiste
-  }
-
-  const ctx = this.lineChartCanvas.nativeElement.getContext('2d');
-  if (!ctx) return;
-
-  this.lineChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: filteredData.map(d => d.month), // solo mesi pari
-      datasets: [
-        {
-          label: 'Electricity',
-          data: filteredData.map(d => d.electricity),
-          borderColor: '#42A5F5',
-          backgroundColor: '#42A5F5',
-          tension: 0.4,
-          fill: false
-        },
-        {
-          label: 'Oil',
-          data: filteredData.map(d => d.oil),
-          borderColor: '#FFCA28',
-          backgroundColor: '#FFCA28',
-          tension: 0.4,
-          fill: false
-        },
-        {
-          label: 'LPG',
-          data: filteredData.map(d => d.lpg),
-          borderColor: '#66BB6A',
-          backgroundColor: '#66BB6A',
-          tension: 0.4,
-          fill: false
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom'
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-}
-
-
-
 
   // --- UPDATE PIE CHART DATA ---
-  // Call this method after calculating totals and percentages
+  //call this method after calculating totals and percentages
   updatePieChart() {
     if (!this.chart) {
       this.createPieChart();
       return;
     }
 
-    // Aggiorna i dati del grafico esistente
+    //aggiorna i dati del grafico esistente
     this.chart.data.datasets[0].data = [
       this.totalsByYear.electricity || 0,
       this.totalsByYear.oil || 0,
@@ -194,15 +225,15 @@ const filteredData = monthlyData; // mostra tutti i 12 mesi
         this.selectedBuilding = building;
         this.isLoading = false;
 
-        //Calcola totali e percentuali appena caricato il building
+        //calcola totali e percentuali appena caricato il building
         await this.updateTotalsPercentages();
-        // Crea il grafico a torta con i dati caricati
+        // crea il grafico a torta con i dati caricati
         this.createPieChart();
 
-          const monthlyData = await this.getMonthlyData(this.selectedYear);
-  this.createLineChart(monthlyData);
+        const monthlyData = await this.getMonthlyData(this.selectedYear);
+        this.createLineChart(monthlyData);
 
-        
+
       },
       error: err => {
         console.error('Error while loading building', err);
@@ -303,67 +334,67 @@ const filteredData = monthlyData; // mostra tutti i 12 mesi
     // Update the pie chart data
     this.updatePieChart();
 
-      const monthlyData = await this.getMonthlyData(this.selectedYear);
-  this.createLineChart(monthlyData);
+    const monthlyData = await this.getMonthlyData(this.selectedYear);
+    this.createLineChart(monthlyData);
   }
 
 
 
 
 
-// Calcolo kWh
-async getMonthlyData(year: number) {
-  if (!this.selectedBuilding?._id) return [];
+  // Calcolo kWh
+  async getMonthlyData(year: number) {
+    if (!this.selectedBuilding?._id) return [];
 
-  const buildingId = this.selectedBuilding._id;
-  const endpoints = [
-    `${environment.apiUrl}/api/bill/${buildingId}/electricity`,
-    `${environment.apiUrl}/api/bill/${buildingId}/oil`,
-    `${environment.apiUrl}/api/bill/${buildingId}/lpg`
-  ];
+    const buildingId = this.selectedBuilding._id;
+    const endpoints = [
+      `${environment.apiUrl}/api/bill/${buildingId}/electricity`,
+      `${environment.apiUrl}/api/bill/${buildingId}/oil`,
+      `${environment.apiUrl}/api/bill/${buildingId}/lpg`
+    ];
 
-  const results = await Promise.all(
-    endpoints.map(url => this.http.get<any[]>(url).toPromise())
-  );
+    const results = await Promise.all(
+      endpoints.map(url => this.http.get<any[]>(url).toPromise())
+    );
 
-  const [electricity, oil, lpg] = results.map(r => r || []);
+    const [electricity, oil, lpg] = results.map(r => r || []);
 
-  // inizializza array 12 mesi
-  const months = Array.from({ length: 12 }, (_, i) => ({
-    month: new Date(0, i).toLocaleString('default', { month: 'short' }),
-    electricity: 0,
-    oil: 0,
-    lpg: 0
-  }));
+    // inizializza array 12 mesi
+    const months = Array.from({ length: 12 }, (_, i) => ({
+      month: new Date(0, i).toLocaleString('default', { month: 'short' }),
+      electricity: 0,
+      oil: 0,
+      lpg: 0
+    }));
 
- const setFinalMonthValue = (list: any[], type: BillType) => {
-  list.forEach(b => {
-    const to = new Date(b.data?.toDate || b.data?.deliveryDate || b.data?.toLpg);
-    if (to.getFullYear() === year) {
-      const monthIndex = to.getMonth();
+    const setFinalMonthValue = (list: any[], type: BillType) => {
+      list.forEach(b => {
+        const to = new Date(b.data?.toDate || b.data?.deliveryDate || b.data?.toLpg);
+        if (to.getFullYear() === year) {
+          const monthIndex = to.getMonth();
 
-      if (type === 'electricity') {
-        const kwh = (+b.data.kwhDay || 0) + (+b.data.kwhNight || 0);
-        months[monthIndex].electricity += kwh; // SOMMA, non sovrascrive
-      }
+          if (type === 'electricity') {
+            const kwh = (+b.data.kwhDay || 0) + (+b.data.kwhNight || 0);
+            months[monthIndex].electricity += kwh; // SOMMA, non sovrascrive
+          }
 
-      if (type === 'oil') {
-        months[monthIndex].oil += (+b.data.kwhEquivalent || 0);
-      }
+          if (type === 'oil') {
+            months[monthIndex].oil += (+b.data.kwhEquivalent || 0);
+          }
 
-      if (type === 'lpg') {
-        months[monthIndex].lpg += (+b.data.cubicMeters || 0);
-      }
-    }
-  });
-};
+          if (type === 'lpg') {
+            months[monthIndex].lpg += (+b.data.cubicMeters || 0);
+          }
+        }
+      });
+    };
 
-  setFinalMonthValue(electricity, 'electricity');
-  setFinalMonthValue(oil, 'oil');
-  setFinalMonthValue(lpg, 'lpg');
+    setFinalMonthValue(electricity, 'electricity');
+    setFinalMonthValue(oil, 'oil');
+    setFinalMonthValue(lpg, 'lpg');
 
-  return months;
-}
+    return months;
+  }
 
-  
+
 }

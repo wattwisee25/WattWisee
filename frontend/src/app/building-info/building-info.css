@@ -1,29 +1,31 @@
 /* ===== Container principale ===== */
 .building-info-container {
-    display: flex;
-    gap: 20px;
-    justify-content: space-evenly;
-    margin: 20px;
-    flex-direction: row;
+  display: flex;
+  gap: 20px;
+  justify-content: space-evenly;
+  margin: 20px;
+  flex-direction: row;
 }
 
 /* ===== Contenitore info + charts ===== */
 .container-info-chart {
-    display: flex;
-    gap: 20px;
-    width: 50%;
-    justify-content: center;
-    flex-direction: column;
+  display: flex;
+  gap: 20px;
+  width: 50%;
+  justify-content: center;
+  flex-direction: column;
 }
 
 /* ===== Card generica ===== */
 .card-building {
-  background-color: #ffffff; /* bianco come nel tuo screenshot */
+  background-color: #ffffff;
+  /* bianco come nel tuo screenshot */
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  flex: 1 1 300px; /* minimo 300px, cresce se c’è spazio */
-  width: 100%; /* larghezza massima */
+  /* flex: 1 1 300px;  minimo 300px, cresce se c’è spazio */
+  width: 100%;
+  /* larghezza massima */
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -31,9 +33,9 @@
 
 /* ===== Card info edificio ===== */
 .building-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .building-info .left,
@@ -59,7 +61,8 @@
 .view-link,
 .edit-link {
   text-decoration: none;
-  color: #2f4f4f; /* grigio scuro simile al tuo screenshot */
+  color: #2f4f4f;
+  /* grigio scuro simile al tuo screenshot */
   font-size: 0.9rem;
   margin-left: 10px;
 }
@@ -71,26 +74,29 @@
 
 /* ===== Sezione Bills ===== */
 .bills-card .bill-types {
-display: flex;
-    gap: 10px;
-    flex-direction: column;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
 }
 
 .bills-card .bill {
-    flex: 1 1 100px;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background-color: #c1dbe3;
-    cursor: pointer;
-    font-weight: 500;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s; /* <- transizione qui */
+  flex: 1 1 100px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #c1dbe3;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
+  /* <- transizione qui */
 }
 
 /* effetto hover */
 .bills-card .bill:hover {
-    transform: translateY(-5px); /* sposta il bottone verso l'alto */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* ombra per effetto sollevato */
+  transform: translateY(-5px);
+  /* sposta il bottone verso l'alto */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  /* ombra per effetto sollevato */
 }
 
 
@@ -121,7 +127,8 @@ display: flex;
 }
 
 .btn-year:hover {
-      transform: translateY(-5px); /* sposta il bottone verso l'alto */
+  transform: translateY(-5px);
+  /* sposta il bottone verso l'alto */
 }
 
 /* Card grafici */
@@ -132,7 +139,8 @@ display: flex;
 }
 
 /* Loader ed errori */
-.loading, .error {
+.loading,
+.error {
   width: 100%;
   text-align: center;
   font-size: 1.2rem;
@@ -149,6 +157,7 @@ display: flex;
   .building-info {
     flex-direction: column;
   }
+
   .card-building {
     max-width: 100%;
   }
@@ -158,7 +167,8 @@ display: flex;
   .building-info-container {
     margin-left: 250px;
   }
-  .back-button{
+
+  .back-button {
     margin-left: 250px;
   }
 }

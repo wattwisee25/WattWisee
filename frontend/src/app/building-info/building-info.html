@@ -20,7 +20,8 @@
         <div class="left">
           <h2>{{ selectedBuilding.name }}</h2>
           <div class="image-wrapper">
-            <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl" alt="{{ selectedBuilding.name }}" />
+            <img *ngIf="selectedBuilding.imageUrl" [src]="selectedBuilding.imageUrl"
+              alt="{{ selectedBuilding.name }}" />
           </div>
         </div>
 
@@ -37,61 +38,61 @@
               <strong>MPRN:</strong> {{ selectedBuilding.mprn }} <br />
               <strong>Address:</strong> {{ selectedBuilding.address }} <br />
               <strong>City:</strong> {{ selectedBuilding.city }} <br />
-              <strong>Surface:</strong> {{ selectedBuilding.surface }} <br />
-              <strong>N° floors:</strong> {{ selectedBuilding.floors }} <br />
+              <!-- <strong>Surface:</strong> {{ selectedBuilding.surface }} <br />
+              <strong>N° floors:</strong> {{ selectedBuilding.floors }} <br /> -->
             </p>
           </div>
         </div>
       </div>
     </div>
 
-      <!-- BILLS SECTION RACCHIUSA IN CARD -->
-  <div class="card-building bills-card" *ngIf="!isLoading && selectedBuilding">
-    <div class="card-building-body">
-      <h3>Bills</h3>
-      <div class="bill-types">
-        <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'electricity']">Electricity</button>
-        <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'oil']">Oil - Fuel</button>
-        <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'lpg']">LPG</button>
+    <!-- BILLS SECTION RACCHIUSA IN CARD -->
+    <div class="card-building bills-card" *ngIf="!isLoading && selectedBuilding">
+      <div class="card-building-body">
+        <h3>Bills</h3>
+        <div class="bill-types">
+          <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'electricity']">Electricity</button>
+          <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'oil']">Oil - Fuel</button>
+          <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'lpg']">LPG</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- CHARTS -->
+  <div class="charts">
+    <div class="year-navigation">
+      <button (click)="changeYear(-1)" class="btn-year">&#8592; Previous Year</button>
+      <span class="selected-year">{{ selectedYear }}</span>
+      <button (click)="changeYear(1)" class="btn-year">Next Year &#8594;</button>
+    </div>
+
+    <!-- PIE CHART -->
+    <div class="card-building card-building-chart">
+      <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
+        <h3>Energy Consumption</h3>
+        <div class="container_data">
+          <div style="max-width: 350px; margin: 20px auto;">
+            <canvas #pieChart></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LINE CHART -->
+    <div class="card-building card-building-chart">
+      <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
+        <h3>kWh Distribution</h3>
+        <div class="container_data">
+          <div style="max-width: 350px; margin: 20px auto;">
+            <canvas #lineChart></canvas>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-
-    <!-- CHARTS -->
-    <div class="charts">
-      <div class="year-navigation">
-        <button (click)="changeYear(-1)" class="btn-year">&#8592; Previous Year</button>
-        <span class="selected-year">{{ selectedYear }}</span>
-        <button (click)="changeYear(1)" class="btn-year">Next Year &#8594;</button>
-      </div>
-
-      <!-- PIE CHART -->
-      <div class="card-building card-building-chart">
-        <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
-          <h3>Energy Distribution</h3>
-          <div class="container_data">
-            <div style="max-width: 350px; margin: 20px auto;">
-              <canvas #pieChart></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- LINE CHART -->
-      <div class="card-building card-building-chart">
-        <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
-          <h3>kWh Distribution</h3>
-          <div class="container_data">
-            <div style="max-width: 350px; margin: 20px auto;">
-              <canvas #lineChart></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 <div class="back-button">
   <app-back-button></app-back-button>
