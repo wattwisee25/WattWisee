@@ -73,6 +73,11 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   }
 
 
+  // helper: ritorna true se tutti i valori sono zero
+  private isAllZero(): boolean {
+    return (this.totalsByYear?.grandTotal ?? 0) === 0;
+  }
+
   // --- CREATE PIE CHART ---
   createPieChart() {
     if (this.chart) {
@@ -82,30 +87,37 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     const ctx = this.pieChartCanvas.nativeElement.getContext('2d');
     if (!ctx) return;
 
+    const allZero = this.isAllZero();
+
+    const labels = allZero ? ['No data'] : ['Electricity', 'Oil', 'LPG'];
+    const data = allZero
+      ? [1] // single slice to render a full grey donut
+      : [
+        this.totalsByYear.electricity || 0,
+        this.totalsByYear.oil || 0,
+        this.totalsByYear.lpg || 0
+      ];
+    const backgroundColor = allZero
+      ? ['#e0e0e0'] //grey when no data
+      : ['#c1dbe3', '#292929ff', '#f6ffa2'];
+
     const config: ChartConfiguration<'doughnut'> = {
       type: 'doughnut',
       data: {
-        labels: ['Electricity', 'Oil', 'LPG'],
+        labels,
         datasets: [{
-          data: [
-            this.totalsByYear.electricity || 0,
-            this.totalsByYear.oil || 0,
-            this.totalsByYear.lpg || 0
-          ],
-          backgroundColor: ['#c1dbe3', '#292929ff', '#f6ffa2']
+          data,
+          backgroundColor
         }]
       },
       options: {
         responsive: true,
-
-        cutout: '55%',   //donut
-
+        cutout: '55%', // donut
         layout: {
           padding: {
             top: 20
           }
         },
-
         plugins: {
           legend: { position: 'bottom', labels: { padding: 30 } },
           datalabels: {
@@ -116,6 +128,9 @@ export class BuildingInfo implements OnInit, AfterViewInit {
             offset: 0.5,
             clamp: true,
             formatter: (value, context) => {
+              // non mostrare percentuali se tutti i valori sono zero
+              if (this.isAllZero()) return '';
+
               let percent: number;
               switch (context.dataIndex) {
                 case 0: percent = this.percentsByYear.electricity; break;
@@ -127,14 +142,45 @@ export class BuildingInfo implements OnInit, AfterViewInit {
             }
           }
         },
-
         maintainAspectRatio: false
       },
-
       plugins: [ChartDataLabels]
     };
 
     this.chart = new Chart(ctx, config);
+  }
+
+  // --- UPDATE PIE CHART DATA ---
+  updatePieChart() {
+    if (!this.chart) {
+      this.createPieChart();
+      return;
+    }
+
+    const allZero = this.isAllZero();
+
+    if (allZero) {
+      // imposta grafico "No data" (ciambella grigia)
+      this.chart.data.labels = ['No data'];
+      // assicurati che esista almeno un dataset
+      if (!this.chart.data.datasets || this.chart.data.datasets.length === 0) {
+        this.chart.data.datasets = [{ data: [1], backgroundColor: ['#e0e0e0'] } as any];
+      } else {
+        this.chart.data.datasets[0].data = [1];
+        (this.chart.data.datasets[0] as any).backgroundColor = ['#e0e0e0'];
+      }
+    } else {
+      // dati reali
+      this.chart.data.labels = ['Electricity', 'Oil', 'LPG'];
+      this.chart.data.datasets[0].data = [
+        this.totalsByYear.electricity || 0,
+        this.totalsByYear.oil || 0,
+        this.totalsByYear.lpg || 0
+      ];
+      (this.chart.data.datasets[0] as any).backgroundColor = ['#c1dbe3', '#292929ff', '#f6ffa2'];
+    }
+
+    this.chart.update();
   }
 
 
@@ -199,22 +245,6 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   }
 
 
-  // --- UPDATE PIE CHART DATA ---
-  //call this method after calculating totals and percentages
-  updatePieChart() {
-    if (!this.chart) {
-      this.createPieChart();
-      return;
-    }
-
-    //aggiorna i dati del grafico esistente
-    this.chart.data.datasets[0].data = [
-      this.totalsByYear.electricity || 0,
-      this.totalsByYear.oil || 0,
-      this.totalsByYear.lpg || 0
-    ];
-    this.chart.update();
-  }
 
   loadBuilding(buildingId: string): void {
     this.isLoading = true;
@@ -337,9 +367,6 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     const monthlyData = await this.getMonthlyData(this.selectedYear);
     this.createLineChart(monthlyData);
   }
-
-
-
 
 
   // Calcolo kWh
