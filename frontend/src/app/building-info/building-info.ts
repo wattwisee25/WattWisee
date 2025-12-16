@@ -10,16 +10,18 @@ import { HttpClient } from '@angular/common/http';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { environment } from '../../environments/environment';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+// import { faCoffee, faHeart, faBolt } from '@fortawesome/free-solid-svg-icons';
 
 type BillType = 'electricity' | 'oil' | 'lpg';
+type LineChartMode = 'kwh' | 'cost';
 
 @Component({
   selector: 'app-building-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton],
+  imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton, FontAwesomeModule],
   templateUrl: './building-info.html',
-  styleUrls: ['./building-info.css'],
+  styleUrls: ['./building-info.css']
 })
 export class BuildingInfo implements OnInit, AfterViewInit {
   @ViewChild('pieChart') pieChartCanvas!: ElementRef<HTMLCanvasElement>;
@@ -28,14 +30,14 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   @ViewChild('lineChart') lineChartCanvas!: ElementRef<HTMLCanvasElement>;
   private lineChart?: Chart;
 
-
   selectedBuilding: Building | null = null;
   isEditing = false;
   isLoading = false;
+  showKwh = true;
+  lineChartMode: LineChartMode = 'kwh';
   errorMessage: string | null = null;
   newImageUrl: string = '';
 
-  // anno selezionato + totali e percentuali
   selectedYear = new Date().getFullYear();
 
   totalsByYear = {
@@ -57,6 +59,11 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     private http: HttpClient
   ) { }
 
+  toggleChart() {
+    this.lineChartMode = this.lineChartMode === 'kwh' ? 'cost' : 'kwh';
+    this.refreshLineChart();
+  }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const buildingId = params.get('id');
@@ -69,20 +76,15 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    //il grafico verrà creato dopo il caricamento dei dati
+    // il grafico verrà creato dopo il caricamento dei dati
   }
 
-
-  // helper: ritorna true se tutti i valori sono zero
   private isAllZero(): boolean {
     return (this.totalsByYear?.grandTotal ?? 0) === 0;
   }
 
-  // --- CREATE PIE CHART ---
   createPieChart() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
+    if (this.chart) this.chart.destroy();
 
     const ctx = this.pieChartCanvas.nativeElement.getContext('2d');
     if (!ctx) return;
@@ -91,33 +93,26 @@ export class BuildingInfo implements OnInit, AfterViewInit {
 
     const labels = allZero ? ['No data'] : ['Electricity', 'Oil', 'LPG'];
     const data = allZero
-      ? [1] // single slice to render a full grey donut
+      ? [1]
       : [
         this.totalsByYear.electricity || 0,
         this.totalsByYear.oil || 0,
         this.totalsByYear.lpg || 0
       ];
     const backgroundColor = allZero
-      ? ['#e0e0e0'] //grey when no data
+      ? ['#e0e0e0']
       : ['#c1dbe3', '#292929ff', '#f6ffa2'];
 
     const config: ChartConfiguration<'doughnut'> = {
       type: 'doughnut',
       data: {
         labels,
-        datasets: [{
-          data,
-          backgroundColor
-        }]
+        datasets: [{ data, backgroundColor }]
       },
       options: {
         responsive: true,
-        cutout: '55%', // donut
-        layout: {
-          padding: {
-            top: 20
-          }
-        },
+        cutout: '55%',
+        layout: { padding: { top: 20 } },
         plugins: {
           legend: { position: 'bottom', labels: { padding: 30 } },
           datalabels: {
@@ -128,9 +123,7 @@ export class BuildingInfo implements OnInit, AfterViewInit {
             offset: 0.5,
             clamp: true,
             formatter: (value, context) => {
-              // non mostrare percentuali se tutti i valori sono zero
               if (this.isAllZero()) return '';
-
               let percent: number;
               switch (context.dataIndex) {
                 case 0: percent = this.percentsByYear.electricity; break;
@@ -150,7 +143,6 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     this.chart = new Chart(ctx, config);
   }
 
-  // --- UPDATE PIE CHART DATA ---
   updatePieChart() {
     if (!this.chart) {
       this.createPieChart();
@@ -160,9 +152,7 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     const allZero = this.isAllZero();
 
     if (allZero) {
-      // imposta grafico "No data" (ciambella grigia)
       this.chart.data.labels = ['No data'];
-      // assicurati che esista almeno un dataset
       if (!this.chart.data.datasets || this.chart.data.datasets.length === 0) {
         this.chart.data.datasets = [{ data: [1], backgroundColor: ['#e0e0e0'] } as any];
       } else {
@@ -170,7 +160,6 @@ export class BuildingInfo implements OnInit, AfterViewInit {
         (this.chart.data.datasets[0] as any).backgroundColor = ['#e0e0e0'];
       }
     } else {
-      // dati reali
       this.chart.data.labels = ['Electricity', 'Oil', 'LPG'];
       this.chart.data.datasets[0].data = [
         this.totalsByYear.electricity || 0,
@@ -183,44 +172,50 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     this.chart.update();
   }
 
+  async refreshLineChart() {
+    const data =
+      this.lineChartMode === 'kwh'
+        ? await this.getMonthlyKwhData(this.selectedYear)
+        : await this.getMonthlyCostData(this.selectedYear);
 
-  // --- CREATE LINE CHART ---
-  //line chart
-  createLineChart(monthlyData: { month: string, electricity: number, oil: number, lpg: number }[]) {
-    const filteredData = monthlyData; // show 12 mounths
+    this.createLineChart(data, this.lineChartMode);
+  }
 
-
-    if (this.lineChart) {
-      this.lineChart.destroy(); // destroy if already exists
-    }
+  createLineChart(
+    monthlyData: { month: string, electricity: number, oil: number, lpg: number }[],
+    mode: LineChartMode
+  ) {
+    if (this.lineChart) this.lineChart.destroy();  // destroy if already exists
 
     const ctx = this.lineChartCanvas.nativeElement.getContext('2d');
     if (!ctx) return;
 
+    const unit = mode === 'kwh' ? 'kWh' : '€';
+
     this.lineChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: filteredData.map(d => d.month), // solo mesi pari
+        labels: monthlyData.map(d => d.month),
         datasets: [
           {
-            label: 'Electricity',
-            data: filteredData.map(d => d.electricity),
+            label: `Electricity (${unit})`,
+            data: monthlyData.map(d => d.electricity),
             borderColor: '#c1dbe3',
             backgroundColor: '#c1dbe3',
             tension: 0.4,
             fill: false
           },
           {
-            label: 'Oil',
-            data: filteredData.map(d => d.oil),
+            label: `Oil (${unit})`,
+            data: monthlyData.map(d => d.oil),
             borderColor: '#292929ff',
             backgroundColor: '#292929ff',
             tension: 0.4,
             fill: false
           },
           {
-            label: 'LPG',
-            data: filteredData.map(d => d.lpg),
+            label: `LPG (${unit})`,
+            data: monthlyData.map(d => d.lpg),
             borderColor: '#f6ffa2',
             backgroundColor: '#f6ffa2',
             tension: 0.4,
@@ -231,19 +226,12 @@ export class BuildingInfo implements OnInit, AfterViewInit {
       options: {
         responsive: true,
         plugins: {
-          legend: {
-            position: 'bottom'
-          }
+          legend: { position: 'bottom' }
         },
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
+        scales: { y: { beginAtZero: true } }
       }
     });
   }
-
 
 
   loadBuilding(buildingId: string): void {
@@ -255,15 +243,10 @@ export class BuildingInfo implements OnInit, AfterViewInit {
         this.selectedBuilding = building;
         this.isLoading = false;
 
-        //calcola totali e percentuali appena caricato il building
         await this.updateTotalsPercentages();
-        // crea il grafico a torta con i dati caricati
         this.createPieChart();
 
-        const monthlyData = await this.getMonthlyData(this.selectedYear);
-        this.createLineChart(monthlyData);
-
-
+        await this.refreshLineChart();
       },
       error: err => {
         console.error('Error while loading building', err);
@@ -293,7 +276,6 @@ export class BuildingInfo implements OnInit, AfterViewInit {
       });
   }
 
-  //CALCOLI TOTALE + PERCENTUALI
   async getTotalsAndPercentsByYear(year: number) {
     if (!this.selectedBuilding?._id) return {
       totals: { electricity: 0, oil: 0, lpg: 0, grandTotal: 0 },
@@ -354,23 +336,14 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     this.percentsByYear = result.percents;
   }
 
-  // --- CHANGE YEAR ---
-  // Updates the selected year and refreshes totals and pie chart
   async changeYear(offset: number) {
     this.selectedYear += offset;
-
-    // Recalculate totals and percentages for the new year
     await this.updateTotalsPercentages();
-    // Update the pie chart data
     this.updatePieChart();
-
-    const monthlyData = await this.getMonthlyData(this.selectedYear);
-    this.createLineChart(monthlyData);
+    await this.refreshLineChart();
   }
 
-
-  // Calcolo kWh
-  async getMonthlyData(year: number) {
+  async getMonthlyKwhData(year: number) {
     if (!this.selectedBuilding?._id) return [];
 
     const buildingId = this.selectedBuilding._id;
@@ -380,13 +353,9 @@ export class BuildingInfo implements OnInit, AfterViewInit {
       `${environment.apiUrl}/api/bill/${buildingId}/lpg`
     ];
 
-    const results = await Promise.all(
-      endpoints.map(url => this.http.get<any[]>(url).toPromise())
-    );
-
+    const results = await Promise.all(endpoints.map(url => this.http.get<any[]>(url).toPromise()));
     const [electricity, oil, lpg] = results.map(r => r || []);
 
-    // inizializza array 12 mesi
     const months = Array.from({ length: 12 }, (_, i) => ({
       month: new Date(0, i).toLocaleString('default', { month: 'short' }),
       electricity: 0,
@@ -394,34 +363,62 @@ export class BuildingInfo implements OnInit, AfterViewInit {
       lpg: 0
     }));
 
-    const setFinalMonthValue = (list: any[], type: BillType) => {
+    const setKwh = (list: any[], type: BillType) => {
       list.forEach(b => {
         const to = new Date(b.data?.toDate || b.data?.deliveryDate || b.data?.toLpg);
         if (to.getFullYear() === year) {
           const monthIndex = to.getMonth();
-
-          if (type === 'electricity') {
-            const kwh = (+b.data.kwhDay || 0) + (+b.data.kwhNight || 0);
-            months[monthIndex].electricity += kwh; // SOMMA, non sovrascrive
-          }
-
-          if (type === 'oil') {
-            months[monthIndex].oil += (+b.data.kwhEquivalent || 0);
-          }
-
-          if (type === 'lpg') {
-            months[monthIndex].lpg += (+b.data.cubicMeters || 0);
-          }
+          if (type === 'electricity') months[monthIndex].electricity += (+b.data.kwhDay || 0) + (+b.data.kwhNight || 0);
+          if (type === 'oil') months[monthIndex].oil += (+b.data.kwhEquivalent || 0);
+          if (type === 'lpg') months[monthIndex].lpg += (+b.data.cubicMeters || 0);
         }
       });
     };
 
-    setFinalMonthValue(electricity, 'electricity');
-    setFinalMonthValue(oil, 'oil');
-    setFinalMonthValue(lpg, 'lpg');
+    setKwh(electricity, 'electricity');
+    setKwh(oil, 'oil');
+    setKwh(lpg, 'lpg');
 
     return months;
   }
 
+  async getMonthlyCostData(year: number) {
+    if (!this.selectedBuilding?._id) return [];
+
+    const buildingId = this.selectedBuilding._id;
+    const endpoints = [
+      `${environment.apiUrl}/api/bill/${buildingId}/electricity`,
+      `${environment.apiUrl}/api/bill/${buildingId}/oil`,
+      `${environment.apiUrl}/api/bill/${buildingId}/lpg`
+    ];
+
+    const results = await Promise.all(endpoints.map(url => this.http.get<any[]>(url).toPromise()));
+    const [electricity, oil, lpg] = results.map(r => r || []);
+
+    const months = Array.from({ length: 12 }, (_, i) => ({
+      month: new Date(0, i).toLocaleString('default', { month: 'short' }),
+      electricity: 0,
+      oil: 0,
+      lpg: 0
+    }));
+
+    const addCost = (list: any[], type: BillType) => {
+      list.forEach(b => {
+        const date = new Date(b.data?.fromDate || b.data?.deliveryDate || b.data?.fromLpg);
+        if (date.getFullYear() === year) {
+          const m = date.getMonth();
+          if (type === 'electricity') months[m].electricity += (+b.data.totalCost || 0);
+          if (type === 'oil') months[m].oil += (+b.data.grossCostOil || 0);
+          if (type === 'lpg') months[m].lpg += (+b.data.totalCostLpg || 0);
+        }
+      });
+    };
+
+    addCost(electricity, 'electricity');
+    addCost(oil, 'oil');
+    addCost(lpg, 'lpg');
+
+    return months;
+  }
 
 }

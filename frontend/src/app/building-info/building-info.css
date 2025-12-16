@@ -116,6 +116,10 @@
   margin-bottom: 10px;
 }
 
+.selected-year {
+  font-size: 22px;
+}
+
 .btn-year {
   color: #2f4f4f;
   border: none;
@@ -131,14 +135,29 @@
   /* sposta il bottone verso l'alto */
 }
 
-/* Card grafici */
+/* Card charts */
 .card-building-chart {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Loader ed errori */
+.toggle-container {
+  /* text-align: center; */
+  margin-bottom: 15px;
+}
+
+.toggle-container button {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background-color: #2d6cdf;
+  color: white;
+  font-weight: 400;
+}
+
+/* Loader and errors */
 .loading,
 .error {
   width: 100%;
@@ -147,7 +166,7 @@
   color: #555;
 }
 
-/* Bottone back */
+/* btn back */
 .back-button {
   margin-top: 20px;
 }

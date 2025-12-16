@@ -83,14 +83,43 @@
     <!-- LINE CHART -->
     <div class="card-building card-building-chart">
       <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
-        <h3>kWh Distribution</h3>
-        <div class="container_data">
-          <div style="max-width: 350px; margin: 20px auto;">
-            <canvas #lineChart></canvas>
+
+        <!-- TOGGLE BUTTON -->
+        <div class="toggle-container">
+          <button (click)="toggleChart()">
+            <ng-container *ngIf="lineChartMode === 'kwh'">Cost
+            </ng-container>
+            <ng-container *ngIf="lineChartMode === 'cost'">kWh
+            </ng-container>
+          </button>
+
+        </div>
+
+
+        <!-- KWh -->
+        <div *ngIf="lineChartMode === 'kwh'">
+          <h3>kWh Distribution</h3>
+          <div class="container_data">
+            <div style="max-width: 350px; margin: 20px auto;">
+              <canvas #lineChart></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- cost -->
+        <div *ngIf="lineChartMode === 'cost'">
+          <i class="fa-solid fa-bolt" style="font-size: 24px; color:red;"></i>
+
+          <h3><i class="fa-solid fa-bolt"></i> Cost Distribution</h3>
+          <div class="container_data">
+            <div style="max-width: 350px; margin: 20px auto;">
+              <canvas #lineChart></canvas>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
