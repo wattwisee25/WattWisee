@@ -99,7 +99,9 @@
         <!-- TOGGLE kWh / Cost -->
         <div class="toggle-container">
           <button (click)="toggleChart()">
-            {{ lineChartMode === 'kwh' ? 'Cost' : 'kWh' }}
+            <i class="bi" [ngClass]="lineChartMode === 'kwh' ? 'bi bi-currency-euro' : 'bi bi-lightning-charge'">
+            </i>
+            <!-- {{ lineChartMode === 'kwh' ? 'Cost' : 'kWh' }} -->
           </button>
         </div>
 

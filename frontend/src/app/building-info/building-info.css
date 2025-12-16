@@ -149,8 +149,8 @@
 
 .toggle-container button {
   padding: 6px 12px;
+  border: 1px solid #000000;
   border-radius: 20px;
-  border: none;
   cursor: pointer;
   background-color: #2d6cdf;
   color: white;
@@ -165,12 +165,17 @@
   gap: 10px;
 }
 
+.pie-line-header h3 {
+  margin: 0;
+}
+
 .btn-expand {
-  padding: 6px 12px;
+  padding: 4px 8px;
   border-radius: 6px;
-  border: 1px solid #000000;
+  /* border: 1px solid #000000; */
+  border: none;
   cursor: pointer;
-  background-color: #f8f9fa;
+  background-color: #fefefe;
   color: #000000;
 }
 
