@@ -10,7 +10,6 @@ import { HttpClient } from '@angular/common/http';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { environment } from '../../environments/environment';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // import { faCoffee, faHeart, faBolt } from '@fortawesome/free-solid-svg-icons';
 
 type BillType = 'electricity' | 'oil' | 'lpg';
@@ -19,7 +18,7 @@ type LineChartMode = 'kwh' | 'cost';
 @Component({
   selector: 'app-building-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton],
   templateUrl: './building-info.html',
   styleUrls: ['./building-info.css']
 })
