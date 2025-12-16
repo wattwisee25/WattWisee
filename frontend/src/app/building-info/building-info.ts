@@ -32,6 +32,7 @@ export class BuildingInfo implements OnInit, AfterViewInit {
 
   selectedBuilding: Building | null = null;
   isPieExpanded = false;
+  isLineExpanded = false;
   isEditing = false;
   isLoading = false;
   showKwh = true;
@@ -71,6 +72,15 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     //forza il resize del chart quando cambia dimensione
     setTimeout(() => {
       this.chart?.resize();
+    }, 0);
+  }
+
+  toggleLineExpand() {
+    this.isLineExpanded = !this.isLineExpanded;
+
+    //forza il resize del chart quando cambia dimensione
+    setTimeout(() => {
+      this.lineChart?.resize();
     }, 0);
   }
 

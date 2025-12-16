@@ -157,8 +157,8 @@
   font-weight: 400;
 }
 
-/* EXPAND PIE CHART */
-.pie-header {
+/* EXPAND CHART */
+.pie-line-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -174,9 +174,10 @@
   color: #000000;
 }
 
+/* pie */
 .pie-wrapper {
-  max-width: 350px;
-  height: 350px;
+  max-width: 300px;
+  height: 300px;
   margin: 20px auto;
   position: relative;
 }
@@ -202,6 +203,37 @@
 
 .card-building-chart.expanded .pie-wrapper {
   max-width: 500px;
+  height: 500px;
+}
+
+/* line */
+.line-wrapper {
+  max-width: 350px;
+  height: 150px;
+  margin: 20px auto;
+}
+
+.card-building-chart.expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-building-chart.expanded .card-building-body {
+  width: 85%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card-building-chart.expanded .line-wrapper {
+  max-width: 800px;
   height: 500px;
 }
 
