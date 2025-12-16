@@ -285,24 +285,33 @@ router.post('/verify-otp', async (req, res) => {
     user.otp = null;
     user.otpExpires = null;
 
-    // 👇 prendi il valore prima di cambiarlo
     const firstLogin = user.isFirstLogin;
 
-    // se è il primo login, settiamo a false per le prossime volte
     if (firstLogin) {
       user.isFirstLogin = false;
     }
 
     await user.save();
 
+    // Genera token JWT
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ token, firstLogin }); // 👈 ora il frontend riceve anche questo
+    // 👇 Salva il token nei cookie HTTPOnly (non accessibile da JS)
+    res.cookie('token', token, {
+      httpOnly: true,       // evita accesso JS
+      secure: process.env.NODE_ENV === 'production', // solo HTTPS in produzione
+      sameSite: 'Strict',   // previene CSRF
+      maxAge: 60 * 60 * 1000 // 1 ora
+    });
+
+    // Rispondi con solo firstLogin, il token è nel cookie
+    res.json({ firstLogin });
   } catch (err) {
     console.error('OTP verification error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 
 // ==================== GET PROFILE ====================
