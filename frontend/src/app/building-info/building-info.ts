@@ -31,6 +31,7 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   private lineChart?: Chart;
 
   selectedBuilding: Building | null = null;
+  isPieExpanded = false;
   isEditing = false;
   isLoading = false;
   showKwh = true;
@@ -62,6 +63,15 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   toggleChart() {
     this.lineChartMode = this.lineChartMode === 'kwh' ? 'cost' : 'kwh';
     this.refreshLineChart();
+  }
+
+  togglePieExpand() {
+    this.isPieExpanded = !this.isPieExpanded;
+
+    //forza il resize del chart quando cambia dimensione
+    setTimeout(() => {
+      this.chart?.resize();
+    }, 0);
   }
 
   ngOnInit(): void {

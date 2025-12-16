@@ -69,16 +69,28 @@
     </div>
 
     <!-- PIE CHART -->
-    <div class="card-building card-building-chart">
+    <div class="card-building card-building-chart" [class.expanded]="isPieExpanded">
       <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
-        <h3>Energy Consumption</h3>
+
+        <div class="pie-header">
+          <h3>Energy Consumption</h3>
+
+          <button class="btn-expand" (click)="togglePieExpand()">
+            <i class="bi" [ngClass]="isPieExpanded ? 'bi-arrows-angle-contract' : 'bi-arrows-angle-expand'">
+            </i>
+          </button>
+
+        </div>
+
         <div class="container_data">
-          <div style="max-width: 350px; margin: 20px auto;">
+          <div class="pie-wrapper">
             <canvas #pieChart></canvas>
           </div>
         </div>
+
       </div>
     </div>
+
 
     <!-- LINE CHART -->
     <div class="card-building card-building-chart">

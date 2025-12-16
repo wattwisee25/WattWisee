@@ -157,6 +157,55 @@
   font-weight: 400;
 }
 
+/* EXPAND PIE CHART */
+.pie-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-expand {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #000000;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  color: #000000;
+}
+
+.pie-wrapper {
+  max-width: 350px;
+  height: 350px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.card-building-chart.expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-building-chart.expanded .card-building-body {
+  width: 80%;
+  max-width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card-building-chart.expanded .pie-wrapper {
+  max-width: 500px;
+  height: 500px;
+}
+
+
 /* Loader and errors */
 .loading,
 .error {
