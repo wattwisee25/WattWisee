@@ -1,0 +1,21 @@
+<div class="progress-bar">
+  <ng-container *ngFor="let step of steps; let i = index">
+    <div class="step">
+      <!-- Label sopra -->
+      <span class="step-label">{{ step.label }}</span>
+
+      <!-- Cerchio con bordo dinamico -->
+      <div class="circle-outer" [style.background]="getCircleBorder(step.id)">
+        <div class="circle-inner">
+          <span>{{ step.id }}</span>
+        </div>
+      </div>
+
+      <!-- Percentuale sotto -->
+      <span class="percentage">{{ getPercentage(step.id) }}</span>
+    </div>
+
+    <!-- Linea tra i cerchi -->
+    <div *ngIf="i < steps.length - 1" class="line"></div>
+  </ng-container>
+</div>

@@ -1,0 +1,74 @@
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+  flex-direction: row;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.step-label {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.circle-outer {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.circle-inner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white; /* centro bianco */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.circle-inner span {
+  color: #333;
+  font-weight: bold;
+}
+
+.percentage {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.line {
+  width: 60px;
+  height: 4px;
+  background-color: #e0e0e0;
+  align-self: center;
+}
+
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .progress-bar {
+    margin-top: 70px;
+  }
+}
+
+@media screen and (min-width: 770px) {
+  .progress-bar {
+    margin-left: 250px; /* esempio per menu fisso */
+  }
+}

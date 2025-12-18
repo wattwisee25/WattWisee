@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { map } from 'rxjs/operators';
+
 
 export interface Building {
   mprn: any;
@@ -53,7 +55,7 @@ updateBuilding(buildingId: string, buildingData: any): Observable<any> {
 }
 
 getSingleBuilding(buildingId: string): Observable<any> {
-  return this.http.get(`${this.apiUrl}/buildings/${buildingId}`);
+  return this.http.get(`${this.apiUrl}/buildings/${buildingId}`, { withCredentials: true });
 }
 
 // Aggiorna (o crea) la checklist di un building
@@ -84,5 +86,48 @@ getChecklist(projectId: string, buildingId: string): Observable<any> {
       { withCredentials: true }
     );
   }
+
+  // Recupera se ci sono o meno i dati in un building
+
+  private hasMeaningfulBuildingData(building: any): boolean {
+  const meaningfulFields = [
+    'mprn',
+    'floors',
+    'surface',
+    'city',
+    'address'
+  ];
+
+  return meaningfulFields.some(field => {
+    const value = building?.[field];
+    return value !== null && value !== undefined && value !== '';
+  });
+}
+
+  // Verifica se esiste il building (dato un buildingId)
+hasBuilding(buildingId: string): Observable<boolean> {
+  return this.getSingleBuilding(buildingId).pipe(
+    map(building => {
+      if (!building) {
+        return false;
+      }
+
+      return this.hasMeaningfulBuildingData(building);
+    })
+  );
+}
+
+
+// Verifica se sotto il building ci sono bollette
+hasBills(buildingId: string): Observable<boolean> {
+  return this.http
+    .get<{ exists: boolean }>(
+      `${environment.apiUrl}/api/bill/check/${buildingId}`,
+      { withCredentials: true }
+    )
+    .pipe(map(res => res.exists));
+}
+
+
 }
 

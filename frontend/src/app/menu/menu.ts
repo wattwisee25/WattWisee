@@ -1,18 +1,22 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { ProgressBar } from "../progress-bar/progress-bar";
+import { ProjectService } from '../project.service';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ProgressBar],
   templateUrl: './menu.html',
   styleUrls: ['./menu.css'],
 })
 export class Menu implements OnInit {
   sidebarOpen = false;
   isDesktop = window.innerWidth >= 768;
+
 
   /** MENU PRINCIPALE */
   mainMenu = [
@@ -35,10 +39,11 @@ export class Menu implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private projectService: ProjectService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Controlla subito se c'è un progetto salvato in localStorage
     const savedProjectId = localStorage.getItem('selectedProjectId');
     this.projectSelected = !!savedProjectId;
@@ -48,6 +53,8 @@ export class Menu implements OnInit {
       const id = localStorage.getItem('selectedProjectId');
       this.projectSelected = !!id;
     });
+
+ 
   }
 
   toggleSidebar() {
@@ -78,17 +85,15 @@ export class Menu implements OnInit {
   }
 
   /** Naviga ad una route del progetto usando l'ID salvato in localStorage */
-navigateProjectRoute(route: string) {
-  const projectId = localStorage.getItem('selectedProjectId');
-  if (!projectId) {
-    alert('No project selected!');
-    this.router.navigate(['/home']);
-    return;
+  navigateProjectRoute(route: string) {
+    const projectId = localStorage.getItem('selectedProjectId');
+    if (!projectId) {
+      alert('No project selected!');
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    // Tutte le rotte del progetto leggono l'ID da localStorage
+    this.router.navigate([route]);
   }
-
-  // Tutte le rotte del progetto leggono l'ID da localStorage, quindi basta navigare normalmente
-  this.router.navigate([route]);
-}
-
-
 }

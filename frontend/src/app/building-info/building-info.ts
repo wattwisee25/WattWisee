@@ -10,6 +10,8 @@ import { HttpClient } from '@angular/common/http';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { environment } from '../../environments/environment';
+import { ProgressBar } from "../progress-bar/progress-bar";
+import { combineLatest } from 'rxjs';
 // import { faCoffee, faHeart, faBolt } from '@fortawesome/free-solid-svg-icons';
 
 type BillType = 'electricity' | 'oil' | 'lpg';
@@ -18,7 +20,7 @@ type LineChartMode = 'kwh' | 'cost';
 @Component({
   selector: 'app-building-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton],
+  imports: [CommonModule, FormsModule, Menu, RouterModule, BackButton, ProgressBar],
   templateUrl: './building-info.html',
   styleUrls: ['./building-info.css']
 })
@@ -39,6 +41,11 @@ export class BuildingInfo implements OnInit, AfterViewInit {
   lineChartMode: LineChartMode = 'kwh';
   errorMessage: string | null = null;
   newImageUrl: string = '';
+    selectedBuildingId = localStorage.getItem('selectedBuildingId');
+
+  hasBuilding: boolean | null = null;
+  hasBills: boolean | null = null;
+  analysisCompleted: boolean = false;
 
   selectedYear = new Date().getFullYear();
 
@@ -93,6 +100,18 @@ export class BuildingInfo implements OnInit, AfterViewInit {
         this.errorMessage = 'No building ID provided in the URL';
       }
     });
+
+       // Recupera building e bollette in parallelo
+    const buildingId = localStorage.getItem('selectedBuildingId');
+    if (buildingId) {
+      combineLatest([
+        this.projectService.hasBuilding(buildingId),
+        this.projectService.hasBills(buildingId)
+      ]).subscribe(([hasBuilding, hasBills]: [boolean, boolean]) => {
+        this.hasBuilding = hasBuilding;
+        this.hasBills = hasBills;
+      });
+    }
   }
 
   ngAfterViewInit(): void {

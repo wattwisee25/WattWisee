@@ -90,6 +90,25 @@ router.post('/', upload.single('bill'), async (req, res) => {
 });
 
 
+// ==================== CHECK IF BUILDING HAS ANY BILLS ====================
+router.get('/check/:buildingId', async (req, res) => {
+  try {
+    const { buildingId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(buildingId)) {
+      return res.status(400).json({ exists: false });
+    }
+
+    const count = await Bill.countDocuments({ buildingId });
+
+    res.status(200).json({ exists: count > 0 });
+  } catch (err) {
+    console.error('❌ Error checking bills existence:', err);
+    res.status(500).json({ exists: false });
+  }
+});
+
+
 // ==================== OTTIENI BOLLETTE PER BUILDING E TYPE ====================
 router.get('/:buildingId/:type', async (req, res) => {
   try {
@@ -129,5 +148,7 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
 
 export default router;

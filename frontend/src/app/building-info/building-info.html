@@ -1,5 +1,12 @@
 <header>
   <app-menu></app-menu>
+  <app-progress-bar
+  *ngIf="hasBuilding !== null && hasBills !== null"
+  [hasBuilding]="hasBuilding"
+  [hasBills]="hasBills"
+  [analysisCompleted]="analysisCompleted">
+</app-progress-bar>
+
 </header>
 
 <div class="building-info-container">
