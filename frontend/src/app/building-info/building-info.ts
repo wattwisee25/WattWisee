@@ -31,6 +31,8 @@ export class BuildingInfo implements OnInit, AfterViewInit {
 
   selectedBuilding: Building | null = null;
   isPieExpanded = false;
+  isLineExpanded = false;
+  isGrayChart = false;
   isEditing = false;
   isLoading = false;
   showKwh = true;
@@ -70,6 +72,15 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     //forza il resize del chart quando cambia dimensione
     setTimeout(() => {
       this.chart?.resize();
+    }, 0);
+  }
+
+  toggleLineExpand() {
+    this.isLineExpanded = !this.isLineExpanded;
+
+    //forza il resize del chart quando cambia dimensione
+    setTimeout(() => {
+      this.lineChart?.resize();
     }, 0);
   }
 
@@ -161,7 +172,9 @@ export class BuildingInfo implements OnInit, AfterViewInit {
     const allZero = this.isAllZero();
 
     if (allZero) {
-      this.chart.data.labels = ['No data'];
+      this.isGrayChart = true;
+      // this.chart.data.labels = ['No data'];
+      this.chart.data.labels = ['Electricity', 'Oil', 'LPG'];
       if (!this.chart.data.datasets || this.chart.data.datasets.length === 0) {
         this.chart.data.datasets = [{ data: [1], backgroundColor: ['#e0e0e0'] } as any];
       } else {
@@ -169,6 +182,7 @@ export class BuildingInfo implements OnInit, AfterViewInit {
         (this.chart.data.datasets[0] as any).backgroundColor = ['#e0e0e0'];
       }
     } else {
+      this.isGrayChart = false;
       this.chart.data.labels = ['Electricity', 'Oil', 'LPG'];
       this.chart.data.datasets[0].data = [
         this.totalsByYear.electricity || 0,
@@ -189,7 +203,7 @@ export class BuildingInfo implements OnInit, AfterViewInit {
 
     this.createLineChart(data, this.lineChartMode);
   }
-
+  // Line Chart
   createLineChart(
     monthlyData: { month: string, electricity: number, oil: number, lpg: number }[],
     mode: LineChartMode
@@ -201,45 +215,92 @@ export class BuildingInfo implements OnInit, AfterViewInit {
 
     const unit = mode === 'kwh' ? 'kWh' : '€';
 
-    this.lineChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: monthlyData.map(d => d.month),
-        datasets: [
-          {
-            label: `Electricity (${unit})`,
-            data: monthlyData.map(d => d.electricity),
-            borderColor: '#c1dbe3',
-            backgroundColor: '#c1dbe3',
-            tension: 0.4,
-            fill: false
-          },
-          {
-            label: `Oil (${unit})`,
-            data: monthlyData.map(d => d.oil),
-            borderColor: '#292929ff',
-            backgroundColor: '#292929ff',
-            tension: 0.4,
-            fill: false
-          },
-          {
-            label: `LPG (${unit})`,
-            data: monthlyData.map(d => d.lpg),
-            borderColor: '#f6ffa2',
-            backgroundColor: '#f6ffa2',
-            tension: 0.4,
-            fill: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'bottom' }
+    const allZero = this.isAllZero();
+
+    if (allZero) { //if all zero use grey colors
+      this.isGrayChart = true;
+      this.lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: monthlyData.map(d => d.month),
+          datasets: [
+            {
+              label: `Electricity (${unit})`,
+              data: monthlyData.map(d => d.electricity),
+              borderColor: '#e0e0e0',
+              backgroundColor: '#e0e0e0',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: `Oil (${unit})`,
+              data: monthlyData.map(d => d.oil),
+              borderColor: '#e0e0e0',
+              backgroundColor: '#e0e0e0',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: `LPG (${unit})`,
+              data: monthlyData.map(d => d.lpg),
+              borderColor: '#e0e0e0',
+              backgroundColor: '#e0e0e0',
+              tension: 0.4,
+              fill: false
+            }
+          ]
         },
-        scales: { y: { beginAtZero: true } }
-      }
-    });
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+    else {
+      this.isGrayChart = false;
+      this.lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: monthlyData.map(d => d.month),
+          datasets: [
+            {
+              label: `Electricity (${unit})`,
+              data: monthlyData.map(d => d.electricity),
+              borderColor: '#c1dbe3',
+              backgroundColor: '#c1dbe3',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: `Oil (${unit})`,
+              data: monthlyData.map(d => d.oil),
+              borderColor: '#292929ff',
+              backgroundColor: '#292929ff',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: `LPG (${unit})`,
+              data: monthlyData.map(d => d.lpg),
+              borderColor: '#f6ffa2',
+              backgroundColor: '#f6ffa2',
+              tension: 0.4,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
   }
 
 

@@ -73,6 +73,26 @@
 }
 
 /* ===== Sezione Bills ===== */
+.bills-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.bills-header button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2d6cdf;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
 .bills-card .bill-types {
   display: flex;
   gap: 10px;
@@ -149,34 +169,40 @@
 
 .toggle-container button {
   padding: 6px 12px;
+  border: 1px solid #000000;
   border-radius: 20px;
-  border: none;
   cursor: pointer;
   background-color: #2d6cdf;
   color: white;
   font-weight: 400;
 }
 
-/* EXPAND PIE CHART */
-.pie-header {
+/* EXPAND CHART */
+.pie-line-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
 
+.pie-line-header h3 {
+  margin: 0;
+}
+
 .btn-expand {
-  padding: 6px 12px;
+  padding: 4px 8px;
   border-radius: 6px;
-  border: 1px solid #000000;
+  /* border: 1px solid #000000; */
+  border: none;
   cursor: pointer;
-  background-color: #f8f9fa;
+  background-color: #fefefe;
   color: #000000;
 }
 
+/* pie */
 .pie-wrapper {
-  max-width: 350px;
-  height: 350px;
+  max-width: 300px;
+  height: 300px;
   margin: 20px auto;
   position: relative;
 }
@@ -202,6 +228,37 @@
 
 .card-building-chart.expanded .pie-wrapper {
   max-width: 500px;
+  height: 500px;
+}
+
+/* line */
+.line-wrapper {
+  max-width: 350px;
+  height: 150px;
+  margin: 20px auto;
+}
+
+.card-building-chart.expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-building-chart.expanded .card-building-body {
+  width: 85%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card-building-chart.expanded .line-wrapper {
+  max-width: 800px;
   height: 500px;
 }
 

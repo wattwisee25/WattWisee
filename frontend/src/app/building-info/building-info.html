@@ -49,7 +49,13 @@
     <!-- BILLS SECTION RACCHIUSA IN CARD -->
     <div class="card-building bills-card" *ngIf="!isLoading && selectedBuilding">
       <div class="card-building-body">
-        <h3>Bills</h3>
+        <div class="bills-header">
+          <h3>Bills</h3>
+          <button *ngIf="isGrayChart" [routerLink]="['/upload-bills-id']">
+            <i class="bi bi-plus-lg"></i>
+            <span>Add Bill</span>
+          </button>
+        </div>
         <div class="bill-types">
           <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'electricity']">Electricity</button>
           <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'oil']">Oil - Fuel</button>
@@ -72,7 +78,7 @@
     <div class="card-building card-building-chart" [class.expanded]="isPieExpanded">
       <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
 
-        <div class="pie-header">
+        <div class="pie-line-header">
           <h3>Energy Consumption</h3>
 
           <button class="btn-expand" (click)="togglePieExpand()">
@@ -93,44 +99,43 @@
 
 
     <!-- LINE CHART -->
-    <div class="card-building card-building-chart">
-      <div class="card-building-body pie_chart" *ngIf="selectedBuilding">
+    <div class="card-building card-building-chart" [class.expanded]="isLineExpanded">
+      <div class="card-building-body line_chart" *ngIf="selectedBuilding">
 
-        <!-- TOGGLE BUTTON -->
+        <!-- TOGGLE kWh / Cost -->
         <div class="toggle-container">
           <button (click)="toggleChart()">
-            <ng-container *ngIf="lineChartMode === 'kwh'">Cost
-            </ng-container>
-            <ng-container *ngIf="lineChartMode === 'cost'">kWh
-            </ng-container>
+            <i class="bi" [ngClass]="lineChartMode === 'kwh' ? 'bi bi-currency-euro' : 'bi bi-lightning-charge'">
+            </i>
+            <!-- {{ lineChartMode === 'kwh' ? 'Cost' : 'kWh' }} -->
           </button>
-
         </div>
 
+        <!-- HEADER -->
+        <div class="pie-line-header">
+          <h3>
+            {{ lineChartMode === 'kwh' ? 'kWh Distribution' : 'Cost Distribution' }}
+          </h3>
 
-        <!-- KWh -->
-        <div *ngIf="lineChartMode === 'kwh'">
-          <h3>kWh Distribution</h3>
-          <div class="container_data">
-            <div style="max-width: 350px; margin: 20px auto;">
-              <canvas #lineChart></canvas>
-            </div>
+          <button class="btn-expand" (click)="toggleLineExpand()">
+            <i class="bi" [ngClass]="
+            isLineExpanded
+              ? 'bi-arrows-angle-contract'
+              : 'bi-arrows-angle-expand'
+          "></i>
+          </button>
+        </div>
+
+        <!-- CHART -->
+        <div class="container_data">
+          <div class="line-wrapper">
+            <canvas #lineChart></canvas>
           </div>
         </div>
 
-        <!-- cost -->
-        <div *ngIf="lineChartMode === 'cost'">
-          <i class="fa-solid fa-bolt" style="font-size: 24px; color:red;"></i>
-
-          <h3><i class="fa-solid fa-bolt"></i> Cost Distribution</h3>
-          <div class="container_data">
-            <div style="max-width: 350px; margin: 20px auto;">
-              <canvas #lineChart></canvas>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
+
 
   </div>
 </div>
