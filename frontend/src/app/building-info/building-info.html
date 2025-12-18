@@ -49,7 +49,13 @@
     <!-- BILLS SECTION RACCHIUSA IN CARD -->
     <div class="card-building bills-card" *ngIf="!isLoading && selectedBuilding">
       <div class="card-building-body">
-        <h3>Bills</h3>
+        <div class="bills-header">
+          <h3>Bills</h3>
+          <button *ngIf="isGrayChart" [routerLink]="['/upload-bills-id']">
+            <i class="bi bi-plus-lg"></i>
+            <span>Add Bill</span>
+          </button>
+        </div>
         <div class="bill-types">
           <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'electricity']">Electricity</button>
           <button class="bill" [routerLink]="['/bills', selectedBuilding._id, 'oil']">Oil - Fuel</button>

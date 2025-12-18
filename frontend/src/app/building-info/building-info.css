@@ -73,6 +73,26 @@
 }
 
 /* ===== Sezione Bills ===== */
+.bills-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.bills-header button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2d6cdf;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
 .bills-card .bill-types {
   display: flex;
   gap: 10px;
