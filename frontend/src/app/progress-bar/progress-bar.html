@@ -5,11 +5,19 @@
       <span class="step-label">{{ step.label }}</span>
 
       <!-- Cerchio con bordo dinamico -->
-      <div class="circle-outer" [style.background]="getCircleBorder(step.id)">
-        <div class="circle-inner">
-          <span>{{ step.id }}</span>
-        </div>
-      </div>
+<div 
+  class="circle-outer" 
+  [ngStyle]="{ 
+    'background': getCircleBorder(step.id),
+    'width': getCircleSize(step.id),
+    'height': getCircleSize(step.id)
+  }"
+>
+  <div class="circle-inner">
+    <span>{{ step.id }}</span>
+  </div>
+</div>
+
 
       <!-- Percentuale sotto -->
       <span class="percentage">{{ getPercentage(step.id) }}</span>

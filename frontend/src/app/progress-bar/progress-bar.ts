@@ -69,8 +69,21 @@ getCircleBorder(stepId: number): string {
   }
 
   // Solo bordo colorato, il centro sarà coperto dal cerchio interno bianco
-  return `conic-gradient(#4caf50 0deg ${deg}deg, #e0e0e0 ${deg}deg 360deg)`;
+  return `conic-gradient(#31545b 0deg ${deg}deg, #e0e0e0 ${deg}deg 360deg)`;
 }
+
+getCircleSize(stepId: number): string {
+  const perc = parseInt(this.getPercentage(stepId)) || 0;
+
+  // Se il cerchio corrente non è completo → grande
+  if (perc < 100) return '70px';
+
+  // Altrimenti → dimensione normale
+  return '60px';
+}
+
+
+
 
 
 }
