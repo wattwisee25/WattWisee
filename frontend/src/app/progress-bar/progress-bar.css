@@ -81,8 +81,10 @@
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
   .progress-bar {
-    margin-top: 70px;
-    gap: 20px;
+            width: max-content;
+        margin-top: 70px;
+        gap: 20px;
+        margin-left: 60px;
   }
   .circle-inner {
     width: 45px;

@@ -3,290 +3,369 @@
 </header>
 
 <div class="edit-building-container" *ngIf="!isLoading; else loading">
-
   <h2>Edit Building Info</h2>
-
   <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
-  <form *ngIf="building" (ngSubmit)="saveBuilding()" class="form-container">
+  <form (ngSubmit)="saveBuilding()">
 
     <!-- ===== GENERAL INFO ===== -->
-    <fieldset>
-      <legend>General Info</legend>
+    <section class="card">
+      <h3>General Info</h3>
       <div class="input-grid">
         <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.name" name="name" />
+          <input type="text" placeholder=" " [(ngModel)]="building.name" name="name">
           <label>Name</label>
         </div>
         <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.mprn" name="mprn" />
+          <input type="text" placeholder=" " [(ngModel)]="building.generalInfo.mprn" name="mprn">
           <label>MPRN</label>
         </div>
         <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.address" name="address" />
+          <input type="text" placeholder=" " [(ngModel)]="building.generalInfo.address" name="address">
           <label>Address</label>
         </div>
         <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.city" name="city" />
+          <input type="text" placeholder=" " [(ngModel)]="building.generalInfo.city" name="city">
           <label>City</label>
         </div>
         <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.postcode" name="postcode" />
-          <label>Eir code</label>
+          <input type="text" placeholder=" " [(ngModel)]="building.generalInfo.eircode" name="eircode">
+          <label>Eircode</label>
         </div>
         <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.buildingType" name="buildingType" />
+          <input type="text" placeholder=" " [(ngModel)]="building.buildingEnvelope.buildingType" name="buildingType">
           <label>Building Type</label>
         </div>
         <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.yearBuilt" name="yearBuilt" />
+          <input type="number" placeholder=" " [(ngModel)]="building.buildingEnvelope.yearBuilt" name="yearBuilt">
           <label>Year Built</label>
         </div>
       </div>
-    </fieldset>
+    </section>
 
-    <!-- ===== BUILDING ENVELOPE ===== -->
-    <fieldset>
-      <legend>Building Envelope</legend>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.envelope.walls" name="walls" />
-          <label>Walls</label>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.envelope.constructionType" name="constructionType" />
-          <label>Construction Type</label>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.envelope.insulationMaterials" name="insulationMaterials" />
-          <label>Insulation Materials</label>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.envelope.insideMaterials" name="insideMaterials" />
-          <label>Inside Materials</label>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.envelope.constructionMaterials" name="constructionMaterials" />
-          <label>Construction Materials</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.envelope.surfaceArea" name="surfaceArea" />
-          <label>Surface Area</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.envelope.uValue" name="uValue" />
-          <label>U-value</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.envelope.heatLossMeter" name="heatLossMeter" />
-          <label>Heat Loss Meter</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.envelope.heatLossTotal" name="heatLossTotal" />
-          <label>Heat Loss Total</label>
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- ===== WINDOWS ===== -->
-    <fieldset>
-      <legend>Windows</legend>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.windows.currentWindowType" name="currentWindowType" />
-          <label>Current Window Type</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.windows.totalWindowsArea" name="totalWindowsArea" />
-          <label>Total Windows Area</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.windows.uValue" name="windowUValue" />
-          <label>U-value</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.windows.solarGain" name="solarGain" />
-          <label>Solar Gain</label>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.windows.orientation" name="orientation" />
-          <label>Orientation</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.windows.heatLoss" name="windowHeatLoss" />
-          <label>Heat Loss</label>
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- ===== DOORS ===== -->
-    <fieldset>
-      <legend>Doors</legend>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.doors.currentDoorType" name="currentDoorType" />
-          <label>Current Door Type</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.doors.totalAreaDoors" name="totalAreaDoors" />
-          <label>Total Area Doors</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.doors.uValue" name="doorUValue" />
-          <label>U-value</label>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.doors.doorSealingMechanism" name="doorSealingMechanism" />
-          <label>Door Sealing Mechanism</label>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.doors.doorLeakTest" name="doorLeakTest" />
-          <label>Door Leak Test</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.doors.heatLossTotal" name="doorHeatLossTotal" />
-          <label>Heat Loss Total</label>
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- ===== ROOF ===== -->
-    <fieldset>
-      <legend>Roof</legend>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.roof.currentInsulationType" name="currentInsulationType" />
-          <label>Current Insulation Type</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.roof.totalAreaRoof" name="totalAreaRoof" />
-          <label>Total Area Roof</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.roof.uValue" name="roofUValue" />
-          <label>U-value</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.roof.heatLossTotal" name="roofHeatLossTotal" />
-          <label>Heat Loss Total</label>
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- ===== LIGHTING ===== -->
-    <fieldset>
-      <legend>Lighting</legend>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.lighting.currentLightingType" name="currentLightingType" />
-          <label>Current Lighting Type</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.lighting.numberOfLightUsed" name="numberOfLightUsed" />
-          <label>Number of Lights Used</label>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="building.lighting.lightingControls" name="lightingControls" />
-          <label>Lighting Controls</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.lighting.totalEnergyUsed" name="totalEnergyUsed" />
-          <label>Total Energy Used</label>
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- ===== AUXILIARY USAGE & HEATERS ===== -->
-    <fieldset>
-      <legend>Auxiliary Usage & Heaters</legend>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.auxiliary.currentUsage" name="currentUsage" />
-          <label>Current Usage</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.auxiliary.baselineUsage" name="baselineUsage" />
-          <label>Baseline Usage</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.auxiliary.lightingControls" name="auxLightingControls" />
-          <label>Lighting Controls</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.auxiliary.totalEnergyUsed" name="auxTotalEnergyUsed" />
-          <label>Total Energy Used</label>
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- ===== SIGNIFICANT ENERGY USERS ===== -->
-    <fieldset>
-      <legend>Significant Energy Users</legend>
-
-      <!-- SEU 1 -->
-      <h4>Electric Ovens for Kitchen</h4>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu1.numberOfOvensUsed" name="seu1NumberOfOvensUsed" />
-          <label>Number of Ovens Used</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu1.averageKwUsedPerDay" name="seu1AverageKw" />
-          <label>Average kW Used/Day</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu1.totalEnergyUsedForMonths" name="seu1TotalEnergy" />
-          <label>Total Energy Used (Months)</label>
-        </div>
+    <!-- ===== ADDITIONAL DETAILS ===== -->
+    <section class="card">
+      <h3>Add Details</h3>
+      <div class="actions" style="flex-wrap: wrap; gap: 10px;">
+        <button type="button" (click)="toggleForm('room')">Rooms</button>
+        <button type="button" (click)="toggleForm('lighting')">Lighting</button>
+        <button type="button" (click)="toggleForm('aux')">Auxiliary</button>
+        <button type="button" (click)="toggleForm('seu')">SEU</button>
       </div>
 
-      <!-- SEU 2 -->
-      <h4>Conveyor Belt for Kitchen</h4>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu2.numberUsed" name="seu2NumberUsed" />
-          <label>Number Used</label>
+      <!-- ===== CONDITIONAL FORMS ===== -->
+      <!-- Room preview -->
+      <div *ngIf="activeForm === 'room'">
+        <div class="scrollable-horizontal">
+          <div class="sub-card" *ngFor="let room of building.buildingEnvelope.rooms || []; let ri = index">
+            <h4>{{ room.name }}</h4>
+            <p>
+              Walls: {{ room.walls?.length || 0 }} |
+              Windows: {{ room.windows?.length || 0 }} |
+              Doors: {{ room.doors?.length || 0 }} |
+              Roofs: {{ room.roofs?.length || 0 }}
+            </p>
+            <button type="button" (click)="editRoom(ri)">Edit Room</button>
+          </div>
         </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu2.averageKwUsedPerDay" name="seu2AverageKw" />
-          <label>Average kW Used/Day</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu2.totalEnergyUsedForMonths" name="seu2TotalEnergy" />
-          <label>Total Energy Used (Months)</label>
-        </div>
+        <button type="button" (click)="addRoom()">+ Add Room</button>
       </div>
 
-      <!-- SEU 3 -->
-      <h4>Heat Pump</h4>
-      <div class="input-grid">
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu3.coefficientOfPerformance" name="seu3COP" />
-          <label>Coefficient of Performance</label>
+      <!-- Lighting form -->
+      <div *ngIf="activeForm === 'lighting'">
+        <div class="scrollable">
+          <div *ngFor="let light of building.lighting || []; let li = index" class="sub-card">
+            <div class="input-grid">
+              <div class="input-container">
+                <input type="text" placeholder=" " [(ngModel)]="light.lightingType" [name]="'lightType'+li">
+                <label>Lighting Type</label>
+              </div>
+              <div class="input-container">
+                <input type="number" placeholder=" " [(ngModel)]="light.number" [name]="'lightNumber'+li">
+                <label>Number</label>
+              </div>
+              <div class="input-container">
+                <input type="text" placeholder=" " [(ngModel)]="light.lightingControls" [name]="'lightControls'+li">
+                <label>Controls</label>
+              </div>
+              <div class="input-container">
+                <input type="number" placeholder=" " [(ngModel)]="light.totalEnergyUsed" [name]="'lightTotalEnergy'+li">
+                <label>Total Energy</label>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu3.averageKwUsedPerDay" name="seu3AverageKw" />
-          <label>Average kW Used/Day</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="building.seu3.totalEnergyUsedForMonths" name="seu3TotalEnergy" />
-          <label>Total Energy Used (Months)</label>
-        </div>
+        <button type="button" (click)="addLighting()">+ Add Lighting</button>
       </div>
 
-    </fieldset>
+      <!-- Auxiliary form -->
+      <div *ngIf="activeForm === 'aux'">
+        <div class="scrollable">
+          <div *ngFor="let aux of building.auxiliaryUsage || []; let ai = index" class="sub-card">
+            <div class="input-grid">
+              <div class="input-container">
+                <input type="number" placeholder=" " [(ngModel)]="aux.currentUsage" [name]="'auxCurrent'+ai">
+                <label>Current Usage</label>
+              </div>
+              <div class="input-container">
+                <input type="number" placeholder=" " [(ngModel)]="aux.baselineUsage" [name]="'auxBaseline'+ai">
+                <label>Baseline Usage</label>
+              </div>
+              <div class="input-container">
+                <input type="text" placeholder=" " [(ngModel)]="aux.lightingControls" [name]="'auxLighting'+ai">
+                <label>Lighting Controls</label>
+              </div>
+              <div class="input-container">
+                <input type="number" placeholder=" " [(ngModel)]="aux.totalEnergyUsed" [name]="'auxTotalEnergy'+ai">
+                <label>Total Energy</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" (click)="addAuxiliary()">+ Add Auxiliary</button>
+      </div>
 
-    <!-- ===== ACTIONS ===== -->
+      <!-- SEU form -->
+      <div *ngIf="activeForm === 'seu'">
+        <div class="scrollable">
+          <div *ngFor="let seu of building.significantEnergyUsers || []; let si = index" class="sub-card">
+            <div class="input-grid">
+              <div class="input-container">
+                <input type="text" placeholder=" " [(ngModel)]="seu.name" [name]="'seuName'+si">
+                <label>Name</label>
+              </div>
+              <div class="input-container">
+                <input type="number" placeholder=" " [(ngModel)]="seu.consumption" [name]="'seuConsumption'+si">
+                <label>Consumption</label>
+              </div>
+              <div class="input-container">
+                <input type="text" placeholder=" " [(ngModel)]="seu.efficiency" [name]="'seuEfficiency'+si">
+                <label>Efficiency</label>
+              </div>
+              <div class="input-container">
+                <input type="text" placeholder=" " [(ngModel)]="seu.notes" [name]="'seuNotes'+si">
+                <label>Notes</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" (click)="addSEU()">+ Add SEU</button>
+      </div>
+
+    </section>
+
     <div class="actions">
       <button type="submit" class="save">Save Building</button>
     </div>
-
   </form>
 </div>
+
+<!-- ===== ROOM MODAL ===== -->
+<div class="modal" *ngIf="showRoomModal">
+  <div class="modal-content scrollable">
+    <h3>{{ editingRoomIndex !== null ? 'Edit Room' : 'Add Room' }}</h3>
+
+    <!-- Room Name -->
+    <div class="input-container">
+      <input type="text" placeholder=" " [(ngModel)]="roomForm.name" name="roomName">
+      <label>Room Name</label>
+    </div>
+
+    <div class="modal-buttons">
+    <button class="modal-btn" type="button" (click)="addWallToForm()">+ Add Wall</button>
+    <button class="modal-btn" type="button" (click)="addWindowToForm()">+ Add Window</button>
+    <button class="modal-btn" type="button" (click)="addDoorToForm()">+ Add Door</button>
+    <button class="modal-btn" type="button" (click)="addRoofToForm()">+ Add Roof</button>
+    </div>
+
+    <!-- ===== WALLS ===== -->
+    <div *ngFor="let wall of roomForm.walls || []; let wi = index" class="sub-card nested">
+      <h5>Wall {{ wi + 1 }}</h5>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="wall.totalArea" [name]="'wallTotalArea'+wi">
+          <label>Total Area</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="wall.number" [name]="'wallNumber'+wi">
+          <label>Number</label>
+        </div>
+      </div>
+      <div *ngFor="let detail of wall.wallsDetails || []; let di = index" class="sub-card nested">
+        <h6>Detail {{ di + 1 }}</h6>
+        <div class="input-grid">
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.constructionType"
+              [name]="'wallConstructionType'+wi+di">
+            <label>Construction Type</label>
+          </div>
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.insulationMaterials" [name]="'wallInsulation'+wi+di">
+            <label>Insulation Materials</label>
+          </div>
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.insideMaterials"
+              [name]="'wallInsideMaterials'+wi+di">
+            <label>Inside Materials</label>
+          </div>
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.constructionMaterials"
+              [name]="'wallConstructionMaterials'+wi+di">
+            <label>Construction Materials</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.uValue" [name]="'wallUValue'+wi+di">
+            <label>U-Value</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.heatLossMeter" [name]="'wallHeatLossMeter'+wi+di">
+            <label>Heat Loss / m²</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.heatLossTotal" [name]="'wallHeatLossTotal'+wi+di">
+            <label>Total Heat Loss</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ===== WINDOWS ===== -->
+    <div *ngFor="let window of roomForm.windows || []; let wi = index" class="sub-card nested">
+      <h5>Window {{ wi + 1 }}</h5>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="window.totalArea" [name]="'windowTotalArea'+wi">
+          <label>Total Area</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="window.number" [name]="'windowNumber'+wi">
+          <label>Number</label>
+        </div>
+      </div>
+      <div *ngFor="let detail of window.windowsDetails || []; let di = index" class="sub-card nested">
+        <h6>Detail {{ di + 1 }}</h6>
+        <div class="input-grid">
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.windowType" [name]="'windowType'+wi+di">
+            <label>Window Type</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.uValue" [name]="'windowUValue'+wi+di">
+            <label>U-Value</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.solarGain" [name]="'windowSolarGain'+wi+di">
+            <label>Solar Gain</label>
+          </div>
+          <div class="input-container">
+            <select [(ngModel)]="detail.orientation" [name]="'windowOrientation'+wi+di">
+              <option *ngFor="let dir of ['Nord','Nord-Est','Est','Sud-Est','Sud','Sud-Ovest','Ovest','Nord-Ovest']"
+                [value]="dir">{{ dir }}</option>
+            </select>
+            <label>Orientation</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.heatLoss" [name]="'windowHeatLoss'+wi+di">
+            <label>Heat Loss</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ===== DOORS ===== -->
+    <div *ngFor="let door of roomForm.doors || []; let di = index" class="sub-card nested">
+      <h5>Door {{ di + 1 }}</h5>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="door.totalArea" [name]="'doorTotalArea'+di">
+          <label>Total Area</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="door.number" [name]="'doorNumber'+di">
+          <label>Number</label>
+        </div>
+      </div>
+      <div *ngFor="let detail of door.doorsDetails || []; let ddi = index" class="sub-card nested">
+        <h6>Detail {{ ddi + 1 }}</h6>
+        <div class="input-grid">
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.doorType" [name]="'doorType'+di+ddi">
+            <label>Door Type</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.uValue" [name]="'doorUValue'+di+ddi">
+            <label>U-Value</label>
+          </div>
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.doorSealingMechanism" [name]="'doorSealing'+di+ddi">
+            <label>Sealing</label>
+          </div>
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.doorLeakTest" [name]="'doorLeak'+di+ddi">
+            <label>Leak Test</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.heatLoss" [name]="'doorHeatLoss'+di+ddi">
+            <label>Heat Loss</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ===== ROOFS ===== -->
+    <div *ngFor="let roof of roomForm.roofs || []; let ri = index" class="sub-card nested">
+      <h5>Roof {{ ri + 1 }}</h5>
+      <div class="input-grid">
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="roof.totalArea" [name]="'roofTotalArea'+ri">
+          <label>Total Area</label>
+        </div>
+        <div class="input-container">
+          <input type="number" placeholder=" " [(ngModel)]="roof.number" [name]="'roofNumber'+ri">
+          <label>Number</label>
+        </div>
+      </div>
+      <div *ngFor="let detail of roof.roofsDetails || []; let rdi = index" class="sub-card nested">
+        <h6>Detail {{ rdi + 1 }}</h6>
+        <div class="input-grid">
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="detail.insulationType" [name]="'insulationType'+ri+rdi">
+            <label>Insulation Type</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.area" [name]="'roofArea'+ri+rdi">
+            <label>Area</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.uValue" [name]="'roofUValue'+ri+rdi">
+            <label>U-Value</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="detail.heatLoss" [name]="'roofHeatLoss'+ri+rdi">
+            <label>Heat Loss</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- ===== MODAL ACTIONS ===== -->
+    <div class="modal-actions">
+      <button type="button" (click)="saveRoom()">Save Room</button>
+      <button type="button" (click)="closeRoomModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 
 <ng-template #loading>
   <p class="loading">Loading building data...</p>
 </ng-template>
-    <div class="back-button">
-    <app-back-button></app-back-button>
-    </div>
+
+<div class="back-button">
+  <app-back-button></app-back-button>
+</div>

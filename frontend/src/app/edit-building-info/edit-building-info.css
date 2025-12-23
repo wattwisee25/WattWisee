@@ -1,107 +1,211 @@
-@media screen and (min-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .edit-building-container, .back-button {
-    margin-left: 250px; /* ad esempio per compensare il menu fisso */
-  }
+h2, h3, h4, h5, h6 {
+  color: #31545b;
+  margin: 0 0 10px 0;
+  font-weight: 500;
 }
 
-  @media screen and (max-width: 770px) {
-  /* Le regole qui dentro valgono solo per schermi larghi almeno 1024px */
-  .edit-building-container {
-    margin-top: 50px; 
-  }
+a {
+  color: #31545b;
+  text-decoration: none;
+}
 
+/* ================= CONTAINER ================= */
+.edit-building-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  background-color: #ffffff;
 }
 
 .back-button {
-  display: flex;
-  align-items: flex-start;
-  background-color: #c1dbe3;
-  flex-direction: column;
+  margin: 20px 0;
 }
 
-.edit-building-container {
-  padding: 2rem;
-  background: #c1dbe3;
-}
-
-.building-form, .section-card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-  margin-bottom: 1rem;
-}
-
-h2, h4{
-  margin-bottom: 1rem;
-  color: #31545b;
-}
-
-legend {
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #31545b;
-}
-
-button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  background-color: #31545b;
-  color: #f6ffa2;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #f6ffa2;
-  color: #31545b;
-}
-
-
-
-
-.input-container {
-  position: relative;
-  width: 100%; /* solo per demo */
-}
-
-.input-container input {
-  width: 100%;
-  padding: 12px 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  margin-top: 10px;
+/* ================= CARD ================= */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #c1dbe3;
+  border-radius: 8px;
+  padding: 20px;
   margin-bottom: 20px;
 }
 
-/* Label iniziale centrata verticalmente */
-.input-container label {
-    position: absolute;
-    left: 10px;
-    top: 40%;
-    transform: translateY(-40%);
-    color: #999;
-    font-size: 16px;
-    pointer-events: none;
-    transition: 0.2s ease all;
-    background: transparent;
-    padding: 0 4px;
+.sub-card {
+  background-color: #f9f9f9;
+  border: 1px solid #c1dbe3;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
-/* Quando input ha focus o valore, il label sale su */
-.input-container input:focus + label,
-.input-container input:not(:placeholder-shown) + label {
-  top: -10px;
-  transform: none;
+.sub-card.nested {
+  background-color: #ffffff;
+  border: 1px solid #c1dbe3;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/* ================= INPUT GRID ================= */
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.input-container {
+  position: relative;
+  margin-top: 10px;
+}
+
+.input-container input,
+.input-container select {
+  width: 100%;
+  padding: 10px 10px 10px 5px;
+  border: 1px solid #c1dbe3;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #31545b;
+  font-size: 14px;
+}
+
+.input-container label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #31545b;
   font-size: 12px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label,
+.input-container select:focus + label,
+.input-container select:not([value=""]) + label {
+  top: -8px;
+  left: 8px;
+  font-size: 10px;
+  background: #ffffff;
+  padding: 0 3px;
+}
+
+/* ================= BUTTONS ================= */
+button {
+  background-color: #31545b;
+  color: #ffffff;
+  border: 1px solid #31545b;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #c1dbe3;
   color: #31545b;
 }
 
-.input-container input:focus {
-  border-color: #31545b;  /* stesso colore della label */
-  box-shadow: 0 0 4px #31545b; /* alone viola */
+button.save {
+  width: 100%;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ================= SCROLLABLE ================= */
+.scrollable {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding-right: 5px;
+}
+
+.scrollable-horizontal {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+}
+
+/* ================= ERROR / LOADING ================= */
+.error {
+  color: #31545b;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #c1dbe3;
+  border-radius: 4px;
+}
+
+.loading {
+  color: #31545b;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ================= MODAL ================= */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90%;
+  overflow-y: auto;
+  border: 1px solid #c1dbe3;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+.modal-btn {
+  margin-top: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* ================= MEDIA QUERIES ================= */
+@media screen and (min-width: 770px) {
+  .edit-building-container,
+  .back-button {
+    margin-left: 250px; /* compensazione menu fisso */
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .edit-building-container {
+    margin-top: 50px;
+  }
+  .input-grid {
+    grid-template-columns: 1fr; /* colonna singola su mobile */
+  }
 }
