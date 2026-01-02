@@ -36,17 +36,17 @@ export class UploadBillId implements OnInit {
     private projectService: ProjectService,
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
-ngOnInit(): void {
-  const projectId = localStorage.getItem('selectedProjectId');
-  if (!projectId) {
-    alert('No project selected!');
-    this.router.navigate(['/projects']);
-    return;
+  ngOnInit(): void {
+    const projectId = localStorage.getItem('selectedProjectId');
+    if (!projectId) {
+      alert('No project selected!');
+      this.router.navigate(['/projects']);
+      return;
+    }
+    this.loadProject(projectId);
   }
-  this.loadProject(projectId);
-}
 
 
 
@@ -112,6 +112,17 @@ ngOnInit(): void {
           alert('An error occurred during processing.');
         }
       });
+  }
+
+  continueWithoutBills() {
+    if (!this.selectedBuildingId) {
+      return alert('Please select a building first!');
+    }
+
+    this.router.navigate([
+      '/building-info',
+      this.selectedBuildingId
+    ]);
   }
 
   // 👇 nuovo metodo per reindirizzare alla pagina di compilazione bolletta

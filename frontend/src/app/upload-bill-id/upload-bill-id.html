@@ -68,6 +68,13 @@
       </div>
     </div>
 
+    <!-- Continue without bills -->
+    <div class="continue-container">
+      <button class="continue-btn" (click)="continueWithoutBills()" [disabled]="!selectedBuildingId">
+        Continue without bills
+      </button>
+    </div>
+
     <!-- Upload button -->
     <div class="finish-row">
       <button class="finish-btn" (click)="onUpload()" [disabled]="!hasSelectedFiles() || !selectedBuildingId">

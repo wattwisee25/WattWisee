@@ -17,13 +17,20 @@ interface WallDetail {
   insideMaterials: string;
   constructionMaterials: string;
   uValue: number;
-  heatLossMeter: number;
-  heatLossTotal: number;
+  area: number;
+  heatLossWK: number;    // W/K = U × Area
 }
 
 interface Wall {
   totalArea: number;
   number: number;
+
+  orientation: 'North' | 'South' | 'East' | 'West';
+  exposure: 'exterior' | 'interior';
+
+  windows: Window[];
+  doors: Door[];
+
   wallsDetails: WallDetail[];
 }
 
@@ -71,8 +78,6 @@ interface Roof {
 interface Room {
   name: string;
   walls: Wall[];
-  windows: Window[];
-  doors: Door[];
   roofs: Roof[];
 }
 
@@ -144,7 +149,7 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private http: HttpClient,
     private projectService: ProjectService
-  ) {}
+  ) { }
 
   // ================= LIFECYCLE =================
 
@@ -241,18 +246,66 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
     this.showRoomModal = false;
   }
 
+  calculateWallHeatLoss(wall: Wall, detail: WallDetail) {
+    const netArea = this.getWallNetArea(wall);
+    detail.area = netArea;
+    detail.heatLossWK = Number((detail.uValue * netArea).toFixed(2));
+  }
+
+
+  getWallNetArea(wall: Wall): number {
+    const windowsArea = wall.windows.reduce((sum, w) => sum + w.totalArea, 0);
+    const doorsArea = wall.doors.reduce((sum, d) => sum + d.totalArea, 0);
+    return Math.max(wall.totalArea - windowsArea - doorsArea, 0);
+  }
+
+  getRoomWindowsCount(room: Room): number {
+    return room.walls?.reduce((sum, wall) => sum + (wall.windows?.length || 0), 0) || 0;
+  }
+
+  getRoomDoorsCount(room: Room): number {
+    return room.walls?.reduce((sum, wall) => sum + (wall.doors?.length || 0), 0) || 0;
+  }
+
+  addWindowToWall(wall: Wall) {
+    wall.windows.push({
+      totalArea: 0,
+      number: 1,
+      windowsDetails: [
+        { windowType: '', uValue: 0, solarGain: 0, orientation: '', heatLoss: 0 }
+      ]
+    });
+  }
+
+  addDoorToWall(wall: Wall) {
+    wall.doors.push({
+      totalArea: 0,
+      number: 1,
+      doorsDetails: [
+        { doorType: '', uValue: 0, doorSealingMechanism: '', doorLeakTest: '', heatLoss: 0 }
+      ]
+    });
+  }
+
   closeRoomModal(): void {
     this.showRoomModal = false;
   }
 
   // ================= ADD HELPERS =================
 
-   // --- ADD WALL / WINDOW / DOOR / ROOF ---
+  // --- ADD WALL / WINDOW / DOOR / ROOF ---
 
   addWallToForm() {
     this.roomForm.walls.push({
       totalArea: 0,
-      number: 0,
+      number: 1,
+
+      orientation: 'North',
+      exposure: 'exterior',
+
+      windows: [],
+      doors: [],
+
       wallsDetails: [
         {
           constructionType: '',
@@ -260,32 +313,33 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
           insideMaterials: '',
           constructionMaterials: '',
           uValue: 0,
-          heatLossMeter: 0,
-          heatLossTotal: 0
+          area: 0,
+          heatLossWK: 0
         }
       ]
     });
   }
 
-  addWindowToForm() {
-    this.roomForm.windows.push({
-      totalArea: 0,
-      number: 0,
-      windowsDetails: [
-        { windowType: '', uValue: 0, solarGain: 0, orientation: '', heatLoss: 0 }
-      ]
-    });
-  }
 
-  addDoorToForm() {
-    this.roomForm.doors.push({
-      totalArea: 0,
-      number: 0,
-      doorsDetails: [
-        { doorType: '', uValue: 0, doorSealingMechanism: '', doorLeakTest: '', heatLoss: 0 }
-      ]
-    });
-  }
+  // addWindowToForm() {
+  //   this.roomForm.windows.push({
+  //     totalArea: 0,
+  //     number: 0,
+  //     windowsDetails: [
+  //       { windowType: '', uValue: 0, solarGain: 0, orientation: '', heatLoss: 0 }
+  //     ]
+  //   });
+  // }
+
+  // addDoorToForm() {
+  //   this.roomForm.doors.push({
+  //     totalArea: 0,
+  //     number: 0,
+  //     doorsDetails: [
+  //       { doorType: '', uValue: 0, doorSealingMechanism: '', doorLeakTest: '', heatLoss: 0 }
+  //     ]
+  //   });
+  // }
 
   addRoofToForm() {
     this.roomForm.roofs.push({
@@ -311,14 +365,15 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
   }
 
   private createEmptyRoom(): Room {
-    return { name: '', walls: [], windows: [], doors: [], roofs: [] };
+    return { name: '', walls: [], roofs: [] };
   }
+
 
   activeForm: 'room' | 'lighting' | 'aux' | 'seu' | null = null;
 
-toggleForm(form: 'room' | 'lighting' | 'aux' | 'seu') {
-  this.activeForm = this.activeForm === form ? null : form;
-}
+  toggleForm(form: 'room' | 'lighting' | 'aux' | 'seu') {
+    this.activeForm = this.activeForm === form ? null : form;
+  }
 
 }
 

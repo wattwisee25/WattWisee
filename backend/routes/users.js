@@ -11,8 +11,8 @@ dotenv.config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET; // fallback
 
-const FRONTEND_URL = process.env.NODE_ENV === 'production' 
-  ? process.env.FRONTEND_URL_PROD 
+const FRONTEND_URL = process.env.NODE_ENV === 'production'
+  ? process.env.FRONTEND_URL_PROD
   : process.env.FRONTEND_URL;
 
 
@@ -33,12 +33,12 @@ let transporter;
 (() => {
   try {
     transporter = nodemailer.createTransport({
-  host: "smtp.sendgrid.net",
-  port: 2525,
-  secure: false,
-  auth: {
-    user: "apikey",
-    pass: process.env.SENDGRID_API_KEY
+      host: "smtp.sendgrid.net",
+      port: 2525,
+      secure: false,
+      auth: {
+        user: "apikey",
+        pass: process.env.SENDGRID_API_KEY
       }
     });
 
@@ -71,7 +71,7 @@ router.post('/', async (req, res) => {
     // Provo a inviare email
     if (transporter) {
       const mailOptions = {
-from: process.env.EMAIL_USER,
+        from: process.env.EMAIL_USER,
 
         to: newUser.email,
         subject: 'Welcome to WattWisee!',
@@ -265,7 +265,7 @@ router.post('/supplier-login', async (req, res) => {
     });
 
   } catch (err) {
-    console.error('Supplier login error:', err);
+    console.error('User login error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -297,13 +297,13 @@ router.post('/verify-otp', async (req, res) => {
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
     // 👇 Salva il token nei cookie HTTPOnly (non accessibile da JS)
-res.cookie('token', token, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production', // solo HTTPS in produzione
-  sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Lax in locale, None in prod
-  path: '/',
-  maxAge: 60 * 60 * 1000
-});
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // solo HTTPS in produzione
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Lax in locale, None in prod
+      path: '/',
+      maxAge: 60 * 60 * 1000
+    });
 
 
     // Rispondi con solo firstLogin, il token è nel cookie
@@ -487,7 +487,7 @@ router.delete('/me', authMiddleware, async (req, res) => {
     if (transporter) {
       try {
         await transporter.sendMail({
-         from: process.env.EMAIL_USER,
+          from: process.env.EMAIL_USER,
           to: user.email,
           subject: 'Account Deletion Confirmation - WattWisee',
           text: `Hi ${user.contact_name || ''}, your account has been successfully deleted from WattWisee.`,

@@ -17,6 +17,28 @@
 }
 
 
+.success {
+  background: #e6f3f6;
+  color: #31545b;
+  border-left: 5px solid #31545b;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+
+.error {
+  background: #fdecea;
+  color: #842029;
+  border-left: 5px solid #dc3545;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+
 /* Splash layout */
 .splash {
   min-height: 100vh;

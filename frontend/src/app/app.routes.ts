@@ -8,7 +8,7 @@ import { Otp } from './otp/otp';
 import { CreateAccount } from './create-account/create-account';
 import { NewProject } from './first-new-project/first-new-project';
 import { UploadFirstBill } from './upload-first-bill/upload-first-bill';
-import { ProjectList } from './project-list/project-list';
+// import { ProjectList } from './project-list/project-list';
 import { Home } from './home/home';
 import { AddBuilding } from './add-building/add-building';
 import { UploadBillId } from './upload-bill-id/upload-bill-id';
@@ -53,7 +53,7 @@ export const routes: Routes = [
   { path: 'create-new-project', component: NewProject, canActivate: [AuthGuard] },
   { path: 'upload-first-bill/:id', component: UploadFirstBill, canActivate: [AuthGuard] },
   { path: 'home', component: Home, canActivate: [AuthGuard] },
-  { path: 'project-list', component: ProjectList, canActivate: [AuthGuard] },
+  // { path: 'project-list', component: ProjectList, canActivate: [AuthGuard] },
   { path: 'add-building/:id', component: AddBuilding, canActivate: [AuthGuard] },
   { path: 'upload-bills-id', component: UploadBillId, canActivate: [AuthGuard] },
   { path: 'building-list', component: BuildingList, canActivate: [AuthGuard] },

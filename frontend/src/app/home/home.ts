@@ -24,7 +24,7 @@ export class Home implements OnInit {
   filteredProjects: ProjectWithOpen[] = []; // Filtered list for display
   searchTerm: string = '';
 
-  constructor(private projectService: ProjectService) {}
+  constructor(private projectService: ProjectService) { }
 
   ngOnInit(): void {
     this.loadProjects();
@@ -57,15 +57,15 @@ export class Home implements OnInit {
   }
 
   // Sum of bills inside the project
- /* getTotalBills(project: ProjectWithOpen): number {
-    if (!project.bills || project.bills.length === 0) return 0;
-
-    return project.bills.reduce(
-      (sum, bill) => sum + (bill.amount || 0), 
-      0
-    );
-  }
-*/
+  /* getTotalBills(project: ProjectWithOpen): number {
+     if (!project.bills || project.bills.length === 0) return 0;
+ 
+     return project.bills.reduce(
+       (sum, bill) => sum + (bill.amount || 0), 
+       0
+     );
+   }
+ */
   // Save selected project in localStorage
   selectProject(projectId?: string) {
     if (!projectId) return;

@@ -15,7 +15,8 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./create-account.css']
 })
 export class CreateAccount {
-  constructor(private http: HttpClient, private router: Router) {}
+
+  constructor(private http: HttpClient, private router: Router) { }
 
   user = {
     contact_name: '',
@@ -28,8 +29,10 @@ export class CreateAccount {
     permission_contact: false
   };
 
-  repeat_password = ''; //variabile separata SOLO per il controllo
-  passwordError = ''; //per mostrare errori di password
+  repeat_password = '';
+  passwordError = '';
+  successMessage = '';
+  errorMessage = '';
 
   showPassword = false;
 
@@ -41,23 +44,29 @@ export class CreateAccount {
     if (!this.user.contact_name || !this.user.email || !this.user.password) return;
 
     if (this.user.password !== this.repeat_password) {
-    this.passwordError = '⚠️ The passwords do not match.';
-    return;
-  } else {
-    this.passwordError = '';
-  }
+      this.passwordError = '⚠️ The passwords do not match.';
+      return;
+    }
 
-    //Costruisco l'oggetto da inviare senza repeat_password
+    this.passwordError = '';
+    this.errorMessage = '';
+    this.successMessage = '';
+
     const payload = { ...this.user };
 
-    this.http.post(`${environment.apiUrl}/api/users`, payload).subscribe({
-      next: (res: any) => {
-        console.log('Successful registration:', res);
-        this.router.navigate(['/']);
+    this.http.post<any>(`${environment.apiUrl}/api/users`, payload).subscribe({
+      next: (res) => {
+        this.successMessage =
+          res.message ||
+          'Account created successfully. Please check your Spam/Junk folder.';
+
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 2500);
       },
       error: (err) => {
-        console.error('Recording error:', err);
-        alert(err.error?.error || 'Error during registration!');
+        this.errorMessage =
+          err.error?.message || 'Error during registration!';
       }
     });
   }
