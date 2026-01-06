@@ -16,11 +16,21 @@
   z-index: 1000;
 }
 
+.header-sidebar {
+  align-items: center;
+  justify-items: center;
+}
+
+.header-sidebar p {
+  font-style: italic;
+}
+
 /* Mobile: sidebar nascosta di default */
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
   }
+
   .sidebar.open {
     transform: translateX(0);
   }
@@ -88,18 +98,21 @@
 
 /* Hover */
 .sidebar-nav a:hover {
-  background-color: #f6ffa2; /* giallo chiaro */
+  background-color: #f6ffa2;
+  /* giallo chiaro */
   color: #31545b;
 }
 
 .sidebar-nav a:hover i {
   color: #31545b;
-  transform: translateX(2px); /* micro-move */
+  transform: translateX(2px);
+  /* micro-move */
 }
 
 /* Attivo (pagina selezionata) */
 .sidebar-nav a.active {
-  background-color: #f6ffa2; /* stesso giallo hover */
+  background-color: #f6ffa2;
+  /* stesso giallo hover */
   color: #31545b;
 }
 

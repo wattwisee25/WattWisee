@@ -1,36 +1,29 @@
 <!-- Toggle menu mobile -->
-<button class="btn btn-outline-secondary d-md-none mb-2 sidebar-toggle" 
-        (click)="toggleSidebar()"
-        [style.display]="sidebarOpen ? 'none' : 'block'" 
-        aria-label="Open menu">
+<button class="btn btn-outline-secondary d-md-none mb-2 sidebar-toggle" (click)="toggleSidebar()"
+  [style.display]="sidebarOpen ? 'none' : 'block'" aria-label="Open menu">
   <i class="bi bi-list"></i>
 </button>
-
 
 
 
 <!-- Sidebar -->
 <nav class="sidebar" [class.open]="sidebarOpen || isDesktop">
   <!-- Close button mobile -->
-  <button *ngIf="sidebarOpen && !isDesktop" 
-          class="btn btn-link text-white position-absolute top-0 end-0 m-1 d-md-none"
-          (click)="toggleSidebar()" 
-          aria-label="Close menu">
+  <button *ngIf="sidebarOpen && !isDesktop" class="btn btn-link text-white position-absolute top-0 end-0 m-1 d-md-none"
+    (click)="toggleSidebar()" aria-label="Close menu">
     <i class="bi bi-x-lg fs-6"></i>
   </button>
 
-  <div class="mb-4 text-center">
+  <div class="header-sidebar">
     <h1 class="h4">WATTWISEE</h1>
+    <p>{{ currentUser.register_as }}</p>
   </div>
 
   <ul class="nav flex-column sidebar-nav">
     <!-- Menu principale -->
     <li *ngFor="let item of mainMenu" class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-2"
-         [routerLink]="item.route"
-         routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: item.exact }"
-         (click)="toggleSidebar()">
+      <a class="nav-link d-flex align-items-center gap-2" [routerLink]="item.route" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact }" (click)="toggleSidebar()">
         <span [innerHTML]="item.icon"></span>
         <span>{{ item.label }}</span>
       </a>
@@ -38,11 +31,8 @@
       <!-- Sottomenu progetti solo sotto "Home" -->
       <ul *ngIf="projectSelected && item.label === 'Home'">
         <li *ngFor="let sub of projectMenu">
-          <a class="nav-link d-flex align-items-center gap-2"
-             [routerLink]="sub.route"
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{ exact: false }"
-             (click)="toggleSidebar()">
+          <a class="nav-link d-flex align-items-center gap-2" [routerLink]="sub.route" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: false }" (click)="toggleSidebar()">
             <span [innerHTML]="sub.icon"></span>
             <span>{{ sub.label }}</span>
           </a>
@@ -52,8 +42,7 @@
 
     <!-- Logout sempre in fondo -->
     <li class="nav-item mt-auto">
-      <a class="nav-link d-flex align-items-center gap-2 logout"
-         (click)="logout()" style="cursor: pointer;">
+      <a class="nav-link d-flex align-items-center gap-2 logout" (click)="logout()" style="cursor: pointer;">
         <i class="bi bi-box-arrow-right"></i>
         <span>Logout</span>
       </a>

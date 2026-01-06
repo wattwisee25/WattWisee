@@ -16,6 +16,7 @@ import { ProjectService } from '../project.service';
 export class Menu implements OnInit {
   sidebarOpen = false;
   isDesktop = window.innerWidth >= 768;
+  currentUser: any = null;
 
 
   /** MENU PRINCIPALE */
@@ -41,7 +42,7 @@ export class Menu implements OnInit {
     private authService: AuthService,
     private router: Router,
     private projectService: ProjectService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Controlla subito se c'è un progetto salvato in localStorage
@@ -54,7 +55,15 @@ export class Menu implements OnInit {
       this.projectSelected = !!id;
     });
 
- 
+    //recupero utente loggato
+    this.authService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.currentUser = user;
+      },
+      error: (err) => {
+        console.error('Errore recupero utente', err);
+      }
+    });
   }
 
   toggleSidebar() {

@@ -12,7 +12,7 @@ export class AuthService {
 
   private apiUrl = `${environment.apiUrl}/api/users`;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   // Login utente
   login(email: string, password: string, remember: boolean): Observable<{ token: string, firstLogin: boolean }> {
@@ -79,19 +79,3 @@ export class AuthService {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

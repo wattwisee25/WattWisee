@@ -115,14 +115,13 @@ router.post('/', async (req, res) => {
     }
 
     // Rispondo subito ad Angular
-    res.status(201).json({ message: 'User registered successfully. Confirmation email sent.' });
-
+    res.status(201).json({ message: 'Account created successfully! Confirmation email sent. Please check your Spam/Junk folder.' });
   } catch (err) {
     console.error('Registration error:', err);
 
     // Controllo specifico per email già registrata
     if (err.code === 11000 && err.keyValue?.email) {
-      return res.status(400).json({ message: 'Email already registered' });
+      return res.status(400).json({ message: 'Email already registered.' });
     }
 
     // Qualsiasi altro errore

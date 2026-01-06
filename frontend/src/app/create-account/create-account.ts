@@ -56,13 +56,11 @@ export class CreateAccount {
 
     this.http.post<any>(`${environment.apiUrl}/api/users`, payload).subscribe({
       next: (res) => {
-        this.successMessage =
-          res.message ||
-          'Account created successfully. Please check your Spam/Junk folder.';
+        this.successMessage = res.message
 
         setTimeout(() => {
           this.router.navigate(['/']);
-        }, 2500);
+        }, 7000);
       },
       error: (err) => {
         this.errorMessage =
