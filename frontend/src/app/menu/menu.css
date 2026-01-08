@@ -23,6 +23,7 @@
 
 .header-sidebar p {
   font-style: italic;
+  color: lightgreen;
 }
 
 /* Mobile: sidebar nascosta di default */

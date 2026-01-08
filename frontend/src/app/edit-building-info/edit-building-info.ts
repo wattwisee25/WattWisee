@@ -22,6 +22,8 @@ interface WallDetail {
 }
 
 interface Wall {
+  length: number;
+  width: number;
   totalArea: number;
   number: number;
 
@@ -30,7 +32,6 @@ interface Wall {
 
   windows: Window[];
   doors: Door[];
-
   wallsDetails: WallDetail[];
 }
 
@@ -43,6 +44,8 @@ interface WindowDetail {
 }
 
 interface Window {
+  length: number;
+  width: number;
   totalArea: number;
   number: number;
   windowsDetails: WindowDetail[];
@@ -57,6 +60,8 @@ interface DoorDetail {
 }
 
 interface Door {
+  length: number;
+  width: number;
   totalArea: number;
   number: number;
   doorsDetails: DoorDetail[];
@@ -70,15 +75,31 @@ interface RoofDetail {
 }
 
 interface Roof {
+  length: number;
+  width: number;
   totalArea: number;
   number: number;
   roofsDetails: RoofDetail[];
+}
+
+interface FloorDetail {
+  area: number;
+  uValue: number;
+  heatLoss: number;
+}
+
+interface Floor {
+  length: number;
+  width: number;
+  totalArea: number;
+  floorsDetails: FloorDetail[];
 }
 
 interface Room {
   name: string;
   walls: Wall[];
   roofs: Roof[];
+  floors: Floor[];
 }
 
 interface Lighting {
@@ -200,6 +221,10 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
     });
   }
 
+  calculateArea(element: { length: number; width: number }): number {
+    return Number((element.length * element.width).toFixed(2));
+  }
+
   saveBuilding(): void {
     if (!this.building) return;
 
@@ -233,6 +258,11 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
 
   editRoom(index: number): void {
     this.roomForm = structuredClone(this.building.buildingEnvelope.rooms[index]);
+
+    this.roomForm.floors ??= [];
+    this.roomForm.walls ??= [];
+    this.roomForm.roofs ??= [];
+
     this.editingRoomIndex = index;
     this.showRoomModal = true;
   }
@@ -244,6 +274,8 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
       this.building.buildingEnvelope.rooms.push(this.roomForm);
     }
     this.showRoomModal = false;
+
+    this.saveBuilding();
   }
 
   calculateWallHeatLoss(wall: Wall, detail: WallDetail) {
@@ -268,7 +300,10 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
   }
 
   addWindowToWall(wall: Wall) {
+    wall.windows ??= [];
     wall.windows.push({
+      length: 0,
+      width: 0,
       totalArea: 0,
       number: 1,
       windowsDetails: [
@@ -278,7 +313,10 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
   }
 
   addDoorToWall(wall: Wall) {
+    wall.doors ??= [];
     wall.doors.push({
+      length: 0,
+      width: 0,
       totalArea: 0,
       number: 1,
       doorsDetails: [
@@ -286,6 +324,7 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
       ]
     });
   }
+
 
   closeRoomModal(): void {
     this.showRoomModal = false;
@@ -297,6 +336,8 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
 
   addWallToForm() {
     this.roomForm.walls.push({
+      length: 0,
+      width: 0,
       totalArea: 0,
       number: 1,
 
@@ -343,6 +384,8 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
 
   addRoofToForm() {
     this.roomForm.roofs.push({
+      length: 0,
+      width: 0,
       totalArea: 0,
       number: 0,
       roofsDetails: [
@@ -350,6 +393,19 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
       ]
     });
   }
+
+
+  addFloorToForm() {
+    this.roomForm.floors.push({
+      length: 0,
+      width: 0,
+      totalArea: 0,
+      floorsDetails: [
+        { area: 0, uValue: 0, heatLoss: 0 }
+      ]
+    });
+  }
+
 
 
   addLighting(): void {
@@ -365,7 +421,7 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
   }
 
   private createEmptyRoom(): Room {
-    return { name: '', walls: [], roofs: [] };
+    return { name: '', walls: [], roofs: [], floors: [] };
   }
 
 
@@ -374,6 +430,4 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
   toggleForm(form: 'room' | 'lighting' | 'aux' | 'seu') {
     this.activeForm = this.activeForm === form ? null : form;
   }
-
 }
-

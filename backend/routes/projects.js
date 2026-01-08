@@ -158,6 +158,8 @@ router.put('/buildings/:buildingId', verifyToken, async (req, res) => {
       }
     });
 
+    building.markModified('buildingEnvelope');
+
     await project.save();
 
     res.status(200).json({

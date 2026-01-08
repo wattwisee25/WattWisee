@@ -2,24 +2,9 @@ import mongoose from "mongoose";
 import Bill from "./Bill.js";
 
 // --- SCHEMI ---
-
-const wallSchema = new mongoose.Schema({
-  totalArea: { type: Number },
-  number: { type: Number },
-  wallsDetails: [
-    {
-      constructionType: { type: String },
-      insulationMaterials: { type: String },
-      insideMaterials: { type: String },
-      constructionMaterials: { type: String },
-      uValue: { type: Number },
-      heatLossMeter: { type: Number },
-      heatLossTotal: { type: Number },
-    },
-  ],
-});
-
 const windowSchema = new mongoose.Schema({
+  length: { type: Number },
+  width: { type: Number },
   totalArea: { type: Number },
   number: { type: Number },
   windowsDetails: [
@@ -34,6 +19,8 @@ const windowSchema = new mongoose.Schema({
 });
 
 const doorSchema = new mongoose.Schema({
+  length: { type: Number },
+  width: { type: Number },
   totalArea: { type: Number },
   number: { type: Number },
   doorsDetails: [
@@ -46,6 +33,29 @@ const doorSchema = new mongoose.Schema({
     },
   ],
 });
+
+const wallSchema = new mongoose.Schema({
+  length: { type: Number },
+  width: { type: Number },
+  totalArea: { type: Number },
+  number: { type: Number },
+  orientation: { type: String },
+  exposure: { type: String },
+  windows: [windowSchema],
+  doors: [doorSchema],
+  wallsDetails: [
+    {
+      constructionType: { type: String },
+      insulationMaterials: { type: String },
+      insideMaterials: { type: String },
+      constructionMaterials: { type: String },
+      uValue: { type: Number },
+      heatLossMeter: { type: Number },
+      heatLossTotal: { type: Number },
+    },
+  ],
+});
+
 
 const roofSchema = new mongoose.Schema({
   totalArea: { type: Number },
@@ -60,12 +70,18 @@ const roofSchema = new mongoose.Schema({
   ],
 });
 
+const floorSchema = new mongoose.Schema({
+  length: Number,
+  width: Number,
+  totalArea: Number,
+  floorsDetails: Array
+});
+
 const roomSchema = new mongoose.Schema({
   name: { type: String },
   walls: [wallSchema],
-  windows: [windowSchema],
-  doors: [doorSchema],
   roofs: [roofSchema],
+  floors: [floorSchema]
 });
 
 const lightingSchema = new mongoose.Schema({
