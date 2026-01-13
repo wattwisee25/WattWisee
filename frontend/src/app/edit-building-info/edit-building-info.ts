@@ -338,8 +338,8 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
 
   // --- ADD WALL / WINDOW / DOOR / ROOF ---
 
-  addWallToForm() {
-    this.roomForm.walls.push({
+  addWallToForm() { //add a new wall to the walls array in the room form
+    this.roomForm.walls.unshift({ //unshift adds to the beginning of the array, push adds to the end
       length: 0,
       width: 0,
       totalArea: 0,
