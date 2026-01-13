@@ -74,6 +74,11 @@
         <button type="button" (click)="addRoom()">+ Add Room</button>
       </div>
 
+      <!-- <app-wall-config [walls]="roomForm.walls" (openingAdded)="onOpeningAdded($event)"
+        (openingRemoved)="onOpeningRemoved($event)"></app-wall-config> -->
+      <!-- <app-wall-config [walls]="roomForm.walls"></app-wall-config> -->
+
+
       <!-- Lighting form -->
       <div *ngIf="activeForm === 'lighting'">
         <div class="scrollable">
@@ -166,7 +171,15 @@
 <!-- ===== ROOM MODAL ===== -->
 <div class="modal" *ngIf="showRoomModal">
   <div class="modal-content scrollable">
-    <h3>{{ editingRoomIndex !== null ? 'Edit Room' : 'Add Room' }}</h3>
+    <div class="modal-header">
+      <h3>{{ editingRoomIndex !== null ? 'Edit Room' : 'Add Room' }}</h3>
+
+      <!-- ===== MODAL ACTIONS ===== -->
+      <div class="modal-actions">
+        <button type="button" (click)="saveRoom()">Save Room</button>
+        <button type="button" (click)="closeRoomModal()">Cancel</button>
+      </div>
+    </div>
 
     <!-- Room Name -->
     <div class="input-container">
@@ -181,6 +194,10 @@
       <button class="modal-btn" type="button" (click)="addRoofToForm()">+ Add Roof</button>
       <button class="modal-btn" type="button" (click)="addFloorToForm()">+ Add Floor</button>
     </div>
+
+    <app-wall-config *ngIf="roomForm.walls.length > 0" [walls]="roomForm.walls">
+    </app-wall-config>
+
 
     <!-- ===== WALLS ===== -->
     <div *ngFor="let wall of roomForm.walls || []; let wi = index" class="sub-card nested">
@@ -541,17 +558,8 @@
         </div>
       </div>
     </div>
-
-
-
-    <!-- ===== MODAL ACTIONS ===== -->
-    <div class="modal-actions">
-      <button type="button" (click)="saveRoom()">Save Room</button>
-      <button type="button" (click)="closeRoomModal()">Cancel</button>
-    </div>
   </div>
 </div>
-
 
 <ng-template #loading>
   <p class="loading">Loading building data...</p>

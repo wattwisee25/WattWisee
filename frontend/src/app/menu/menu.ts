@@ -9,7 +9,7 @@ import { ProjectService } from '../project.service';
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProgressBar],
+  imports: [CommonModule, RouterModule],
   templateUrl: './menu.html',
   styleUrls: ['./menu.css'],
 })

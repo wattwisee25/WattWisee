@@ -8,6 +8,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BackButton } from '../back-button/back-button';
 import { Menu } from '../menu/menu';
+import { RoomService } from '../services/room.service';
+import { WallConfigComponent } from '../components/wall-config/wall-config.component';
+
 
 // ================= INTERFACES =================
 
@@ -148,7 +151,7 @@ interface Building {
 @Component({
   selector: 'app-edit-building-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, BackButton, Menu],
+  imports: [CommonModule, FormsModule, BackButton, Menu, WallConfigComponent],
   templateUrl: './edit-building-info.html',
   styleUrls: ['./edit-building-info.css']
 })
@@ -169,7 +172,8 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    public roomService: RoomService
   ) { }
 
   // ================= LIFECYCLE =================

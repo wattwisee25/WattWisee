@@ -7,10 +7,10 @@ import { map } from 'rxjs/operators';
 
 export interface Building {
   mprn: any;
-floors: any;
-surface: any;
-city: any;
-address: any;
+  floors: any;
+  surface: any;
+  city: any;
+  address: any;
   _id?: string;
   name: string;
   imageUrl: string | ArrayBuffer | null;
@@ -50,30 +50,30 @@ export class ProjectService {
     return this.http.get<Building>(`${this.apiUrl}/buildings/${buildingId}`, { withCredentials: true });
   }
 
-updateBuilding(buildingId: string, buildingData: any): Observable<any> {
-  return this.http.put(`${this.apiUrl}/buildings/${buildingId}`, buildingData, { withCredentials: true });
-}
+  updateBuilding(buildingId: string, buildingData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/buildings/${buildingId}`, buildingData, { withCredentials: true });
+  }
 
-getSingleBuilding(buildingId: string): Observable<any> {
-  return this.http.get(`${this.apiUrl}/buildings/${buildingId}`, { withCredentials: true });
-}
+  getSingleBuilding(buildingId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/buildings/${buildingId}`, { withCredentials: true });
+  }
 
-// Aggiorna (o crea) la checklist di un building
-updateChecklist(projectId: string, buildingId: string, checklist: any[]): Observable<any> {
-  return this.http.put(
-    `${this.apiUrl}/${projectId}/buildings/${buildingId}/checklist`,
-    { checklist },
-    { withCredentials: true }
-  );
-}
+  // Aggiorna (o crea) la checklist di un building
+  updateChecklist(projectId: string, buildingId: string, checklist: any[]): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/${projectId}/buildings/${buildingId}/checklist`,
+      { checklist },
+      { withCredentials: true }
+    );
+  }
 
-// Recupera la checklist esistente di un building
-getChecklist(projectId: string, buildingId: string): Observable<any> {
-  return this.http.get(
-    `${this.apiUrl}/${projectId}/buildings/${buildingId}/checklist`,
-    { withCredentials: true }
-  );
-}
+  // Recupera la checklist esistente di un building
+  getChecklist(projectId: string, buildingId: string): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/${projectId}/buildings/${buildingId}/checklist`,
+      { withCredentials: true }
+    );
+  }
 
 
 
@@ -90,43 +90,43 @@ getChecklist(projectId: string, buildingId: string): Observable<any> {
   // Recupera se ci sono o meno i dati in un building
 
   private hasMeaningfulBuildingData(building: any): boolean {
-  const meaningfulFields = [
-    'mprn',
-    'floors',
-    'surface',
-    'city',
-    'address'
-  ];
+    const meaningfulFields = [
+      'mprn',
+      'floors',
+      'surface',
+      'city',
+      'address'
+    ];
 
-  return meaningfulFields.some(field => {
-    const value = building?.[field];
-    return value !== null && value !== undefined && value !== '';
-  });
-}
+    return meaningfulFields.some(field => {
+      const value = building?.[field];
+      return value !== null && value !== undefined && value !== '';
+    });
+  }
 
   // Verifica se esiste il building (dato un buildingId)
-hasBuilding(buildingId: string): Observable<boolean> {
-  return this.getSingleBuilding(buildingId).pipe(
-    map(building => {
-      if (!building) {
-        return false;
-      }
+  hasBuilding(buildingId: string): Observable<boolean> {
+    return this.getSingleBuilding(buildingId).pipe(
+      map(building => {
+        if (!building) {
+          return false;
+        }
 
-      return this.hasMeaningfulBuildingData(building);
-    })
-  );
-}
+        return this.hasMeaningfulBuildingData(building);
+      })
+    );
+  }
 
 
-// Verifica se sotto il building ci sono bollette
-hasBills(buildingId: string): Observable<boolean> {
-  return this.http
-    .get<{ exists: boolean }>(
-      `${environment.apiUrl}/api/bill/check/${buildingId}`,
-      { withCredentials: true }
-    )
-    .pipe(map(res => res.exists));
-}
+  // Verifica se sotto il building ci sono bollette
+  hasBills(buildingId: string): Observable<boolean> {
+    return this.http
+      .get<{ exists: boolean }>(
+        `${environment.apiUrl}/api/bill/check/${buildingId}`,
+        { withCredentials: true }
+      )
+      .pipe(map(res => res.exists));
+  }
 
 
 }
