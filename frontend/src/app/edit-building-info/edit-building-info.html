@@ -47,7 +47,7 @@
     <section class="card">
       <h3>Add Details</h3>
       <div class="actions" style="flex-wrap: wrap; gap: 10px;">
-        <button type="button" (click)="toggleForm('room')">Rooms</button>
+        <button type="button" (click)="toggleForm('room')">Zone</button>
         <button type="button" (click)="toggleForm('lighting')">Lighting</button>
         <button type="button" (click)="toggleForm('aux')">Auxiliary</button>
         <button type="button" (click)="toggleForm('seu')">SEU</button>
@@ -68,10 +68,10 @@
               Roofs: {{ room.roofs?.length || 0 }} |
               Floors: {{ room.floors?.length || 0 }}
             </p>
-            <button type="button" (click)="editRoom(ri)">Edit Room</button>
+            <button type="button" class="editzone-btn" (click)="editRoom(ri)">Edit Zone</button>
           </div>
         </div>
-        <button type="button" (click)="addRoom()">+ Add Room</button>
+        <button type="button" (click)="addRoom()">+ Add Zone</button>
       </div>
 
       <!-- <app-wall-config [walls]="roomForm.walls" (openingAdded)="onOpeningAdded($event)"
@@ -163,7 +163,7 @@
     </section>
 
     <div class="actions">
-      <button type="submit" class="save">Save Building</button>
+      <button type="submit" class="save-btn">Save Building</button>
     </div>
   </form>
 </div>
@@ -172,19 +172,19 @@
 <div class="modal" *ngIf="showRoomModal">
   <div class="modal-content scrollable">
     <div class="modal-header">
-      <h3>{{ editingRoomIndex !== null ? 'Edit Room' : 'Add Room' }}</h3>
+      <h3>{{ editingRoomIndex !== null ? 'Edit Zone' : 'Add Zone' }}</h3>
 
       <!-- ===== MODAL ACTIONS ===== -->
       <div class="modal-actions">
-        <button type="button" (click)="saveRoom()">Save Room</button>
-        <button type="button" (click)="closeRoomModal()">Cancel</button>
+        <button type="button" class="save-btn" (click)="saveRoom()">Save Zone</button>
+        <button type="button" class="cancel-btn" (click)="closeRoomModal()">Cancel</button>
       </div>
     </div>
 
     <!-- Room Name -->
     <div class="input-container">
       <input type="text" placeholder=" " [(ngModel)]="roomForm.name" name="roomName">
-      <label>Room Name</label>
+      <label>Zone Name</label>
     </div>
 
     <div class="modal-buttons">
@@ -202,7 +202,10 @@
     <!-- ===== WALLS ===== -->
     <div *ngFor="let wall of roomForm.walls || []; let wi = index" class="sub-card nested">
       <div class="wall-header">
-        <h5>Wall {{ wi + 1 }}</h5>
+        <div class="wall-header-info">
+          <h5>Wall {{ wi + 1 }}</h5>
+          <h6>{{ wall.description }}</h6>
+        </div>
         <div class="wall-header-buttons">
           <button type="button" (click)="addWindowToWall(wall)">
             + Add Window to this wall
@@ -213,54 +216,57 @@
         </div>
       </div>
       <div class="input-grid">
+        <!-- wall geometry -->
         <div class="input-container">
-
-          <!-- wall geometry -->
-          <div class="input-container">
-            <input type="number" [(ngModel)]="wall.length" (ngModelChange)="wall.totalArea = calculateArea(wall);
+          <input type="number" [(ngModel)]="wall.length" (ngModelChange)="wall.totalArea = calculateArea(wall);
                             calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-            <label>Length (m)</label>
-          </div>
+          <label>Length (m)</label>
+        </div>
 
-          <div class="input-container">
-            <input type="number" [(ngModel)]="wall.width" (ngModelChange)="wall.totalArea = calculateArea(wall);
+        <div class="input-container">
+          <input type="number" [(ngModel)]="wall.width" (ngModelChange)="wall.totalArea = calculateArea(wall);
                             calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-            <label>Width (m)</label>
-          </div>
+          <label>Width (m)</label>
+        </div>
 
-          <div class="input-container">
-            <input type="number" [value]="wall.totalArea" readonly>
-            <label>Area (m²)</label>
-          </div>
+        <div class="input-container">
+          <input type="number" [value]="wall.totalArea" readonly>
+          <label>Area (m²)</label>
+        </div>
 
-          <!-- <input type="number" placeholder=" " [(ngModel)]="wall.totalArea" [name]="'wallTotalArea'+wi">
+        <!-- <input type="number" placeholder=" " [(ngModel)]="wall.totalArea" [name]="'wallTotalArea'+wi">
           <label>Total Area</label> -->
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="wall.description" [name]="'wallDescription'+wi">
+          <label>Description</label>
         </div>
         <div class="input-container">
           <input type="number" placeholder=" " [(ngModel)]="wall.number" [name]="'wallNumber'+wi">
           <label>Number</label>
         </div>
-      </div>
-      <div class="input-container">
-        <select [(ngModel)]="wall.orientation" name="wallOrientation{{wi}}">
-          <option value="North">North</option>
-          <option value="South">South</option>
-          <option value="East">East</option>
-          <option value="West">West</option>
-        </select>
-        <label>Orientation</label>
-      </div>
 
-      <div class="input-container">
-        <select [(ngModel)]="wall.exposure" name="wallExposure{{wi}}">
-          <option value="exterior">Exterior</option>
-          <option value="interior">Interior</option>
-        </select>
-        <label>Exposure</label>
+        <div class="input-container">
+          <select [(ngModel)]="wall.orientation" name="wallOrientation{{wi}}">
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+          </select>
+          <label>Orientation</label>
+        </div>
+
+        <div class="input-container">
+          <select [(ngModel)]="wall.exposure" name="wallExposure{{wi}}">
+            <option value="exterior">Exterior</option>
+            <option value="interior">Interior</option>
+          </select>
+          <label>Exposure</label>
+        </div>
       </div>
 
       <div *ngFor="let detail of wall.wallsDetails || []; let di = index" class="sub-card nested">
-        <h6>Detail {{ di + 1 }}</h6>
+        <!-- <h6>Detail {{ di + 1 }}</h6> -->
+        <h6>Detail</h6>
         <div class="input-grid">
           <div class="input-container">
             <input type="text" placeholder=" " [(ngModel)]="detail.constructionType"
@@ -324,7 +330,8 @@
 
             <!-- Window Details -->
             <div *ngFor="let detail of window.windowsDetails; let wdi = index" class="sub-card nested">
-              <h6>Detail {{ wdi + 1 }}</h6>
+              <!-- <h6>Detail {{ wdi + 1 }}</h6> -->
+              <h6>Detail</h6>
 
               <div class="input-grid">
                 <div class="input-container">
@@ -382,7 +389,8 @@
 
             <!-- Door Details -->
             <div *ngFor="let detail of door.doorsDetails; let ddi = index" class="sub-card nested">
-              <h6>Detail {{ ddi + 1 }}</h6>
+              <!-- <h6>Detail {{ ddi + 1 }}</h6> -->
+              <h6>Detail</h6>
 
               <div class="input-grid">
                 <div class="input-container">
@@ -537,7 +545,9 @@
         </div>
       </div>
       <div *ngFor="let detail of roof.roofsDetails || []; let rdi = index" class="sub-card nested">
-        <h6>Detail {{ rdi + 1 }}</h6>
+        <!-- <h6>Detail {{ rdi + 1 }}</h6> -->
+        <h6>Detail</h6>
+
         <div class="input-grid">
           <div class="input-container">
             <input type="text" placeholder=" " [(ngModel)]="detail.insulationType" [name]="'insulationType'+ri+rdi">

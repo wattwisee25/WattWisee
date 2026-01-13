@@ -38,6 +38,7 @@ const wallSchema = new mongoose.Schema({
   length: { type: Number },
   width: { type: Number },
   totalArea: { type: Number },
+  description: { type: String },
   number: { type: Number },
   orientation: { type: String },
   exposure: { type: String },

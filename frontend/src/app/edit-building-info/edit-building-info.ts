@@ -28,6 +28,7 @@ interface Wall {
   length: number;
   width: number;
   totalArea: number;
+  description: string;
   number: number;
 
   orientation: 'North' | 'South' | 'East' | 'West';
@@ -275,7 +276,7 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
     if (this.editingRoomIndex !== null) {
       this.building.buildingEnvelope.rooms[this.editingRoomIndex] = this.roomForm;
     } else {
-      this.building.buildingEnvelope.rooms.push(this.roomForm);
+      this.building.buildingEnvelope.rooms.unshift(this.roomForm);
     }
     this.showRoomModal = false;
 
@@ -343,6 +344,7 @@ export class EditBuildingInfo implements OnInit, OnDestroy {
       length: 0,
       width: 0,
       totalArea: 0,
+      description: '',
       number: 1,
 
       orientation: 'North',

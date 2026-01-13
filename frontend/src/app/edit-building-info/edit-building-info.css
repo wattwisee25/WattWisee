@@ -22,6 +22,12 @@ a {
   margin-bottom: 10px;
 }
 
+.wall-header-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
 .wall-header-buttons {
   display: flex;
   gap: 10px;
@@ -124,14 +130,19 @@ button {
   transition: background-color 0.2s;
 }
 
+.editzone-btn {
+  background-color: #f6ffa2;
+  color: #31545b;
+}
+
 button:hover {
   background-color: #c1dbe3;
   color: #31545b;
 }
 
-button.save {
+.save-btn {
+  background-color: #31545b;
   width: 100%;
-  margin-top: 10px;
   font-weight: bold;
 }
 
@@ -153,6 +164,10 @@ button.save {
   display: flex;
   overflow-x: auto;
   gap: 10px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 /* ================= ERROR / LOADING ================= */
@@ -189,7 +204,7 @@ button.save {
 
 .modal-content {
   background-color: #ffffff;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
   border-radius: 8px;
   width: 90%;
   max-width: 900px;
@@ -199,9 +214,19 @@ button.save {
 }
 
 .modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 0;
+}
+
+.modal-header h3 {
+  margin: 0;
 }
 
 .modal-actions {
@@ -211,9 +236,9 @@ button.save {
   /* margin-top: 20px; */
 }
 
-.modal-actions button {
+.cancel-btn {
   background-color: transparent;
-  color: black;
+  color: #31545b;
 }
 
 .modal-btn {
