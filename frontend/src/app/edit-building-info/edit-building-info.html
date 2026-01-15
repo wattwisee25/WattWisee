@@ -187,244 +187,247 @@
         <app-wall-config *ngIf="roomForm.walls.length > 0" [walls]="roomForm.walls">
         </app-wall-config>
       </div>
-    </div>
 
-    <!-- Room Name -->
-    <div class="input-container">
-      <input type="text" placeholder=" " [(ngModel)]="roomForm.name" name="roomName">
-      <label>Zone Name</label>
-    </div>
-
-    <div class="modal-buttons">
-      <button class="modal-btn" type="button" (click)="addWallToForm()">+ Add Wall</button>
-      <!-- <button class="modal-btn" type="button" (click)="addWindowToForm()">+ Add Window</button>
-      <button class="modal-btn" type="button" (click)="addDoorToForm()">+ Add Door</button> -->
-      <button class="modal-btn" type="button" (click)="addRoofToForm()">+ Add Roof</button>
-      <button class="modal-btn" type="button" (click)="addFloorToForm()">+ Add Floor</button>
-    </div>
-
-
-
-    <!-- ===== WALLS ===== -->
-    <div *ngFor="let wall of roomForm.walls || []; let wi = index" class="sub-card nested">
-      <div class="wall-header">
-        <div class="wall-header-info">
-          <h5>Wall {{ wi + 1 }}</h5>
-          <h6>{{ wall.description }}</h6>
+      <div class="input-btn-container">
+        <div class="input-container">
+          <input type="text" placeholder=" " [(ngModel)]="roomForm.name" name="roomName">
+          <label>Zone Name</label>
         </div>
-        <div class="wall-header-buttons">
-          <button type="button" (click)="addWindowToWall(wall)">
-            + Add Window to this wall
-          </button>
-          <button type="button" (click)="addDoorToWall(wall)">
-            + Add Door to this wall
-          </button>
+
+        <div class="modal-buttons">
+          <button class="modal-btn" type="button" (click)="addWallToForm()">+ Add Wall</button>
+          <!-- <button class="modal-btn" type="button" (click)="addWindowToForm()">+ Add Window</button>
+          <button class="modal-btn" type="button" (click)="addDoorToForm()">+ Add Door</button> -->
+          <button class="modal-btn" type="button" (click)="addRoofToForm()">+ Add Roof</button>
+          <button class="modal-btn" type="button" (click)="addFloorToForm()">+ Add Floor</button>
         </div>
       </div>
-      <div class="input-grid">
-        <!-- wall geometry -->
-        <div class="input-container">
-          <input type="number" [(ngModel)]="wall.length" (ngModelChange)="wall.totalArea = calculateArea(wall);
-                            calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-          <label>Length (m)</label>
-        </div>
+    </div>
 
-        <div class="input-container">
-          <input type="number" [(ngModel)]="wall.width" (ngModelChange)="wall.totalArea = calculateArea(wall);
-                            calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-          <label>Width (m)</label>
+    <div class="modal-body">
+      <!-- ===== WALLS ===== -->
+      <div *ngFor="let wall of roomForm.walls || []; let wi = index" class="sub-card nested">
+        <div class="wall-header">
+          <div class="wall-header-info">
+            <h5>Wall {{ wi + 1 }}</h5>
+            <h6>{{ wall.description }}</h6>
+          </div>
+          <div class="wall-header-buttons">
+            <button type="button" (click)="addWindowToWall(wall)">
+              + Add Window to this wall
+            </button>
+            <button type="button" (click)="addDoorToWall(wall)">
+              + Add Door to this wall
+            </button>
+          </div>
         </div>
-
-        <div class="input-container">
-          <input type="number" [value]="wall.totalArea" readonly>
-          <label>Area (m²)</label>
-        </div>
-
-        <!-- <input type="number" placeholder=" " [(ngModel)]="wall.totalArea" [name]="'wallTotalArea'+wi">
-          <label>Total Area</label> -->
-        <div class="input-container">
-          <input type="text" placeholder=" " [(ngModel)]="wall.description" [name]="'wallDescription'+wi">
-          <label>Description</label>
-        </div>
-        <div class="input-container">
-          <input type="number" placeholder=" " [(ngModel)]="wall.number" [name]="'wallNumber'+wi">
-          <label>Number</label>
-        </div>
-
-        <div class="input-container">
-          <select [(ngModel)]="wall.orientation" name="wallOrientation{{wi}}">
-            <option value="North">North</option>
-            <option value="South">South</option>
-            <option value="East">East</option>
-            <option value="West">West</option>
-          </select>
-          <label>Orientation</label>
-        </div>
-
-        <div class="input-container">
-          <select [(ngModel)]="wall.exposure" name="wallExposure{{wi}}">
-            <option value="exterior">Exterior</option>
-            <option value="interior">Interior</option>
-          </select>
-          <label>Exposure</label>
-        </div>
-      </div>
-
-      <div *ngFor="let detail of wall.wallsDetails || []; let di = index" class="sub-card nested">
-        <!-- <h6>Detail {{ di + 1 }}</h6> -->
-        <h6>Detail</h6>
         <div class="input-grid">
+          <!-- wall geometry -->
           <div class="input-container">
-            <input type="text" placeholder=" " [(ngModel)]="detail.constructionType"
-              [name]="'wallConstructionType'+wi+di">
-            <label>Construction Type</label>
-          </div>
-          <div class="input-container">
-            <input type="text" placeholder=" " [(ngModel)]="detail.insulationMaterials" [name]="'wallInsulation'+wi+di">
-            <label>Insulation Materials</label>
-          </div>
-          <div class="input-container">
-            <input type="text" placeholder=" " [(ngModel)]="detail.insideMaterials"
-              [name]="'wallInsideMaterials'+wi+di">
-            <label>Inside Materials</label>
-          </div>
-          <div class="input-container">
-            <input type="text" placeholder=" " [(ngModel)]="detail.constructionMaterials"
-              [name]="'wallConstructionMaterials'+wi+di">
-            <label>Construction Materials</label>
-          </div>
-          <div class="input-container">
-            <!-- <input type="number" [(ngModel)]="detail.area" (ngModelChange)="calculateWallHeatLoss(wall, detail)">
-            <label>Area (m²)</label> -->
-            <input type="number" [value]="getWallNetArea(wall)" readonly>
-            <label>Net Area (m²)</label>
-
-          </div>
-          <div class="input-container">
-            <input type="number" [(ngModel)]="detail.uValue" (ngModelChange)="calculateWallHeatLoss(wall, detail)">
-            <label>U-Value</label>
-          </div>
-          <div class="input-container">
-            <input type="number" [value]="detail.heatLossWK" readonly>
-            <label>Heat Loss (W/K)</label>
+            <input type="number" [(ngModel)]="wall.length" (ngModelChange)="wall.totalArea = calculateArea(wall);
+                              calculateWallHeatLoss(wall, wall.wallsDetails[0])">
+            <label>Length (m)</label>
           </div>
 
+          <div class="input-container">
+            <input type="number" [(ngModel)]="wall.width" (ngModelChange)="wall.totalArea = calculateArea(wall);
+                              calculateWallHeatLoss(wall, wall.wallsDetails[0])">
+            <label>Width (m)</label>
+          </div>
 
-          <div *ngFor="let window of wall.windows; let wi2 = index" class="sub-card nested">
-            <h6>Window {{ wi2 + 1 }}</h6>
-            <!-- Area Window -->
+          <div class="input-container">
+            <input type="number" [value]="wall.totalArea" readonly>
+            <label>Area (m²)</label>
+          </div>
+
+          <!-- <input type="number" placeholder=" " [(ngModel)]="wall.totalArea" [name]="'wallTotalArea'+wi">
+            <label>Total Area</label> -->
+          <div class="input-container">
+            <input type="text" placeholder=" " [(ngModel)]="wall.description" [name]="'wallDescription'+wi">
+            <label>Description</label>
+          </div>
+          <div class="input-container">
+            <input type="number" placeholder=" " [(ngModel)]="wall.number" [name]="'wallNumber'+wi">
+            <label>Number</label>
+          </div>
+
+          <div class="input-container">
+            <select [(ngModel)]="wall.orientation" name="wallOrientation{{wi}}">
+              <option value="North">North</option>
+              <option value="South">South</option>
+              <option value="East">East</option>
+              <option value="West">West</option>
+            </select>
+            <label>Orientation</label>
+          </div>
+
+          <div class="input-container">
+            <select [(ngModel)]="wall.exposure" name="wallExposure{{wi}}">
+              <option value="exterior">Exterior</option>
+              <option value="interior">Interior</option>
+            </select>
+            <label>Exposure</label>
+          </div>
+        </div>
+
+        <div *ngFor="let detail of wall.wallsDetails || []; let di = index" class="sub-card nested">
+          <!-- <h6>Detail {{ di + 1 }}</h6> -->
+          <h6>Detail</h6>
+          <div class="input-grid">
             <div class="input-container">
-              <input type="number" [(ngModel)]="window.length" (ngModelChange)="window.totalArea = calculateArea(window);
-                            calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-              <label>Length (m)</label>
+              <input type="text" placeholder=" " [(ngModel)]="detail.constructionType"
+                [name]="'wallConstructionType'+wi+di">
+              <label>Construction Type</label>
             </div>
             <div class="input-container">
-              <input type="number" [(ngModel)]="window.width" (ngModelChange)="window.totalArea = calculateArea(window);
-                            calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-              <label>Width (m)</label>
+              <input type="text" placeholder=" " [(ngModel)]="detail.insulationMaterials"
+                [name]="'wallInsulation'+wi+di">
+              <label>Insulation Materials</label>
             </div>
             <div class="input-container">
-              <input type="number" [value]="window.totalArea" readonly>
-              <label>Area (m²)</label>
+              <input type="text" placeholder=" " [(ngModel)]="detail.insideMaterials"
+                [name]="'wallInsideMaterials'+wi+di">
+              <label>Inside Materials</label>
+            </div>
+            <div class="input-container">
+              <input type="text" placeholder=" " [(ngModel)]="detail.constructionMaterials"
+                [name]="'wallConstructionMaterials'+wi+di">
+              <label>Construction Materials</label>
+            </div>
+            <div class="input-container">
+              <!-- <input type="number" [(ngModel)]="detail.area" (ngModelChange)="calculateWallHeatLoss(wall, detail)">
+              <label>Area (m²)</label> -->
+              <input type="number" [value]="getWallNetArea(wall)" readonly>
+              <label>Net Area (m²)</label>
+
+            </div>
+            <div class="input-container">
+              <input type="number" [(ngModel)]="detail.uValue" (ngModelChange)="calculateWallHeatLoss(wall, detail)">
+              <label>U-Value</label>
+            </div>
+            <div class="input-container">
+              <input type="number" [value]="detail.heatLossWK" readonly>
+              <label>Heat Loss (W/K)</label>
             </div>
 
-            <!-- <div class="input-container">
-              <input type="number" [(ngModel)]="window.totalArea"
-                (ngModelChange)="calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-              <label>Window Area (m²)</label>
-            </div> -->
 
-            <!-- Window Details -->
-            <div *ngFor="let detail of window.windowsDetails; let wdi = index" class="sub-card nested">
-              <!-- <h6>Detail {{ wdi + 1 }}</h6> -->
-              <h6>Detail</h6>
+            <div *ngFor="let window of wall.windows; let wi2 = index" class="sub-card nested">
+              <h6>Window {{ wi2 + 1 }}</h6>
+              <!-- Area Window -->
+              <div class="input-container">
+                <input type="number" [(ngModel)]="window.length" (ngModelChange)="window.totalArea = calculateArea(window);
+                              calculateWallHeatLoss(wall, wall.wallsDetails[0])">
+                <label>Length (m)</label>
+              </div>
+              <div class="input-container">
+                <input type="number" [(ngModel)]="window.width" (ngModelChange)="window.totalArea = calculateArea(window);
+                              calculateWallHeatLoss(wall, wall.wallsDetails[0])">
+                <label>Width (m)</label>
+              </div>
+              <div class="input-container">
+                <input type="number" [value]="window.totalArea" readonly>
+                <label>Area (m²)</label>
+              </div>
 
-              <div class="input-grid">
-                <div class="input-container">
-                  <input type="text" [(ngModel)]="detail.windowType">
-                  <label>Window Type</label>
-                </div>
+              <!-- <div class="input-container">
+                <input type="number" [(ngModel)]="window.totalArea"
+                  (ngModelChange)="calculateWallHeatLoss(wall, wall.wallsDetails[0])">
+                <label>Window Area (m²)</label>
+              </div> -->
 
-                <div class="input-container">
-                  <input type="number" [(ngModel)]="detail.uValue">
-                  <label>U-Value</label>
-                </div>
+              <!-- Window Details -->
+              <div *ngFor="let detail of window.windowsDetails; let wdi = index" class="sub-card nested">
+                <!-- <h6>Detail {{ wdi + 1 }}</h6> -->
+                <h6>Detail</h6>
 
-                <div class="input-container">
-                  <input type="number" [(ngModel)]="detail.solarGain">
-                  <label>Solar Gain</label>
-                </div>
+                <div class="input-grid">
+                  <div class="input-container">
+                    <input type="text" [(ngModel)]="detail.windowType">
+                    <label>Window Type</label>
+                  </div>
 
-                <div class="input-container">
-                  <select [(ngModel)]="detail.orientation">
-                    <option value="North">North</option>
-                    <option value="South">South</option>
-                    <option value="East">East</option>
-                    <option value="West">West</option>
-                  </select>
-                  <label>Orientation</label>
+                  <div class="input-container">
+                    <input type="number" [(ngModel)]="detail.uValue">
+                    <label>U-Value</label>
+                  </div>
+
+                  <div class="input-container">
+                    <input type="number" [(ngModel)]="detail.solarGain">
+                    <label>Solar Gain</label>
+                  </div>
+
+                  <div class="input-container">
+                    <select [(ngModel)]="detail.orientation">
+                      <option value="North">North</option>
+                      <option value="South">South</option>
+                      <option value="East">East</option>
+                      <option value="West">West</option>
+                    </select>
+                    <label>Orientation</label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div *ngFor="let door of wall.doors; let di2 = index" class="sub-card nested">
-            <h6>Door {{ di2 + 1 }}</h6>
+            <div *ngFor="let door of wall.doors; let di2 = index" class="sub-card nested">
+              <h6>Door {{ di2 + 1 }}</h6>
 
-            <!-- Area -->
-            <div class="input-container">
-              <input type="number" [(ngModel)]="door.length" (ngModelChange)="door.totalArea = calculateArea(door);
-                          calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-              <label>Length (m)</label>
-            </div>
-            <div class="input-container">
-              <input type="number" [(ngModel)]="door.width" (ngModelChange)="door.totalArea = calculateArea(door);
-                          calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-              <label>Width (m)</label>
-            </div>
-            <div class="input-container">
-              <input type="number" [value]="door.totalArea" readonly>
-              <label>Area (m²)</label>
-            </div>
+              <!-- Area -->
+              <div class="input-container">
+                <input type="number" [(ngModel)]="door.length" (ngModelChange)="door.totalArea = calculateArea(door);
+                            calculateWallHeatLoss(wall, wall.wallsDetails[0])">
+                <label>Length (m)</label>
+              </div>
+              <div class="input-container">
+                <input type="number" [(ngModel)]="door.width" (ngModelChange)="door.totalArea = calculateArea(door);
+                            calculateWallHeatLoss(wall, wall.wallsDetails[0])">
+                <label>Width (m)</label>
+              </div>
+              <div class="input-container">
+                <input type="number" [value]="door.totalArea" readonly>
+                <label>Area (m²)</label>
+              </div>
 
-            <!-- <div class="input-container">
-              <input type="number" [(ngModel)]="door.totalArea"
-                (ngModelChange)="calculateWallHeatLoss(wall, wall.wallsDetails[0])">
-              <label>Door Area (m²)</label>
-            </div> -->
+              <!-- <div class="input-container">
+                <input type="number" [(ngModel)]="door.totalArea"
+                  (ngModelChange)="calculateWallHeatLoss(wall, wall.wallsDetails[0])">
+                <label>Door Area (m²)</label>
+              </div> -->
 
-            <!-- Door Details -->
-            <div *ngFor="let detail of door.doorsDetails; let ddi = index" class="sub-card nested">
-              <!-- <h6>Detail {{ ddi + 1 }}</h6> -->
-              <h6>Detail</h6>
+              <!-- Door Details -->
+              <div *ngFor="let detail of door.doorsDetails; let ddi = index" class="sub-card nested">
+                <!-- <h6>Detail {{ ddi + 1 }}</h6> -->
+                <h6>Detail</h6>
 
-              <div class="input-grid">
-                <div class="input-container">
-                  <input type="text" [(ngModel)]="detail.doorType">
-                  <label>Door Type</label>
-                </div>
+                <div class="input-grid">
+                  <div class="input-container">
+                    <input type="text" [(ngModel)]="detail.doorType">
+                    <label>Door Type</label>
+                  </div>
 
-                <div class="input-container">
-                  <input type="number" [(ngModel)]="detail.uValue">
-                  <label>U-Value</label>
-                </div>
+                  <div class="input-container">
+                    <input type="number" [(ngModel)]="detail.uValue">
+                    <label>U-Value</label>
+                  </div>
 
-                <div class="input-container">
-                  <input type="text" [(ngModel)]="detail.doorSealingMechanism">
-                  <label>Sealing</label>
-                </div>
+                  <div class="input-container">
+                    <input type="text" [(ngModel)]="detail.doorSealingMechanism">
+                    <label>Sealing</label>
+                  </div>
 
-                <div class="input-container">
-                  <input type="text" [(ngModel)]="detail.doorLeakTest">
-                  <label>Leak Test</label>
+                  <div class="input-container">
+                    <input type="text" [(ngModel)]="detail.doorLeakTest">
+                    <label>Leak Test</label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>
+    <!-- Room Name -->
 
 
     <!-- ===== WINDOWS ===== -->

@@ -27,6 +27,15 @@ interface Door {
   doorsDetails: any[];
 }
 
+interface Opening {
+  id?: number;
+  type: 'window' | 'door';
+  width: number;
+  height: number;
+  positionX: number;
+  positionY: number;
+}
+
 interface Wall {
   length: number;
   width: number;
@@ -45,7 +54,6 @@ interface Wall {
   imports: [CommonModule],
   template: `
   <div class="room-iso" *ngIf="walls.length > 0; else noWalls">
-
     <div
       *ngFor="let wall of walls"
       class="wall"
@@ -55,8 +63,19 @@ interface Wall {
       [style.transform]="getWallTransform(wall)"
     >
       {{ wall.orientation }}
-    </div>
 
+      <div
+        *ngFor="let opening of getOpenings(wall)"
+        class="opening"
+        [ngClass]="{ window: opening.type === 'window',door: opening.type === 'door'}"
+        [style.width.px]="opening.width * 30"
+        [style.height.px]="opening.height * 30"
+        [style.left.px]="opening.positionX * 30"
+        [style.bottom.px]="opening.positionY * 30"
+      >
+        {{ opening.type }}
+      </div>
+    </div>
   </div>
 
   <ng-template #noWalls>
@@ -86,28 +105,37 @@ interface Wall {
     left: 50%;
     top: 50%;
   }
-
   .north {
     background: lightblue;
     transform-origin: center;
   }
-
   .south {
     background: #f6ffa2;
     transform-origin: center;
   }
-
   .east {
     background: lightgreen;
     transform-origin: center;
   }
-
   .west {
     background: lightcoral;
     transform-origin: center;
   }
+
+  .opening {
+  position: absolute;
+  border: 2px solid #333;
+  background: rgba(0, 0, 0, 0.15);
+  }
+  .opening.window {
+    background: #31545b; /* blue */
+  }
+  .opening.door {
+    background: rgba(139, 69, 19, 0.6); /* brown */
+  }
 `]
 })
+
 export class WallConfigComponent {
   @Input() walls: Wall[] = [];
 
@@ -153,12 +181,33 @@ export class WallConfigComponent {
         return 'translate(-50%, -50%)';
     }
   }
+  getOpenings(wall: Wall): Opening[] {
+    const windows: Opening[] = (wall.windows ?? []).map(w => ({
+      type: 'window',
+      width: w.width,
+      height: w.length,
+      positionX: 0,
+      positionY: wall.width / 2   // esempio: metà muro
+    }));
 
-  onAddOpening(wallId: number, opening: any) {
-    // For future use
+    const doors: Opening[] = (wall.doors ?? []).map(d => ({
+      type: 'door',
+      width: d.width,
+      height: d.length,
+      positionX: 0,
+      positionY: 0                // porta sempre a terra
+    }));
+
+    return [...windows, ...doors];
   }
 
-  onRemoveOpening(wallId: number, openingId: number) {
-    // For future use
-  }
+  // onAddOpening(wallId: number, opening: Opening) {
+  //   // if (opening.type === 'door') {
+  //   //   opening.positionY = 0;
+  //   // }
+  // }
+
+  // onRemoveOpening(wallId: number, openingId: number) {
+  //   // For future use
+  // }
 }
