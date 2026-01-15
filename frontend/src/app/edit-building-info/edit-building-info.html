@@ -172,12 +172,20 @@
 <div class="modal" *ngIf="showRoomModal">
   <div class="modal-content scrollable">
     <div class="modal-header">
-      <h3>{{ editingRoomIndex !== null ? 'Edit Zone' : 'Add Zone' }}</h3>
+      <div class="modal-title-actions">
+        <h3>{{ editingRoomIndex !== null ? 'Edit Zone' : 'Add Zone' }}</h3>
 
-      <!-- ===== MODAL ACTIONS ===== -->
-      <div class="modal-actions">
-        <button type="button" class="save-btn" (click)="saveRoom()">Save Zone</button>
-        <button type="button" class="cancel-btn" (click)="closeRoomModal()">Cancel</button>
+        <!-- ===== MODAL ACTIONS ===== -->
+        <div class="modal-actions">
+          <button type="button" class="save-btn" (click)="saveRoom()">Save Zone</button>
+          <button type="button" class="cancel-btn" (click)="closeRoomModal()">Cancel</button>
+        </div>
+      </div>
+
+      <div class="room-preview-container">
+        <!-- Room Preview -->
+        <app-wall-config *ngIf="roomForm.walls.length > 0" [walls]="roomForm.walls">
+        </app-wall-config>
       </div>
     </div>
 
@@ -195,8 +203,6 @@
       <button class="modal-btn" type="button" (click)="addFloorToForm()">+ Add Floor</button>
     </div>
 
-    <app-wall-config *ngIf="roomForm.walls.length > 0" [walls]="roomForm.walls">
-    </app-wall-config>
 
 
     <!-- ===== WALLS ===== -->

@@ -154,7 +154,7 @@ interface Building {
   standalone: true,
   imports: [CommonModule, FormsModule, BackButton, Menu, WallConfigComponent],
   templateUrl: './edit-building-info.html',
-  styleUrls: ['./edit-building-info.css']
+  styleUrls: ['./edit-building-info.scss']
 })
 export class EditBuildingInfo implements OnInit, OnDestroy {
 

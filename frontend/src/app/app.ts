@@ -10,7 +10,7 @@ import { environment } from '../environments/environment';
   standalone: true,
   imports: [RouterOutlet, CommonModule],
   templateUrl: './app.html',
-  styleUrls: ['./app.css'] // CORRETTO
+  styleUrls: ['./app.scss']
 })
 export class App {
   title = 'WattWisee';
@@ -20,7 +20,7 @@ export class App {
   isUploading = false;
   errorMessage: string | null = null;
 
-  constructor(private http: HttpClient, private claudeService: ClaudeService) {}
+  constructor(private http: HttpClient, private claudeService: ClaudeService) { }
 
 
   loadUsers() {
